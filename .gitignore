@@ -22,3 +22,6 @@ _testmain.go
 *.exe
 *.test
 *.prof
+
+# mac ds_store file unncessary
+.DS_Store
