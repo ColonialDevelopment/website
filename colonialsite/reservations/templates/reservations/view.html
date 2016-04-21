@@ -1,4 +1,14 @@
 <h1>Reservation Details</h1>
 
-{{ reservation.room }}
-{{ reservation.requestor }}
+<p>
+Room: {{ reservation.room }} <br>
+Reserved by: {{ reservation.requestor }} <br>
+Submitted: {{ reservation.submit_date }} <br>
+Status: {{ reservation.approval }}
+</p>
+
+<p>
+Start Date: {{ reservation.start_date }} <br>
+End Date: {{ reservation.end_date }} <br>
+Description: {{ reservation.description }}
+</p>

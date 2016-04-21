@@ -1,0 +1,17 @@
+<h1>{{ day }}</h1>
+
+<ul>
+    {% for reservation in object_list %}
+        <li>{{ reservation.room }}: {{ reservation.start_date|time }} - {{ reservation.end_date|time }}</li>
+    {% endfor %}
+</ul>
+
+<p>
+    {% if previous_day %}
+        Previous Day: {{ previous_day }}
+    {% endif %}
+<br>
+    {% if next_day %}
+        Next Day: {{ next_day }}
+    {% endif %}
+</p>

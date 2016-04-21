@@ -1,0 +1,15 @@
+<ul>
+    {% for reservation in object_list %}
+        <li>{{ reservation.start_date|date:"F j, Y" }} {{ reservation.start_date|time }} - {{ reservation.end_date|time }} : {{ reservation.room }} </li>
+    {% endfor %}
+</ul>
+
+<p>
+    {% if previous_month %}
+        Previous Month: {{ previous_month|date:"F Y" }}
+    {% endif %}
+<br>
+    {% if next_month %}
+        Next Month: {{ next_month|date:"F Y" }}
+    {% endif %}
+</p>
