@@ -31,11 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-<<<<<<< HEAD
     'reservations.apps.ReservationsConfig',
-=======
     'coloauth.apps.ColoauthConfig',
->>>>>>> refs/remotes/origin/master
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
