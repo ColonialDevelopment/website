@@ -19,4 +19,5 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^accounts/', include('coloauth.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^reservations/', include('reservations.urls')),
 ]
