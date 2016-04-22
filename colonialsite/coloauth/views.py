@@ -5,8 +5,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth import authenticate, login, logout
-from forms import ColoRegistrationForm
-from django.core.context_processors import csrf 
+from .forms import ColoRegistrationForm
+from django.template.context_processors import csrf 
 
 # login view
 def login_page(request):

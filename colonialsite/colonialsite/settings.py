@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'reservations.apps.ReservationsConfig',
     'coloauth.apps.ColoauthConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -101,6 +102,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Change default login page
+LOGIN_URL = '/accounts/login'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

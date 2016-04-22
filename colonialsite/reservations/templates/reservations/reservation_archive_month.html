@@ -1,0 +1,15 @@
+<ul>
+    {% for reservation in object_list %}
+        <a href = /reservations/view/{{ reservation.id }}>{{ reservation.start_date|date:"F j, Y" }} {{ reservation.start_date|time }} - {{ reservation.end_date|time }} : {{ reservation.room }} </a><br>
+    {% endfor %}
+</ul>
+
+<p>
+    {% if previous_month %}
+        <a href = /reservations/{{ previous_month.year }}/{{ previous_month.month }}> Previous Month: {{ previous_month|date:"F Y" }} </a>
+    {% endif %}
+<br>
+    {% if next_month %}
+        <a href = /reservations/{{ next_month.year }}/{{ next_month.month }}>Next Month: {{ next_month|date:"F Y" }}</a>
+    {% endif %}
+</p>
