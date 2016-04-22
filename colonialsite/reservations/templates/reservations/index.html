@@ -2,7 +2,7 @@
 
 <p>Hi. This is where you can reserve rooms in Colonial.</p>
 
-<p>This section is still under construction but basic functionality exists. <br>
+<p>This section is still under construction but most functionality exists. <br>
 Let Nick (nyang@) know if anything is broken... <br>
 You can go to the following links: </p>
 
@@ -11,8 +11,11 @@ View a reservation:                 /reservations/view/(id#) <br>
 View reservations in a given month: /reservations/(yyyy)/(mm) <br>
 View reservations in a given day:   /reservations/(yyyy)/(mm)/(dd)
 
-<p>Note that only months/days with reservations have links - if for example 2016/04/20 has no reservations then /reservations/2016/04/20 returns 404 [for now!]
+<p>It is currently {{ date }}.<br>
+<a href = "/reservations/{{ date.year }}/{{ date.month }}">View reservations from this month.</a><br>
+<a href = "/reservations/{{ date.year }}/{{ date.month }}/{{ date.day }}">View reservations from today.</a>
+</p>
 
-<p>And of course feel free to poke around the <a href = "/admin">admin site</a>.
+<p>Feel free to poke around the <a href = "/admin">admin site</a>.
 
 <p>See /colonialsite/reservations/readme - reservations for more complete documentation

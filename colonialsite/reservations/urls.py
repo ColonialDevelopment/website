@@ -6,7 +6,7 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^request$', views.request, name = 'request'),
-    url(r'^confirmation$', views.confirmation, name = 'confirmation'),
+    url(r'^confirmation/(?P<reservation_id>[0-9]+)$', views.confirmation, name = 'confirmation'),
     
     #ex. /reservations/view/1
     url(r'^view/(?P<reservation_id>[0-9]+)$', views.view, name = 'view'),
