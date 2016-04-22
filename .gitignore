@@ -25,4 +25,3 @@ _testmain.go
 
 # mac ds_store file unncessary
 .DS_Store
-*.pyc

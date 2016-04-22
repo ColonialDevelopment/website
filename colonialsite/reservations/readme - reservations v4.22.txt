@@ -23,9 +23,9 @@ Monthly and Daily list views created
 
 -----
 
-Newly discovered/introduced issues:
+Known issues:
 
-* Admin search by user returns errors - probably bad field to search by
+* Admin search by user returns errors - probably bad field to search by; currently suppressed in code
 
 -----
 
