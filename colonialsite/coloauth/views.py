@@ -5,7 +5,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
+from forms import ColoRegistrationForm
+from django.core.context_processors import csrf 
 
 # login view
 def login_page(request):
@@ -44,13 +45,16 @@ def logout_page(request):
 
 # register view
 def register(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+    if request.POST:
+        form = ColoRegistrationForm(request.POST)     # create form object
         if form.is_valid():
-            new_user = form.save()
-            return HttpResponseRedirect("/books/")
+            form.save()
+            return HttpResponse('registered')
+        else:
+            return HttpResponse('no')
     else:
-        form = UserCreationForm()
-    return render(request, "coloauth/register.html", {
-        'form': form,
-    })
+        template = loader.get_template('coloauth/register.html')
+        context = {}
+        context.update(csrf(request))
+        context['form'] = ColoRegistrationForm() 
+        return HttpResponse(template.render(context, request))
