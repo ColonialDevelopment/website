@@ -3,9 +3,12 @@
 *.a
 *.so
 *.pyc
+*.swp
+
 # Folders
 _obj
 _test
+venv
 
 # Architecture specific extensions/prefixes
 *.[568vq]
