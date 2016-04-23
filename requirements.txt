@@ -1,0 +1,24 @@
+#infrastructure
+Django >= 1.8.12
+Pillow >= 3.2.0
+djangorestframework >= 3.0
+
+#support libs
+django-analytical >= 2.0.0
+django-admin-tools >= 0.7.2
+django-axes >= 1.6.0
+django-compressor >= 2.0
+django-crispy-forms >= 1.6.0
+pytz >= 2016.3
+
+# Debugging
+django-debugtools >= 1.6
+ipython >= 4.1.2
+ptpython >= 0.32
+
+
+# Packages for rest framework
+django-filter >= 0.9.2
+django-guardian >= 1.1.1
+Markdown >= 2.6.6
+
