@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from .views import ReservationMonthView, ReservationDayView
-
+from django.conf.urls.static import static
+from django.conf import settings
 from . import views
 
 urlpatterns = [
@@ -19,4 +20,4 @@ urlpatterns = [
     url(r'^(?P<year>[0-9]{4})/(?P<month>[0-9]+)/(?P<day>[0-9]+)/$', ReservationDayView.as_view(month_format='%m'),
         name="archive_day"),
     
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

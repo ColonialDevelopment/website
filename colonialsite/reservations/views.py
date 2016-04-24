@@ -13,9 +13,7 @@ from django.utils import timezone
 from .models import ReservationForm, Reservation
 
 def index(request):
-    return render(request, 'reservations/index.html', {'date': datetime.datetime.now()})
-
-
+    return render(request, 'index.html', {'date': datetime.datetime.now()})
 
 @login_required
 def view(request, reservation_id):
@@ -27,10 +25,8 @@ def view(request, reservation_id):
     if not request.user == reservation.requestor:
         if not reservation.approval == "Approved":
             return HttpResponse("You may not view a non-approved reservation that is not yours.")
-    
-    return render(request, 'reservations/view.html', {'reservation': reservation})
 
-
+    return render(request, 'view.html', {'reservation': reservation})
 
 @login_required
 def request(request):
@@ -45,14 +41,14 @@ def request(request):
             return HttpResponseRedirect('confirmation/' + new_reservation.instance.id.__str__())
     else:
         form = ReservationForm()
-    return render(request, "reservations/request.html", {'form': form, })
+    return render(request, "request.html", {'form': form, })
 
 
 
 @login_required
 def confirmation(request, reservation_id):
     reservation = get_object_or_404(Reservation, pk = reservation_id)
-    return render(request, 'reservations/confirmation.html', {'reservation': reservation})
+    return render(request, 'confirmation.html', {'reservation': reservation})
 
 
 

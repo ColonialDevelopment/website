@@ -15,6 +15,9 @@ class Reservation(models.Model):
         ('DHall', 'Dining Hall'),
         ('Taproom', 'Taproom'),
         ('Movie Room', 'Movie Room'),
+        ('Rec Room', 'Rec Room'),
+        ('Cluster', 'Cluster'),
+        ('Game Room', 'Game Room'),
     )
 
     STATUS_CHOICES = (
@@ -22,7 +25,7 @@ class Reservation(models.Model):
         ('Approved', 'Approved'),
         ('Denied', 'Denied'),
     )
-    
+
     room        = models.CharField(max_length = 10, choices = ROOM_CHOICES)
     start_date  = models.DateTimeField('start date/time')
     end_date    = models.DateTimeField('end date/time')
@@ -30,10 +33,10 @@ class Reservation(models.Model):
     approval    = models.CharField(max_length = 10, choices = STATUS_CHOICES)
     requestor   = models.ForeignKey(User, on_delete=models.CASCADE)
     submit_date = models.DateTimeField('creation date/time')
-    
+
     def __str__(self):
         return self.requestor.__str__() + ": " + self.room.__str__() + " @ " + self.start_date.replace(tzinfo=None).ctime()
-    
+
 
 def time_overlap(start_1, end_1, start_2, end_2):
     if start_1 <= start_2 <= end_1 or start_1 <= end_2 <= end_1 or start_2 <= start_1 <= end_2 or start_2 <= end_1 <= end_2:
@@ -46,7 +49,7 @@ class ReservationForm(forms.ModelForm):
     class Meta:
         model = Reservation
         fields = ['room', 'start_date', 'end_date', 'description',]
-        
+
     def clean(self):
         super(ReservationForm, self).clean()
         end = self.cleaned_data.get('end_date')
@@ -63,7 +66,7 @@ class ReservationForm(forms.ModelForm):
         # check if start is in the future
         if start < timezone.now():
             raise forms.ValidationError("Cannot start reservation in the past.")
-    
+
         # check if end is after start
         if end <= start:
             raise forms.ValidationError("End date/time must be after start date/time.")
@@ -75,4 +78,4 @@ class ReservationForm(forms.ModelForm):
 
 
 
-      
+
