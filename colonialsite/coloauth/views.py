@@ -6,23 +6,29 @@ from django.template import loader
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth import authenticate, login, logout
 from .forms import ColoRegistrationForm
-from django.template.context_processors import csrf 
+from django.template.context_processors import csrf
+from dashboard import views as dash_views
+import datetime
 
 # login view
 def login_page(request):
     username = password = ''
     if request.user.is_authenticated():
-        return HttpResponse('already logged in')
+        return redirect('dashboard:dashboard-index')
     if request.POST:
         username = request.POST['username']
         password = request.POST['password']
-      
+
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
                 login(request, user)
                 # Redirect to a success page.
-                return HttpResponse('logged in')
+                context = {
+                        'date': datetime.datetime.now(),
+                }
+
+                return redirect('dashboard:dashboard-index')
             else:
                 # Return a 'disabled account' error message
                 template = loader.get_template('coloauth/login.html')
@@ -37,7 +43,7 @@ def login_page(request):
         template = loader.get_template('coloauth/login.html')
         context = {}
         return HttpResponse(template.render(context, request))
-    
+
 # logout view
 def logout_page(request):
     logout(request)
@@ -56,5 +62,5 @@ def register(request):
         template = loader.get_template('coloauth/register.html')
         context = {}
         context.update(csrf(request))
-        context['form'] = ColoRegistrationForm() 
+        context['form'] = ColoRegistrationForm()
         return HttpResponse(template.render(context, request))
