@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'reservations.apps.ReservationsConfig',
     'coloauth.apps.ColoauthConfig',
     'dashboard.apps.DashboardConfig',
+    'events.apps.EventsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

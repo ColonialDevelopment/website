@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^accounts/', include('coloauth.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^reservations/', include('reservations.urls')),
-    url(r'', include('dashboard.urls', namespace='dashboard')),
-]
+    url(r'^events/', include('events.urls', namespace='events')),
+    url(r'^$', include('dashboard.urls', namespace='dashboard')),
+    ]

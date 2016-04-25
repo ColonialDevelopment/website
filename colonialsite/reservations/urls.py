@@ -5,19 +5,19 @@ from django.conf import settings
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
-    url(r'^request$', views.request, name = 'request'),
-    url(r'^confirmation/(?P<reservation_id>[0-9]+)$', views.confirmation, name = 'confirmation'),
-    
+    url(r'^$', views.index, name='reservations_index'),
+    url(r'^request$', views.request, name = 'reservations_request'),
+    url(r'^confirmation/(?P<reservation_id>[0-9]+)$', views.confirmation, name = 'reservations_confirmation'),
+
     #ex. /reservations/view/1
-    url(r'^view/(?P<reservation_id>[0-9]+)$', views.view, name = 'view'),
+    url(r'^view/(?P<reservation_id>[0-9]+)$', views.view, name = 'reservations_view'),
 
     #ex. /reservations/2016/04
     url(r'^(?P<year>[0-9]{4})/(?P<month>[0-9]+)/$', ReservationMonthView.as_view(month_format='%m'),
-        name="archive_month"),
+        name="reservations_archive_month"),
 
     #ex. /reservations/2016/04/21
     url(r'^(?P<year>[0-9]{4})/(?P<month>[0-9]+)/(?P<day>[0-9]+)/$', ReservationDayView.as_view(month_format='%m'),
-        name="archive_day"),
-    
+        name="reservations_archive_day"),
+
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

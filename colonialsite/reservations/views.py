@@ -12,6 +12,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
 from .models import ReservationForm, Reservation
 
+@login_required
 def index(request):
     return render(request, 'reservations/index.html', {'date': datetime.datetime.now()})
 
