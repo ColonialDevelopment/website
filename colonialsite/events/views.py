@@ -26,7 +26,7 @@ def view(request, event_id):
 @login_required
 def create(create):
     if create.method == 'POST':
-        form = EventForm(event.POST)
+        form = CreateForm(create.POST)
 	if form.is_valid():
 	    new_event = form
 	    new_event.instance.submit_date = datetime.datetime.now()

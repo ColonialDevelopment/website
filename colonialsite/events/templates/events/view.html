@@ -1,0 +1,16 @@
+{% extends "dashboard/index.html" %}
+
+{% block 'body' %}
+<h1>Event Details</h1>
+
+<p>
+Event: {{ event.title }} <br>
+</p>
+
+<p>
+Start Date: {{ event.start_date }} <br>
+End Date: {{ event.end_date }} <br>
+Location: {{ event.location }} <br>
+Description: {{ event.description }}
+</p>
+{% endblock %}

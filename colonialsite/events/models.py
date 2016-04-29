@@ -20,7 +20,7 @@ class CreateForm(forms.ModelForm):
 	
 	def clean(self):
 	        super(CreateForm, self).clean()
-	        tle = self.cleaned_date.get('title')
+	        tle = self.cleaned_data.get('title')
 	        end = self.cleaned_data.get('end_date')
 	        start = self.cleaned_data.get('start_date')
 	        descr = self.cleaned_data.get('description')
@@ -38,5 +38,3 @@ class CreateForm(forms.ModelForm):
 	        # check if end is after start
 	        if end <= start:
 	            raise forms.ValidationError("End date/time must be after start date/time.")
-	
-	
