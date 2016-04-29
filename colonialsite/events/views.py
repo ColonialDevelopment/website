@@ -32,6 +32,6 @@ def create(create):
 	    new_event.instance.submit_date = datetime.datetime.now()
 	    new_event.save()
 	    return HttpResponseRedirect('/events/view/' + new_event.instance.id.__str__())
-	else:
-	    form = CreateForm()
-        return render(request, "events/create.html", {'form': form, })
+    else:
+	form = CreateForm()
+    return render(create, "events/create.html", {'form': form, })
