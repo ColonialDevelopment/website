@@ -1,6 +1,8 @@
 {% extends "dashboard/index.html" %}
 
 {% block 'body' %}
+{{ message }}
+
 <h1>Event Details</h1>
 
 <p>
@@ -13,4 +15,7 @@ End Date: {{ event.end_date }} <br>
 Location: {{ event.location }} <br>
 Description: {{ event.description }}
 </p>
+You are currently signed up for this event. <a href = "/events/view/{{ event.id }}/cancel">Click here to cancel.</a>
 {% endblock %}
+
+

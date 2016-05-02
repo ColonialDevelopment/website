@@ -1,18 +1,15 @@
 from django.shortcuts import render
 import datetime
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.core.urlresolvers import reverse
-from django.views.generic.dates import DayArchiveView, MonthArchiveView
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils import timezone
 from .models import CreateForm, Event
 
 @login_required
 def index(request):
-    return render(request, 'events/index.html', {'date': datetime.datetime.now()})
+    events = Event.objects.exclude(status = 'Hidden')
+    return render(request, 'events/index.html', {'events': events})
 
 @login_required
 def view(request, event_id):
@@ -20,18 +17,80 @@ def view(request, event_id):
         event = Event.objects.get(pk = event_id)
     except Event.DoesNotExist:
         raise Http404("Event does not exist.")
+    
+    if event.status == 'Open':
+        if request.user in event.members.all():
+            return render(request, 'events/view_going.html', {'event': event, })
+        else:
+            return render(request, 'events/view_notgoing.html', {'event': event, })
 
-    return render(request, 'events/view.html', {'event': event})
+    elif event.status == 'Closed':
+        if request.user in event.members.all():
+            return render(request, 'events/view_going_closed.html', {'event': event, })
+        else:
+            return render(request, 'events/view_notgoing_closed.html', {'event': event, })
+                      
+    else:
+        # Something here about officer permissions
+        return HttpResponse("This is a hidden event.")
+
+
+    
+@login_required
+def create(request):
+    if request.method == 'POST':
+        form = CreateForm(request.POST)
+        if form.is_valid():
+            new_event = form
+            new_event.instance.status = 'Hidden'
+            new_event.save()
+            return HttpResponseRedirect('/events/view/' + new_event.instance.id.__str__())
+    else:
+        form = CreateForm()
+    return render(request, "events/create.html", {'form': form})
+
+
 
 @login_required
-def create(create):
-    if create.method == 'POST':
-        form = CreateForm(create.POST)
-	if form.is_valid():
-	    new_event = form
-	    new_event.instance.submit_date = datetime.datetime.now()
-	    new_event.save()
-	    return HttpResponseRedirect('/events/view/' + new_event.instance.id.__str__())
-    else:
-	form = CreateForm()
-    return render(create, "events/create.html", {'form': form, })
+def rsvp(request, event_id):
+    try:
+        event = Event.objects.get(pk = event_id)
+    except Event.DoesNotExist:
+        raise Http404("Event does not exist.")
+
+    url = '/events/view/' + event.id.__str__()
+
+#    if request.user in event.members.all():
+#        string = "You are already signed up for this event."
+#        return redirect(url, 'events/view_going.html', {'event': event, 'message': string})
+#    else:
+#        event.members.add(request.user)
+#        string = "You are now signed up for this event."
+#        return redirect(url, 'events/view_going.html', {'event': event, 'message': string})
+
+    if request.user not in event.members.all():
+        event.members.add(request.user)
+    return HttpResponseRedirect(url)
+
+
+
+@login_required
+def cancel(request, event_id):
+    try:
+        event = Event.objects.get(pk = event_id)
+    except Event.DoesNotExist:
+        raise Http404("Event does not exist.")
+
+    url = '/events/view/' + event.id.__str__()
+    
+#    if request.user in event.members.all():
+#        event.members.remove(request.user)
+#        string = "You have cancelled your attendance for this event."
+#        return redirect(url, 'events/view_notgoing.html', {'event': event, 'message': string})
+#    else:
+#        string = "You were not signed up for this event."
+#        return redirect(url, 'events/view_notgoing.html', {'event': event, 'message': string})
+
+    if request.user in event.members.all():
+        event.members.remove(request.user)
+    return HttpResponseRedirect(url)
