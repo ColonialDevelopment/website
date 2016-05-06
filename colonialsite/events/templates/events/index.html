@@ -1,10 +1,21 @@
-<iframe src="https://calendar.google.com/calendar/embed?src=colonial.club.calendar%40gmail.com
-&ctz=America/New_York" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+{% extends "dashboard/index.html" %} 
+{% load staticfiles %}
 
-<h2>Upcoming Events (RSVP needed):</h2>
+{% block 'body' %}
+<div class='container-fluid'>
+    <div class='col-md-8'>
+        <iframe src="https://calendar.google.com/calendar/embed?src=colonial.club.calendar%40gmail.com&ctz=America/New_York" style="border: 0; width: 100%; height: 600px" frameborder="0" scrolling="no"></iframe>
+    </div>
+    
+    <div class="col-md-4">
+        <h2>Upcoming Events (RSVP needed):</h2>
 
-<ul>
-{% for event in events %}
-	<li><a href = /events/view/{{ event.id }}>{{ event.title }} ({{ event.start_date }})</a></li>
-{% endfor %}
-</ul>
+        <ul>
+            {% for event in events %}
+	            <li><a href = /events/view/{{ event.id }}>{{ event.title }} ({{ event.start_date }})</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</div>
+{% endblock %}
