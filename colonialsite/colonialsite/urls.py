@@ -16,6 +16,14 @@ Including another URLconf
 
 from django.conf.urls import include, url
 from django.contrib import admin
+from rest_framework import routers
+import menus.views
+
+router = routers.DefaultRouter()
+router.register(r'api/menus', menus.views.MenuViewSet)
+router.register(r'api/dishes', menus.views.DishViewSet)
+router.register(r'api/ratings', menus.views.DishViewSet)
+
 
 urlpatterns = [
     url(r'^accounts/', include('coloauth.urls')),
@@ -24,4 +32,6 @@ urlpatterns = [
     url(r'^menus/', include('menus.urls')),
     url(r'^events/', include('events.urls', namespace='events')),
     url(r'^$', include('dashboard.urls', namespace='dashboard')),
-    ]
+]
+
+urlpatterns += router.urls
