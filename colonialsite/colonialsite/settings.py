@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'coloauth.apps.ColoauthConfig',
     'dashboard.apps.DashboardConfig',
     'events.apps.EventsConfig',
+    'menus.apps.MenusConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
