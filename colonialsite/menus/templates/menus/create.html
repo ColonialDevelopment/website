@@ -1,0 +1,53 @@
+{% extends 'dashboard/index.html' %}
+<!--
+    Any time you want to use Django template language insert
+    { % endverbatim %}
+    { { Django template code here }}
+    { % verbatim %}
+-->
+
+{% block 'body' %}
+{% verbatim %}
+<html ng-app>
+<title>Menu Creator</title>
+<body ng-controller="MenuController">
+    <div class="container">
+        <div class="h2">
+            Enter Today's Menu:
+        </div>
+        <form>
+            <div class='col-4'>
+                <span>
+                    <input type="text" autocomplete="off" class="form-control" id="nextDish" placeholder="Enter the next dish">
+                    <button type="submit" class="btn btn-primary">Next Dish</button>
+                    <button type="submit" class="btn btn-secondary">Publish Menu</button>
+                </span>
+            </div>
+        </form>
+        <div class='h2'> 
+        Menu Preview:
+        </div>
+        <div class="panel panel-default">
+            <!--This isn't necessarily today, depending on what is passed in by the Django view  -->
+            <div class="h3">
+                {% endverbatim %}
+            {{ date|date:"l, F j" }}
+                {% verbatim %}
+            </div>
+            
+            <div class="panel-body">
+                <div class="h3">
+                    Breakfast:
+                </div>
+                <div class="h3">
+                    Lunch:
+                </div>
+                <div class="h3">
+                    Dinner:
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endverbatim %}
+{% endblock %}

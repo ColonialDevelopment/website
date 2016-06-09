@@ -13,19 +13,14 @@ MEAL_CHOICES = (
 
 
 # Create your models here.
-class Menu(models.Model):
-    date = models.DateField('meal date')
-    meal = models.CharField(max_length=10, choices=MEAL_CHOICES)
-
 
 class Dish(models.Model):
 
     name = models.CharField(max_length=50)
-    related_menus = models.ManyToManyField(Menu, blank=True)
-
-class Rating(models.Model):
-
-    associatedDish = models.ForeignKey(Dish, on_delete=models.CASCADE)
     reviewingUsers = models.ManyToManyField(User, blank=True)
     value = models.FloatField()
 
+class Menu(models.Model):
+    date = models.DateField('meal date')
+    meal = models.CharField(max_length=10, choices=MEAL_CHOICES)
+    dishes = models.ManyToManyField(Dish, blank=True)

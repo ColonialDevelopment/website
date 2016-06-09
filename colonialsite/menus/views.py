@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import coloauth as accounts
-from menus.models import Menu, Dish, Rating
-from serializers import MenuSerializer, DishSerializer, RatingSerializer
+from menus.models import Menu, Dish
+from serializers import MenuSerializer, DishSerializer
 
 from rest_framework import viewsets
 
@@ -17,14 +17,14 @@ def index(request):
     else:
         return redirect('coloauth:login_page')
 
-def create(request):
-    if request.user.is_staff:
+def menu_entry_page(request):
+    #if request.user.is_staff:
         context = {
                 'date':datetime.datetime.now(),
                 }
         return render(request, 'menus/create.html', context)
-    else:
-        return redirect('dashboard:dashboard-index')
+    #else:
+    #    return redirect('dashboard:dashboard-index')
 
 class MenuViewSet(viewsets.ModelViewSet):
     """
@@ -42,11 +42,3 @@ class DishViewSet(viewsets.ModelViewSet):
     queryset = Dish.objects.all().order_by('name')
     serializer_class = DishSerializer
 
-class RatingViewSet(viewsets.ModelViewSet):
-    """
-
-    API endpoint that allows ratings to be viewed or edited
-    """
-
-    queryset = Rating.objects.all()
-    serializer_class = RatingSerializer
