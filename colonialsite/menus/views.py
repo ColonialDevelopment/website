@@ -1,6 +1,6 @@
 from django.shortcuts import render
 import coloauth as accounts
-from menus.models import Menu, Dish
+from menus.models import Menu, Dish, getMealList
 from serializers import MenuSerializer, DishSerializer
 
 from rest_framework import viewsets
@@ -21,6 +21,7 @@ def menu_entry_page(request):
     #if request.user.is_staff:
         context = {
                 'date':datetime.datetime.now(),
+                'meals':getMealList(datetime.datetime.now()),
                 }
         return render(request, 'menus/create.html', context)
     #else:
@@ -41,4 +42,3 @@ class DishViewSet(viewsets.ModelViewSet):
     """
     queryset = Dish.objects.all().order_by('name')
     serializer_class = DishSerializer
-

@@ -2,5 +2,7 @@ angular.module('menusApp',[
         'menusDishInput',
         'menusAutofill',
         'menusDishDisplay',
-        'menusMealSubmit'
+        'menusMealSubmit',
+        'menusDishSubmit',
+        'menusMenuSubmit'
 ])

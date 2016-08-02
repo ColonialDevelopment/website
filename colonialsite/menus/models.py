@@ -24,3 +24,9 @@ class Menu(models.Model):
     date = models.DateField('meal date')
     meal = models.CharField(max_length=10, choices=MEAL_CHOICES)
     dishes = models.ManyToManyField(Dish, blank=True)
+
+def getMealList(date):
+    if date.weekday() > 4:
+        return ["Brunch", "Dinner"]
+    else:
+        return ["Breakfast 7:30AM-10:00AM", "Lunch 11:30AM-1:30PM", "Dinner 5:45PM-7:45PM"]
