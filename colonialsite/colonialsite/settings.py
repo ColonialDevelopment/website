@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'dashboard.apps.DashboardConfig',
     'events.apps.EventsConfig',
     'menus.apps.MenusConfig',
+    'webpack_loader',
     'django.contrib.admin',
     'django.contrib.auth',
     'rest_framework',
@@ -132,3 +133,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'assets'),
+]
+
+WEBPACK_LOADER = {
+        'DEFAULT': {
+            'BUNDLE_DIR_NAME': 'bundles/',
+            'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+            }
+        }
+

@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
 <!-- Latest CDN for jQuery -->
+<script src="https://unpkg.com/react@15/dist/react.js"></script>
+<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment-with-locales.min.js"></script>
@@ -20,14 +22,14 @@
 
 
 <div class="container-fluid">
-   <div class="page-header">	
+   <div class="page-header">
 	    <div class="row">
    	    </div>
-   
+
 	    <div class="row center-block" style="max-width:50px; max-height:50px;">
 		    <img src="{% static "reservations/images/colonial-logo-transparent.png" %}" class="img-responsive" >
    	    </div>
-   
+
 	    <div class="row center-block logo-text" style="max-width:150px; max-height:40px;font-family:Helvetica;color:#00138B;">
    	        <h4>COLONIAL CLUB</h4>
    	    </div>
@@ -90,14 +92,14 @@
                     date: Insert notification here
                     </div>
                 </div>
-                
+
                 <div class="panel panel-default">
                     <div class="panel-body">
                     date: Insert notification here
                     </div>
                 </div>
             </div>
-        
+
             <div class="row">
                 <h4 class="text-center">This Week's Events</h4>
                 <div class="panel panel-default">
@@ -109,3 +111,4 @@
         </div>
 </div>
 {% endblock %}
+

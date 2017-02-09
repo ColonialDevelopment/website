@@ -1,58 +1,12 @@
 {% extends 'dashboard/index.html' %}
-<!--
-    Any time you want to use Django template language insert
-    { % endverbatim %}
-    { { Django template code here }}
-    { % verbatim %}
--->
-
 {% block 'body' %}
-{% verbatim %}
-<html ng-app>
-<title>Menu Creator</title>
-<script src="{% static 'menus/js/menuCreate.js' %}"></script>
-<script src="{% static 'menus/js/controllers/dishInput.ctrl.js' %}"></script>
-<script src="{% static 'menus/js/controllers/dishOutput.ctrl.js' %}"></script>
-<script src="{% static 'menus/js/services/dishWriter.service.js' %}"></script>
-<body ng-controller="MenuController">
-    <div class="container">
-        <div class="h2">
-            Enter Menu for {% endverbatim %}
-            {{ date|date:"l, F j" }}{% verbatim %}:
-        </div>
-            <div class='col-4'>
-                <span>
-                    <input type="text" autocomplete="off" class="form-control" id="nextDish" placeholder="Enter the next dish">
-                    <br>
-                    <div class="btn-group">
-                    <button onclick="nextDish();" class="btn btn-primary">Next Dish</button>
-                    <button onclick="nextMeal();" class="btn" style="background-color:#4CAF50;"">Next Meal</button>
-                    <button onclick="confirmMealSubmission();" class="btn btn-secondary">Publish Menu</button>
-                    </div>
-                </span>
-            </div>
-        <div class='h2'> 
-        Menu Preview:
-        </div>
-        <div class="panel panel-default">
-            <!--This isn't necessarily today, depending on what is passed in by the Django view  -->
-            <div class="panel-body">
-            <div class="h3">
-                {% endverbatim %}
-            {{ date|date:"l, F j" }}
-                {% verbatim %}
-            </div>
-                {% endverbatim %}
-                {% for meal in meals %}
-                <div class="h4">
-                {{ meal }}
-                </div>
-                {% endfor %}
-                <!-- Need logic to automatically adjust for having brunch and dinner versus having breakfast, lunch and dinner. -->
-                {% verbatim %}
-            </div>
-        </div>
-    </div>
-</body>
-{% endverbatim %}
+
+{% load render_bundle from webpack_loader %}
+
+
+<div class='container'>
+    <div id='MenuContainer'></div>
+</div>
+
+{% render_bundle 'main' %}
 {% endblock %}
