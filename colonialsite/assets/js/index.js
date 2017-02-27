@@ -1,14 +1,19 @@
 var React = require('react')
 var ReactDOM = require('react-dom')
 
-var Hello = React.createClass({
+import MenuInput from './Input/MenuInput.js'
+import MenuDisplay from './Display/MenuDisplay.js'
+
+var MenuCreator = React.createClass({
     render: function() {
         return (
             <h1>
-            Hello, React!
+            Input Menus
+            <MenuInput />
+            <MenuDisplay />
             </h1>
             )
     }
 })
 
-ReactDOM.render(<Hello />, document.getElementById('MenuContainer'))
+ReactDOM.render(<MenuCreator />, document.getElementById('MenuContainer'))
