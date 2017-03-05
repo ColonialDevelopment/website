@@ -35,8 +35,11 @@ INSTALLED_APPS = [
     'coloauth.apps.ColoauthConfig',
     'dashboard.apps.DashboardConfig',
     'events.apps.EventsConfig',
+    'menus.apps.MenusConfig',
+    'webpack_loader',
     'django.contrib.admin',
     'django.contrib.auth',
+    'rest_framework',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -53,6 +56,11 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+        'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+        'PAGE_SIZE': 10
+}
 
 ROOT_URLCONF = 'colonialsite.urls'
 
@@ -125,3 +133,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'assets'),
+]
+
+WEBPACK_LOADER = {
+        'DEFAULT': {
+            'BUNDLE_DIR_NAME': 'bundles/',
+            'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+            }
+        }
+

@@ -1,0 +1,12 @@
+{% extends 'dashboard/index.html' %}
+{% block 'body' %}
+
+{% load render_bundle from webpack_loader %}
+
+
+<div class='container'>
+    <div id='MenuContainer'></div>
+</div>
+
+{% render_bundle 'main' %}
+{% endblock %}
