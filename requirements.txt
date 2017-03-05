@@ -21,4 +21,4 @@ ptpython >= 0.32
 django-filter >= 0.9.2
 django-guardian >= 1.1.1
 Markdown >= 2.6.6
-
+django-webpack-loader >= 0.4.1
