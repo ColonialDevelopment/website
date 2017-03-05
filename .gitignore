@@ -11,6 +11,7 @@ _obj
 _test
 venv
 env
+node_modules
 
 # Architecture specific extensions/prefixes
 *.[568vq]
