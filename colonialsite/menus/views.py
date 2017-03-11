@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import coloauth as accounts
 from menus.models import Menu, Dish, getMealList
-from serializers import MenuSerializer, DishSerializer
+from menus.serializers import MenuSerializer, DishSerializer
 
 from rest_framework import viewsets
 

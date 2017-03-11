@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from models import Menu, Dish, MEAL_CHOICES
+from menus.models import Menu, Dish, MEAL_CHOICES
 
 from rest_framework import serializers
 
