@@ -10,5 +10,5 @@ urlpatterns = [
     url(r'^view/(?P<event_id>[0-9]+)$', views.view, name = 'events_view'),
     url(r'^view/(?P<event_id>[0-9]+)/rsvp$', views.rsvp, name = 'events_rsvp'),
     url(r'^view/(?P<event_id>[0-9]+)/cancel$', views.cancel, name = 'events_cancel'),
-    url(r'^viewall$', views.EventListAll.asView(), name = 'events_all'),
+    url(r'^viewall$', views.EventListAll.as_view(), name = 'events_all'),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

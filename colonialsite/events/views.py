@@ -8,6 +8,8 @@ from .models import CreateForm, Event
 from events.serializers import EventSerializer
 from rest_framework import generics
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 @login_required
 def index(request):
     events = Event.objects.exclude(status = 'Hidden')
@@ -98,7 +100,7 @@ def cancel(request, event_id):
     return HttpResponseRedirect(url)
 
 
-@login_required
-class EventListAll(generics.ListCreateAPIView):
+
+class EventListAll(LoginRequiredMixin, generics.ListCreateAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
