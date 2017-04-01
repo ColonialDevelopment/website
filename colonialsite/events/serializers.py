@@ -4,7 +4,7 @@ from events.models import Event
 class EventSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Event
-		fields = ('title', 'start_date', 'end_date', 'description', 'location', 'status', 'members')
+		fields = ('pk', 'title', 'start_date', 'end_date', 'description', 'location', 'status', 'members')
 
 	def create(self, validated_data):
 		"""

@@ -102,5 +102,6 @@ def cancel(request, event_id):
 
 
 class EventListAll(LoginRequiredMixin, generics.ListCreateAPIView):
-    queryset = Event.objects.all()
+    queryset=Event.objects.all()
     serializer_class = EventSerializer
+
