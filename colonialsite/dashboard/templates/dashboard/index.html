@@ -7,6 +7,9 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
 <!-- Latest CDN for jQuery -->
+<script src="https://unpkg.com/react@15/dist/react.js"></script>
+<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment-with-locales.min.js"></script>
 <!-- Latest compiled and minified JavaScript -->
@@ -19,14 +22,14 @@
 
 
 <div class="container-fluid">
-   <div class="page-header">	
+   <div class="page-header">
 	    <div class="row">
    	    </div>
-   
+
 	    <div class="row center-block" style="max-width:50px; max-height:50px;">
 		    <img src="{% static "reservations/images/colonial-logo-transparent.png" %}" class="img-responsive" >
    	    </div>
-   
+
 	    <div class="row center-block logo-text" style="max-width:150px; max-height:40px;font-family:Helvetica;color:#00138B;">
    	        <h4>COLONIAL CLUB</h4>
    	    </div>
@@ -49,7 +52,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
-                <li><a href="#">Meals<span class="sr-only">(current)</span></a></li>
+                <li><a href="/menus/">Meals<span class="sr-only">(current)</span></a></li>
                 <li><a href="/reservations/">Reservations</a></li>
                 <li><a href="/events/">Events</a></li>
               </ul>
@@ -76,49 +79,7 @@
         <div class="col-md-6">
             <h4 class="text-center">Today's Menu</h4>
             <p>
-            Apr 24, 2016
-            Weekend brunch at Colonial (11:30AM-1:30PM):
-            Crispy bacon and sausage
-
-            Scrambled eggs / Scrambled egg whites
-
-            Roasted home fries/ Pancakes
-
-            Roasted veggies / Pasta pesto sauce
-
-            Breakfast burritos
-
-             
-
-            Smoothie station
-
-            Fresh pastries
-
-            Fresh bagels and smoked salmon
-
-            Omelet station 
-
-            Dinner menu (5:45PM-7:30PM):
-
-            Grilled balsamic marinated chicken
-
-            Sautéed tilapia with caper sauce
-
-            Roasted potato / roasted veggies
-
-            Pasta marinara / Roasted tofu with balsamic glaze
-
-            Ricotta stuffed eggplant
-
-            Soups
-
-            Matzo ball soup
-
-            Chilled cantaloupe with mint
-
-            Dessert:
-
-            Assorted sweets
+            Insert menu text here
             </p>
         </div>
 
@@ -128,42 +89,26 @@
                 <h4 class="text-center">Announcements</h4>
                 <div class="panel panel-default">
                     <div class="panel-body">
-                April 23rd: Please see Kathleen's email for an update on our recent gastrointestinal scare.
+                    date: Insert notification here
                     </div>
                 </div>
-                
+
                 <div class="panel panel-default">
                     <div class="panel-body">
-                    April 21st:Sign up for the cruise by Monday to celebrate our 125th anniversary!
+                    date: Insert notification here
                     </div>
                 </div>
             </div>
-        
+
             <div class="row">
                 <h4 class="text-center">This Week's Events</h4>
                 <div class="panel panel-default">
                     <div class="panel-body">
-                    HOUSEPARTIES
+                    date: Insert notification here
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-<a href="reservations/request">Reserve a Room</a>
-
-<p>It is currently {{ date }}<br>
-
-<a href = "reservations/{{ date.year }}/{{ date.month }}">View reservations from this month.</a><br>
-<a href = "reservations/{{ date.year }}/{{ date.month }}/{{ date.day }}">View reservations from today.</a>
-</p>
-
-<a href = "accounts/login">You can login here</a><br>
-<a href = "accounts/logout">You can also logout here</a><br>
-
-
-<p>Feel free to poke around the <a href = "/admin">admin site</a>.
-
-<p>See /colonialsite/reservations/readme - reservations for more complete documentation</p>
-
 </div>
 {% endblock %}
+

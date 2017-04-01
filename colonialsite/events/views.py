@@ -19,7 +19,7 @@ def view(request, event_id):
         event = Event.objects.get(pk = event_id)
     except Event.DoesNotExist:
         raise Http404("Event does not exist.")
-    
+
     if event.status == 'Open':
         if request.user in event.members.all():
             return render(request, 'events/view_going.html', {'event': event, })
@@ -31,13 +31,13 @@ def view(request, event_id):
             return render(request, 'events/view_going_closed.html', {'event': event, })
         else:
             return render(request, 'events/view_notgoing_closed.html', {'event': event, })
-                      
+
     else:
         # Something here about officer permissions
         return HttpResponse("This is a hidden event.")
 
 
-    
+
 @login_required
 def create(request):
     if request.method == 'POST':
@@ -84,7 +84,7 @@ def cancel(request, event_id):
         raise Http404("Event does not exist.")
 
     url = '/events/view/' + event.id.__str__()
-    
+
 #    if request.user in event.members.all():
 #        event.members.remove(request.user)
 #        string = "You have cancelled your attendance for this event."
