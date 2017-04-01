@@ -5,6 +5,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
 from .models import CreateForm, Event
+from events.serializers import EventSerializer
+from rest_framework import generics
 
 @login_required
 def index(request):
@@ -94,3 +96,9 @@ def cancel(request, event_id):
     if request.user in event.members.all():
         event.members.remove(request.user)
     return HttpResponseRedirect(url)
+
+
+@login_required
+class EventListAll(generics.ListCreateAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer

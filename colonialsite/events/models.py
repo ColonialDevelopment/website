@@ -16,8 +16,8 @@ class Event(models.Model):
 	end_date	= models.DateTimeField('end date and time')
 	description	= models.TextField()
 	location	= models.CharField(max_length = 50)
-	status          = models.CharField(max_length = 10, choices = STATUS_CHOICES)
-	members         = models.ManyToManyField(User, blank = True)
+	status      = models.CharField(max_length = 10, choices = STATUS_CHOICES)
+	members     = models.ManyToManyField(User, blank = True)
 
 class CreateForm(forms.ModelForm):
 	class Meta:
