@@ -4,10 +4,10 @@ var BundleTracker = require('webpack-bundle-tracker')
 
 module.exports = {
     context: __dirname,
-    entry: './assets/js/index',
+    entry: './assets/js/pages/events',
     output: {
         path: path.resolve('./assets/bundles/'),
-        filename: '[name]-[hash].js',
+        filename: 'events.js',
     },
 
     plugins: [
@@ -27,9 +27,9 @@ module.exports = {
         {
             test: /\.jsx?$/,
             exclude: /node_modules/,
-            loader:'babel-loader',
+            loader:'babel',
             query: {
-                presets:['react', 'es2015']
+                presets:['es2015', 'react']
             }
         }]
     },
