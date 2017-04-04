@@ -1,7 +1,14 @@
 {% extends "dashboard/index.html" %}
 {% load staticfiles %}
 
-{% block title %} {{title}}{% endblock %}
+{% block title %}
+{{title}}
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="/static/css/events/style.css" />
+{% endblock %}
+
 {% block 'body' %}
 <div id="react"></div>
     <script>
