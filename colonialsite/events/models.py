@@ -11,13 +11,23 @@ class Event(models.Model):
 		('Hidden', 'Hidden'),   # Not viewable to members
 	)
 
+	LOCATION_CHOICES = (
+		('Del Vento', 'Del Vento'),
+		('Dining Area', 'Dining Area'),
+		('Library', 'Library'),
+		('Elk Room', 'Elk Room'),
+		('Game Room', 'Game Room'),
+		('Movie Room', 'Movie Room'),
+	)
+
 	title		= models.CharField(max_length = 30)
 	start_date	= models.DateTimeField('start date and time')
 	end_date	= models.DateTimeField('end date and time')
 	description	= models.TextField()
-	location	= models.CharField(max_length = 50)
+	location	= models.CharField(max_length = 50, choices = LOCATION_CHOICES)
 	status      = models.CharField(max_length = 10, choices = STATUS_CHOICES)
 	members     = models.ManyToManyField(User, blank = True)
+	recurring	= models.BooleanField(default=False)
 
 class CreateForm(forms.ModelForm):
 	class Meta:
