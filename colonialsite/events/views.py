@@ -12,8 +12,17 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 @login_required
 def index(request):
-    events = Event.objects.exclude(status = 'Hidden')
-    return render(request, 'events/index.html', {'events': events})
+    title = "Events Page"
+    template = 'events/index.html'
+    component = 'events.js'
+
+
+    context = {
+            'title': title,
+            'component': component,
+            }
+
+    return render(request, template, context)
 
 @login_required
 def view(request, event_id):
