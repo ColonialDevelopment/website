@@ -12,6 +12,7 @@ _test
 venv
 env
 node_modules
+bundles
 
 # Architecture specific extensions/prefixes
 *.[568vq]

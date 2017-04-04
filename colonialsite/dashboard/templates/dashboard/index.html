@@ -1,4 +1,10 @@
 {% load staticfiles %}
+<head>
+  <title>{% block title %}Colonial Club{% endblock %}</title>
+</head>
+
+{% block style %} {% endblock %}
+
 <!-- CDN for bootstrap JS and CSS -->
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -70,6 +76,7 @@
           </div><!-- /.container-fluid -->
       </nav>
 
+
 {% block 'body' %}
 <div class="container-fluid">
     <div class="row">
@@ -81,8 +88,6 @@
             <p>
             Insert menu text here
             </p>
-        </div>
-
         <div class="col-md-2"></div>
         <div class="col-md-4">
             <div class="row">
