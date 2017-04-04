@@ -4,13 +4,22 @@ var BundleTracker = require('webpack-bundle-tracker')
 
 module.exports = {
     context: __dirname,
-    entry: './assets/js/pages/events/events',
+    watch: true,
+    entry: [
+        'webpack-dev-server/client?http://localhost:3000',
+        'webpack/hot/only-dev-server',
+        './assets/js/pages/events/events',
+    ],
+
     output: {
         path: path.resolve('./assets/bundles/'),
         filename: 'events.js',
+        publicPath: 'http://localhost:3000/assets/bundles/',
     },
 
     plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin(),
         new BundleTracker({filename: './webpack-stats.json'}),
         new webpack.ProvidePlugin({
             $: 'jquery',
@@ -27,16 +36,13 @@ module.exports = {
         {
             test: /\.jsx?$/,
             exclude: /node_modules/,
-            loader:'babel',
-            query: {
-                presets:['es2015', 'react']
-            }
+            loaders:['react-hot-loader', 'babel-loader'],
         }]
     },
 
     resolve: {
-        modulesDirectories: ['node_modules'],
-        extensions: ['', '.js', '.jsx']
+        modules: ['node_modules', 'bower_components'],
+        extensions: ['.js', '.jsx']
     }
 }
 

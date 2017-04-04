@@ -1,8 +1,12 @@
 .scroll-container {
    width:100%;
-   height:calc(100% - 200px);
-   margin-top:100px;
-   background-color:green;
    float:left;
+   padding: 10px;
    overflow-y:scroll;
+   height: 400px;
+   border: 1px solid #eee;
    }
+
+.scroll-container-header {
+	font-size: 20px;
+}
