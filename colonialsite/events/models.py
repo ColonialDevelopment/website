@@ -12,12 +12,15 @@ class Event(models.Model):
 	)
 
 	LOCATION_CHOICES = (
+		('Cluster', 'Cluster'),
 		('Del Vento', 'Del Vento'),
 		('Dining Area', 'Dining Area'),
-		('Library', 'Library'),
 		('Elk Room', 'Elk Room'),
 		('Game Room', 'Game Room'),
+		('Library', 'Library'),
 		('Movie Room', 'Movie Room'),
+		('Taproom', 'Taproom'),
+		('Colonial', 'Colonial'),
 	)
 
 	title		= models.CharField(max_length = 30)
@@ -28,6 +31,7 @@ class Event(models.Model):
 	status      = models.CharField(max_length = 10, choices = STATUS_CHOICES)
 	members     = models.ManyToManyField(User, blank = True)
 	recurring	= models.BooleanField(default=False)
+	image		= models.FilePathField(blank=True)
 
 class CreateForm(forms.ModelForm):
 	class Meta:
