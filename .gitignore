@@ -6,6 +6,7 @@
 *.swp
 *.sqlite3
 
+
 # Folders
 _obj
 _test
@@ -13,6 +14,7 @@ venv
 env
 node_modules
 bundles
+media
 
 # Architecture specific extensions/prefixes
 *.[568vq]

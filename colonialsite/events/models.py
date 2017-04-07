@@ -4,6 +4,13 @@ from django.db import models
 from django import forms
 from django.contrib.auth.models import User
 
+import uuid, os
+
+def get_file_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = "%s-%s.%s" % (instance.title, uuid.uuid4(), ext)
+    return os.path.join('event_uploads/', filename)
+
 class Event(models.Model):
 	STATUS_CHOICES = (
 		('Closed', 'Closed'),   # Viewable, closed to RSVPs
@@ -31,7 +38,8 @@ class Event(models.Model):
 	status      = models.CharField(max_length = 10, choices = STATUS_CHOICES)
 	members     = models.ManyToManyField(User, blank = True)
 	recurring	= models.BooleanField(default=False)
-	image		= models.FilePathField(blank=True)
+	# image		= models.FilePathField(blank=True)
+	image 		= models.FileField(upload_to=get_file_path, blank=True)
 
 class CreateForm(forms.ModelForm):
 	class Meta:
