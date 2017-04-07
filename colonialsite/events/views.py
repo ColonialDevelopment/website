@@ -44,8 +44,10 @@ def view(request, event_id):
             return render(request, 'events/view_notgoing_closed.html', {'event': event, })
 
     else:
-        # Something here about officer permissions
-        return HttpResponse("This is a hidden event.")
+        if request.user.has_perm('events.add_event'):
+            return HttpResponse("You are an officer viewing a hidden event.")
+        else:
+            return HttpResponse("This is a hidden event.")
 
 
 
