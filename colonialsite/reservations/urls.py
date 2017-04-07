@@ -2,6 +2,7 @@ from django.conf.urls import url
 from .views import ReservationMonthView, ReservationDayView
 from django.conf.urls.static import static
 from django.conf import settings
+from rest_framework.urlpatterns import format_suffix_patterns
 from . import views
 
 urlpatterns = [
@@ -20,4 +21,9 @@ urlpatterns = [
     url(r'^(?P<year>[0-9]{4})/(?P<month>[0-9]+)/(?P<day>[0-9]+)/$', ReservationDayView.as_view(month_format='%m'),
         name="reservations_archive_day"),
 
+    url(r'^test$', views.ReservationList.as_view()),
+    url(r'^test/(?P<pk>[0-9]+)$', views.ReservationDetail.as_view()),
+
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+urlpatterns = format_suffix_patterns(urlpatterns)
