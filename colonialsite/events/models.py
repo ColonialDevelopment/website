@@ -30,12 +30,23 @@ class Event(models.Model):
 		('Colonial', 'Colonial'),
 	)
 
+	CATEGORY_CHOICES = (
+		('IMs', 'IMs'),
+		('Friday Party', 'Friday Party'),
+		('Semiformal', 'Semiformal'),
+		('Study Break', 'Study Break'),
+		('Sophomore Dinner', 'Sophomore Dinner'),
+		('Other', 'Other'),
+	)
+
+
 	title		= models.CharField(max_length = 30)
 	start_date	= models.DateTimeField('start date and time')
 	end_date	= models.DateTimeField('end date and time')
 	description	= models.TextField()
-	location	= models.CharField(max_length = 50, choices = LOCATION_CHOICES)
-	status      = models.CharField(max_length = 10, choices = STATUS_CHOICES)
+	location	= models.CharField(max_length = 20, choices = LOCATION_CHOICES, default='Colonial')
+	status      = models.CharField(max_length = 10, choices = STATUS_CHOICES, default='Hidden')
+	category	= models.CharField(max_length = 20, choices = CATEGORY_CHOICES, default='Other')
 	members     = models.ManyToManyField(User, blank = True)
 	recurring	= models.BooleanField(default=False)
 	# image		= models.FilePathField(blank=True)
