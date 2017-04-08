@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'reservations.apps.ReservationsConfig',
-    'coloauth.apps.ColoauthConfig',
+#    'coloauth.apps.ColoauthConfig',
     'dashboard.apps.DashboardConfig',
     'events.apps.EventsConfig',
     'menus.apps.MenusConfig',
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cas',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -55,7 +56,15 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'cas.middleware.CASMiddleware',
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'cas.backends.CASBackend',
+)
+
+CAS_SERVER_URL = 'https://fed.princeton.edu/cas/'
 
 REST_FRAMEWORK = {
         'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
@@ -113,7 +122,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Change default login page
-LOGIN_URL = '/accounts/login'
+LOGIN_URL = '/accounts/login/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

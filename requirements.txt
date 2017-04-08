@@ -1,6 +1,7 @@
 #infrastructure
 Django >= 1.8.12
 djangorestframework >= 3.0
+django-cas-client == 1.2.0
 
 #support libs
 django-analytical >= 2.0.0
