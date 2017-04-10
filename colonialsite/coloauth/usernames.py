@@ -1,3 +1,11 @@
 USER_LIST = [
-	'nyang',	
+	'nyang',
+	'anniec',
+	'jasonfu',
+	'juliez', 
+	'junghwan',
+	'bwzhu', 
+	'ninaw',
+	'zyfan',
+	'ruchames',
 ]
