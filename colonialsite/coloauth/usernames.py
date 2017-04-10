@@ -1,0 +1,3 @@
+USER_LIST = [
+	'nyang',	
+]
