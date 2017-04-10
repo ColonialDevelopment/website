@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'reservations.apps.ReservationsConfig',
-#    'coloauth.apps.ColoauthConfig',
+    'coloauth.apps.ColoauthConfig',
     'dashboard.apps.DashboardConfig',
     'events.apps.EventsConfig',
     'menus.apps.MenusConfig',

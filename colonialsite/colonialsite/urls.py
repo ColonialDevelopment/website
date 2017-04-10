@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^$', include('dashboard.urls', namespace='dashboard')),
     url(r'^accounts/login/$', cas.views.login, name='login'),
     url(r'^accounts/logout/$', cas.views.logout, name='logout'),
+    url(r'^staff/', include('coloauth.urls'))
 ]
 
 urlpatterns += router.urls
