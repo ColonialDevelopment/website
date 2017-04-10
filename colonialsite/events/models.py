@@ -36,6 +36,7 @@ class Event(models.Model):
 		('Semiformal', 'Semiformal'),
 		('Study Break', 'Study Break'),
 		('Sophomore Dinner', 'Sophomore Dinner'),
+		('Language Table', 'Language Table'),
 		('Other', 'Other'),
 	)
 
