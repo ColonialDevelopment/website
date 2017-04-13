@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'dashboard.apps.DashboardConfig',
     'events.apps.EventsConfig',
     'menus.apps.MenusConfig',
+    'members.apps.MembersConfig',
     'webpack_loader',
     'django.contrib.admin',
     'django.contrib.auth',

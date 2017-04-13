@@ -35,6 +35,7 @@ urlpatterns = [
     url(r'^menus/', include('menus.urls')),
     url(r'^events/', include('events.urls', namespace='events')),
     url(r'^$', include('dashboard.urls', namespace='dashboard')),
+    url(r'^members/', include('members.urls', namespace='members')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += router.urls

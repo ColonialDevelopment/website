@@ -11,7 +11,6 @@ class Member(models.Model):
         ('Senior', 'Senior'),
     )
 
-	officer_pos		= models.CharField(max_length = 30) # should I make choices?
-	birthday	    = models.Datefield()
-	class_year	    = models.CharField(max_length = 10)
-    
+    officer_pos		= models.CharField(max_length = 30) # should I make choices?
+    birthday	    = models.DateField()
+    class_year	    = models.CharField(max_length = 10)
