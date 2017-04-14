@@ -1,3 +1,11 @@
 from django.contrib import admin
+from .models import Member
 
-# Register your models here.
+class MemberAdmin(admin.ModelAdmin):
+    fields = ['name', 'netid', 'pref_name', 'officer_pos', 'birthday',
+    		 'class_year', 'major', 'dorm', 'room_num', 'email',
+    		 'hometown', 'bio']
+    list_display = ['name', 'netid', 'class_year']
+
+admin.site.register(Member, MemberAdmin)
+
