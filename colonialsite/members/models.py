@@ -11,6 +11,20 @@ class Member(models.Model):
         ('Senior', 'Senior'),
     )
 
-    officer_pos		= models.CharField(max_length = 30) # should I make choices?
+    OFFICER_CHOICES = (
+        ('President', 'President'),
+        ('Vice President', 'Vice President'),
+        ('Social Chair', 'Social Chair'),
+        ('Treasurer', 'Treasurer'),
+        ('House Manager', 'House Manager'),
+        ('Beverage Chair', 'IM Chair'),
+        ('Community Chair', 'Publicity Chair'),
+        ('Assistant Social Chair', 'Assistant Social Chair'),
+        ('Sophomore Representative', 'Sophomore Representative'),
+        ('Co-Finance Chair', 'Co-Finance Chair'),
+        ('Colonial Development Lead', 'Colonial Development Lead')
+    )
+
+    officer_pos		= models.CharField(max_length = 30, choices = OFFICER_CHOICES)
     birthday	    = models.DateField()
-    class_year	    = models.CharField(max_length = 10)
+    class_year	    = models.CharField(max_length = 10, choices = YEAR_IN_SCHOOL_CHOICES)
