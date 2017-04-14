@@ -8,7 +8,13 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import ColoRegistrationForm
 from django.template.context_processors import csrf
 from dashboard import views as dash_views
-import datetime
+from datetime import datetime
+
+import hashlib, random
+from base64 import b64encode
+import requests
+
+from django.conf import settings
 
 # login view
 def login_page(request):
@@ -25,7 +31,7 @@ def login_page(request):
                 login(request, user)
                 # Redirect to a success page.
                 context = {
-                        'date': datetime.datetime.now(),
+                        'date': datetime.now(),
                 }
 
                 return redirect('dashboard:dashboard-index')
@@ -64,3 +70,17 @@ def register(request):
         context.update(csrf(request))
         context['form'] = ColoRegistrationForm()
         return HttpResponse(template.render(context, request))
+
+def tigerbook(request):
+    url = 'https://tigerbook.herokuapp.com/api/v1/undergraduates/' + request.user.username
+    created = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+    nonce = ''.join([random.choice('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/=') for i in range(32)])
+    username = settings.TIGERBOOK_LOGIN
+    password = settings.TIGERBOOK_PW
+    generated_digest = b64encode(hashlib.sha256(nonce + created + password).digest())
+    headers = {
+        'Authorization': 'WSSE profile="UsernameToken"',
+        'X-WSSE': 'UsernameToken Username="%s", PasswordDigest="%s", Nonce="%s", Created="%s"' % (username, generated_digest, nonce, created)
+    }
+    r = requests.get(url, headers=headers)
+    return HttpResponse(r)

@@ -154,3 +154,5 @@ WEBPACK_LOADER = {
             }
         }
 
+TIGERBOOK_LOGIN = 'nyang+colonialsite'
+TIGERBOOK_PW = '0918fc61e5849654ebde7f06d74d891f'
