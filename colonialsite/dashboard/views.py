@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth import authenticate
 from django.template.context_processors import csrf
-import coloauth as accounts
+from colonialsite.settings import LOGIN_URL
 
 # Create views for the dashboard here.
 
@@ -19,5 +19,5 @@ def index(request):
         }
         return render(request, 'dashboard/index.html', context)
     else:
-        return redirect('coloauth:login_page')
+        return redirect(LOGIN_URL)
 

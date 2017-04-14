@@ -1,6 +1,8 @@
 #infrastructure
+python == 2.7.13
 Django >= 1.8.12
 djangorestframework >= 3.0
+django-cas-client == 1.2.0
 
 #support libs
 django-analytical >= 2.0.0
@@ -21,3 +23,6 @@ django-filter >= 0.9.2
 django-guardian >= 1.1.1
 Markdown >= 2.6.6
 django-webpack-loader >= 0.4.1
+
+# for making requests from server
+requests >= 2.13.0

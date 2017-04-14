@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 import menus.views
+import cas.views
 
 router = routers.DefaultRouter()
 router.register(r'api/menus', menus.views.MenuViewSet)
@@ -29,13 +30,15 @@ router.register(r'api/ratings', menus.views.DishViewSet)
 
 
 urlpatterns = [
-    url(r'^accounts/', include('coloauth.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^reservations/', include('reservations.urls')),
     url(r'^menus/', include('menus.urls')),
     url(r'^events/', include('events.urls', namespace='events')),
     url(r'^$', include('dashboard.urls', namespace='dashboard')),
     url(r'^members/', include('members.urls', namespace='members')),
+    url(r'^accounts/login/$', cas.views.login, name='login'),
+    url(r'^accounts/logout/$', cas.views.logout, name='logout'),
+    url(r'^staff/', include('coloauth.urls'))
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += router.urls

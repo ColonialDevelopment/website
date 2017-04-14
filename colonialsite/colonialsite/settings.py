@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cas',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -59,7 +60,16 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'cas.middleware.CASMiddleware',
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    #'cas.backends.CASBackend',
+    'coloauth.backends.RestrictedCASBackend',
+)
+
+CAS_SERVER_URL = 'https://fed.princeton.edu/cas/'
 
 REST_FRAMEWORK = {
         'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
@@ -117,7 +127,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Change default login page
-LOGIN_URL = '/accounts/login'
+LOGIN_URL = '/accounts/login/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
@@ -147,3 +157,7 @@ WEBPACK_LOADER = {
             'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
             }
         }
+
+TIGERBOOK_LOGIN = 'nyang+colonialsite'
+TIGERBOOK_PW = '0918fc61e5849654ebde7f06d74d891f'
+
