@@ -5,11 +5,6 @@ from django import forms
 from django.contrib.auth.models import User
 
 class Member(models.Model):
-    YEAR_IN_SCHOOL_CHOICES = (
-        ('Sophomore', 'Sophomore'),
-        ('Junior', 'Junior'),
-        ('Senior', 'Senior'),
-    )
 
     OFFICER_CHOICES = (
         ('President', 'President'),
@@ -27,4 +22,7 @@ class Member(models.Model):
 
     officer_pos		= models.CharField(max_length = 30, choices = OFFICER_CHOICES)
     birthday	    = models.DateField()
-    class_year	    = models.CharField(max_length = 10, choices = YEAR_IN_SCHOOL_CHOICES)
+    class_year	    = models.CharField(max_length = 10)
+    dorm            = models.CharField(max_length = 30)
+    room_num        = models.CharField(max_length = 10)
+    bio             = models.TextField(blank=True)
