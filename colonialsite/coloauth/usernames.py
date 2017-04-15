@@ -8,4 +8,5 @@ USER_LIST = [
 	'ninaw',
 	'zyfan',
 	'ruchames',
+	'sjiao'
 ]

@@ -56,31 +56,17 @@ def logout_page(request):
     return HttpResponse('logged out')
 
 # register view
-def register(request):
-    if request.POST:
-        form = ColoRegistrationForm(request.POST)     # create form object
-        if form.is_valid():
-            form.save()
-            return HttpResponse('registered')
-        else:
-            return HttpResponse('no')
-    else:
-        template = loader.get_template('coloauth/register.html')
-        context = {}
-        context.update(csrf(request))
-        context['form'] = ColoRegistrationForm()
-        return HttpResponse(template.render(context, request))
-
-def tigerbook(request):
-    url = 'https://tigerbook.herokuapp.com/api/v1/undergraduates/' + request.user.username
-    created = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-    nonce = ''.join([random.choice('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/=') for i in range(32)])
-    username = settings.TIGERBOOK_LOGIN
-    password = settings.TIGERBOOK_PW
-    generated_digest = b64encode(hashlib.sha256(nonce + created + password).digest())
-    headers = {
-        'Authorization': 'WSSE profile="UsernameToken"',
-        'X-WSSE': 'UsernameToken Username="%s", PasswordDigest="%s", Nonce="%s", Created="%s"' % (username, generated_digest, nonce, created)
-    }
-    r = requests.get(url, headers=headers)
-    return HttpResponse(r)
+# def register(request):
+#     if request.POST:
+#         form = ColoRegistrationForm(request.POST)     # create form object
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponse('registered')
+#         else:
+#             return HttpResponse('no')
+#     else:
+#         template = loader.get_template('coloauth/register.html')
+#         context = {}
+#         context.update(csrf(request))
+#         context['form'] = ColoRegistrationForm()
+#         return HttpResponse(template.render(context, request))

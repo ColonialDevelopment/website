@@ -28,7 +28,7 @@ class Member(models.Model):
     class_year	    = models.CharField(max_length = 10)
     major           = models.CharField(max_length = 50)
     dorm            = models.CharField(max_length = 30)
-    room_num        = models.CharField(max_length = 10)
+    room_num        = models.CharField(max_length = 10, verbose_name = "Room Number")
     email           = models.EmailField()
     hometown        = models.CharField(max_length = 50)
     bio             = models.TextField(blank=True)
