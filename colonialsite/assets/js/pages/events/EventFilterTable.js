@@ -1,5 +1,7 @@
 import React from 'react';
 import Event from './Event.js';
+import {Form, FormControl} from 'react-bootstrap';
+import EventFilterDropdown from './EventFilterDropdown.js';
 
 function getDay(datetime){
 	var d = new Date(datetime);
@@ -99,7 +101,7 @@ class EventTable extends React.Component {
 			rows.push(<EventRow event={event} key={event.pk} />)
 		});
 		return (
-			<div>
+			<div className="scroll-container">
 			{rows}
 			</div>
 		);
@@ -118,14 +120,14 @@ class SearchBar extends React.Component {
 
 	render() {
 		return (
-			<form>
-				<input
+			<Form>
+				<FormControl
 					type="text"
 					placeholder="Search..."
 					value={this.props.filterText}
 					onChange={this.handleFilterTextInputChange}
 				/>
-			</form>
+			</Form>
 		);
 	}
 }
@@ -150,10 +152,16 @@ class EventFilterTable extends React.Component {
 	render() {
 		return (
 			<div>
-				<SearchBar
-					filterText={this.state.filterText}
-					onFilterTextInput={this.handleFilterTextInput}
-				/>
+				<div className="input-group">
+					<SearchBar
+						filterText={this.state.filterText}
+						onFilterTextInput={this.handleFilterTextInput}
+					/>
+					<span className="input-group-btn">
+					<EventFilterDropdown types={this.props.types} updateFilteredList={this.props.updateFilteredList} />
+					</span>
+				</div>
+				<br></br>
 				<EventTable
 					events={this.props.events}
 					filterText={this.state.filterText}

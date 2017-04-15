@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {DropdownButton, MenuItem, Glyphicon} from 'react-bootstrap';
 class EventFilterDropdown extends React.Component{
 	
 	constructor(props) {
@@ -24,18 +24,16 @@ class EventFilterDropdown extends React.Component{
 	render(){
 		var checks = this.state.types.map(function(d) {
 			return (
-				<div>
-					<input type="checkbox" checked={d.selected} onChange={this.changeSelection.bind(this, d.id)} />
+					<MenuItem> <input type="checkbox" checked={d.selected} onChange={this.changeSelection.bind(this, d.id)} />
 					{d.id}
-					<br/>
-				</div>
+					</MenuItem>
 				);
 		}.bind(this));
 
 		return(
-			<form>
+			<DropdownButton title={<Glyphicon glyph="filter"/>}>
 			{checks}	
-			</form>	
+			</DropdownButton>	
 		)
 	}
 }

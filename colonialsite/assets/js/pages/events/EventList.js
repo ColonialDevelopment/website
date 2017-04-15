@@ -1,8 +1,6 @@
 import React from 'react';
 import Event from './Event.js';
 import EventFilterTable from './EventFilterTable.js';
-import EventFilterDropdown from './EventFilterDropdown.js';
-/*import _ from 'lodash';*/
 
 var EventList = React.createClass({
     loadContentFromServer: function(){
@@ -56,10 +54,9 @@ var EventList = React.createClass({
                 <div>
                     <div className="container col-md-12 col-sm-12 col-xs-12 col-lg-6">
                      <div className='scroll-container-header border-bottom-1'> Events: </div>
-                        <div className="scroll-container">
-                        <EventFilterDropdown types={this.state.types} updateFilteredList={this.updateFilters} />
-                        <EventFilterTable events={this.state.filtered_data} />
-                        </div>
+                        <EventFilterTable events={this.state.filtered_data}
+                                            types={this.state.types}
+                                            updateFilteredList={this.updateFilters} />
                     </div>
                 </div>
                )
