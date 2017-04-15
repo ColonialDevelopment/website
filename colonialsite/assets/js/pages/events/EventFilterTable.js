@@ -2,6 +2,7 @@ import React from 'react';
 import Event from './Event.js';
 import {Form, FormControl} from 'react-bootstrap';
 import EventFilterDropdown from './EventFilterDropdown.js';
+import EventSortSelect from './EventSortSelect.js';
 
 function getDay(datetime){
 	var d = new Date(datetime);
@@ -159,6 +160,9 @@ class EventFilterTable extends React.Component {
 					/>
 					<span className="input-group-btn">
 					<EventFilterDropdown types={this.props.types} updateFilteredList={this.props.updateFilteredList} />
+					</span>
+					<span className="input-group-btn" title="Select Sort">
+					<EventSortSelect sortTypes={this.props.sortTypes} updateSort={this.props.updateSort} />
 					</span>
 				</div>
 				<br></br>

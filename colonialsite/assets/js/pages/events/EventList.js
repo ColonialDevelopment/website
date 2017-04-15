@@ -2,6 +2,23 @@ import React from 'react';
 import Event from './Event.js';
 import EventFilterTable from './EventFilterTable.js';
 
+function sortByDate(a, b){
+    a = new Date(a.start_date);
+    b = new Date(b.start_date);
+    return a>b ? 1 : a<b ? -1 : 0;
+}
+
+function sortByType(a, b){
+    a = a.category;
+    b = b.category;
+    return a>b ? -1 : a<b ? 1 : 0;
+}
+function sortByLocation(a, b){
+    a = a.location;
+    b = b.location;
+    return a>b ? -1 : a<b ? 1 : 0;
+}
+
 var EventList = React.createClass({
     loadContentFromServer: function(){
         $.ajax({
@@ -11,6 +28,7 @@ var EventList = React.createClass({
             success: function(data) {
                 this.setState({data:data.results});
                 this.updateFilters(this.state.types);
+                this.updateSort("Date");
             }.bind(this)
         })
     },
@@ -24,7 +42,14 @@ var EventList = React.createClass({
             {id:"Other", selected:true},
             {id:"Language Table", selected:true},
             {id:"Sophomore Dinner", selected:true},
-            ]}
+            ],
+            sortTypes:
+            [
+            {id:"Date", checked:true},
+            {id:"Category", checked:false},
+            {id:"Location", checked:false}
+            ],
+        }
     },
 
     componentDidMount: function() {
@@ -48,15 +73,56 @@ var EventList = React.createClass({
                 return events_selected;
             }, [])});
     },
+    updateSort: function(sortType){
+        var sortFunction;
+        switch(sortType){
+            case "Category":
+                sortFunction = sortByType;
+                this.setState({
+                    sortTypes:
+                    [
+                    {id:"Date", checked:false},
+                    {id:"Category", checked:true},
+                    {id:"Location", checked:false}
+                    ]
+                });
+                break;
+            case "Location":
+                sortFunction = sortByLocation;
+                this.setState({
+                    sortTypes:
+                    [
+                    {id:"Date", checked:false},
+                    {id:"Category", checked:false},
+                    {id:"Location", checked:true}
+                    ]
+                });
+                break;
+            default:
+                sortFunction = sortByDate;
+                this.setState({
+                    sortTypes:
+                    [
+                    {id:"Date", checked:true},
+                    {id:"Category", checked:false},
+                    {id:"Location", checked:false}
+                    ]
+                });
+        }
+        this.setState({filtered_data:
+            this.state.filtered_data.sort(sortFunction)
+        });
+    },
     render: function() {
-        
         return (
                 <div>
                     <div className="container col-md-12 col-sm-12 col-xs-12 col-lg-6">
                      <div className='scroll-container-header border-bottom-1'> Events: </div>
                         <EventFilterTable events={this.state.filtered_data}
                                             types={this.state.types}
-                                            updateFilteredList={this.updateFilters} />
+                                            updateFilteredList={this.updateFilters}
+                                            updateSort={this.updateSort}
+                                            sortTypes={this.state.sortTypes} />
                     </div>
                 </div>
                )

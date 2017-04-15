@@ -24,14 +24,14 @@ class EventFilterDropdown extends React.Component{
 	render(){
 		var checks = this.state.types.map(function(d) {
 			return (
-					<MenuItem> <input type="checkbox" checked={d.selected} onChange={this.changeSelection.bind(this, d.id)} />
+					<MenuItem key={d.id}> <input type="checkbox" checked={d.selected} onChange={this.changeSelection.bind(this, d.id)} />
 					{d.id}
 					</MenuItem>
 				);
 		}.bind(this));
 
 		return(
-			<DropdownButton title={<Glyphicon glyph="filter"/>}>
+			<DropdownButton id="Filter Selection" title={<Glyphicon glyph="filter"/>}>
 			{checks}	
 			</DropdownButton>	
 		)
