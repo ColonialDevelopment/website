@@ -6,24 +6,23 @@ class EventFilterDropdown extends React.Component{
 		super(props);
 		this.state=
 		{
-			data:this.props.types
+			types:this.props.types
 		};
 	}
 
 	changeSelection(id) {
-		var state = this.state.data.map(function(d) {
+		var types_selected = this.state.types.map(function(d) {
 			return {
 				id:d.id,
 				selected: (d.id == id ? !d.selected : d.selected)
 			}
 		})
-		this.setState({ data: state });
-		this.props.updateFilteredList(this.state.data);
+		this.setState({ types: types_selected });
+		this.props.updateFilteredList(types_selected);
 	}
 
 	render(){
-		
-		var checks = this.state.data.map(function(d) {
+		var checks = this.state.types.map(function(d) {
 			return (
 				<div>
 					<input type="checkbox" checked={d.selected} onChange={this.changeSelection.bind(this, d.id)} />
