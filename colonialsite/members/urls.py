@@ -5,5 +5,5 @@ from . import views
 
 urlpatterns = [
     url(r'^viewall$', views.MemberListAll.as_view(), name = 'members_all'),
-    url(r'^api/detail/(?P<pk>[0-9]+)$', views.MemberDetail.as_view(), name = 'members_details'),
+    url(r'^api/detail/(?P<netid>[a-z]+)$', views.MemberDetail.as_view(), name = 'members_details'),
 ]

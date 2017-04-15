@@ -11,4 +11,5 @@ class MemberListAll(LoginRequiredMixin, generics.ListAPIView):
 
 class MemberDetail(LoginRequiredMixin, generics.RetrieveAPIView):
     queryset = Member.objects.all()
+    lookup_field = 'netid'
     serializer_class = MemberSerializer
