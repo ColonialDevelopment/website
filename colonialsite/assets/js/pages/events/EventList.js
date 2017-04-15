@@ -1,5 +1,6 @@
 import React from 'react';
-import Event from './Event.js'
+import Event from './Event.js';
+import EventFilterTable from './EventFilterTable.js'
 
 var EventList = React.createClass({
     loadContentFromServer: function(){
@@ -38,7 +39,8 @@ var EventList = React.createClass({
         if (this.state.data){
             var eventNodes = this.state.data.map(function(event){
                 return (<Event key={event.pk}
-                               name={event.title}/>)
+                               name={event.title}
+                               start_date={event.start_date}/>)
             })
         }
         return (
@@ -46,7 +48,7 @@ var EventList = React.createClass({
                     <div className="container col-md-12 col-sm-12 col-xs-12 col-lg-6">
                      <div className='scroll-container-header border-bottom-1'> Events: </div>
                         <div className="scroll-container">
-                        <EventFilterTable events={eventNodes} 
+                        <EventFilterTable events={this.state.data} />
                         </div>
                     </div>
                 </div>

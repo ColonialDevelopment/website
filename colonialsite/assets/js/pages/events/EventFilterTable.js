@@ -80,7 +80,8 @@ class EventRow extends React.Component {
 	render() {
 		return (			
 				<Event name={this.props.event.title}
-					   date={getDate(this.props.event.start_date)} />
+					   date={getDate(this.props.event.start_date)}
+					   key={event.pk} />
 		)
 	}
 }
@@ -88,22 +89,17 @@ class EventRow extends React.Component {
 class EventTable extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			events: this.props.events
-		};
 	}
 
 	render() {
 		var rows = [];
-		this.state.events.forEach((event) => {
+		this.props.events.forEach((event) => {
 			if (event.title.indexOf(this.props.filterText) === -1)
 				return;
-			rows.push(<EventRow event={event} key={event.title} />)
+			rows.push(<EventRow event={event} key={event.pk} />)
 		});
-		
 		return (
 			<div>
-			I am getting rendered
 			{rows}
 			</div>
 		);
@@ -160,7 +156,7 @@ class EventFilterTable extends React.Component {
 					onFilterTextInput={this.handleFilterTextInput}
 				/>
 				<EventTable
-					events={this.state.events}
+					events={this.props.events}
 					filterText={this.state.filterText}
 				/>
 			</div>
