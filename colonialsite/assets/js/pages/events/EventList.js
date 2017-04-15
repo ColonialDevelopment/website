@@ -26,11 +26,22 @@ var EventList = React.createClass({
             datatype: 'json',
             cache: false,
             success: function(data) {
-                this.setState({data:data.results});
+                this.setState({data:data.results})
                 this.updateFilters(this.state.types);
                 this.updateSort("Date");
             }.bind(this)
         })
+    },
+
+    isFuture: function(event){
+        var now = new Date();
+        var date = new Date(event.start_date);
+        return date > now;
+    },
+    changeExcludePast: function(e){
+        this.setState({excludePast: e.target.checked},
+            () => this.updateFilters(this.state.types)
+            );
     },
 
     getInitialState: function() {
@@ -49,6 +60,7 @@ var EventList = React.createClass({
             {id:"Category", checked:false},
             {id:"Location", checked:false}
             ],
+            excludePast:true
         }
     },
 
@@ -68,10 +80,11 @@ var EventList = React.createClass({
                     return event_type.id === event.category;
                 });
                 if (hits.length > 0) {
-                    events_selected.push(event);
+                    if (!this.state.excludePast || this.isFuture(event))
+                        events_selected.push(event);
                 }
                 return events_selected;
-            }, [])});
+            }.bind(this), [])});
     },
     updateSort: function(sortType){
         var sortFunction;
@@ -122,7 +135,9 @@ var EventList = React.createClass({
                                             types={this.state.types}
                                             updateFilteredList={this.updateFilters}
                                             updateSort={this.updateSort}
-                                            sortTypes={this.state.sortTypes} />
+                                            sortTypes={this.state.sortTypes}
+                                            excludePast={this.state.excludePast}
+                                            changeExcludePast={this.changeExcludePast} />
                     </div>
                 </div>
                )

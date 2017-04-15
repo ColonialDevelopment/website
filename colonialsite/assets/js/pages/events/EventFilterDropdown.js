@@ -32,7 +32,10 @@ class EventFilterDropdown extends React.Component{
 
 		return(
 			<DropdownButton id="Filter Selection" title={<Glyphicon glyph="filter"/>}>
-			{checks}	
+			{checks}
+			<MenuItem key="Exclude Past"><input type="checkbox" checked={this.props.excludePast} onChange={this.props.changeExcludePast}/>
+					Exclude Past
+			</MenuItem>	
 			</DropdownButton>	
 		)
 	}

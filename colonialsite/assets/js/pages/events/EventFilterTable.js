@@ -159,9 +159,12 @@ class EventFilterTable extends React.Component {
 						onFilterTextInput={this.handleFilterTextInput}
 					/>
 					<span className="input-group-btn">
-					<EventFilterDropdown types={this.props.types} updateFilteredList={this.props.updateFilteredList} />
+					<EventFilterDropdown types={this.props.types} 
+										 updateFilteredList={this.props.updateFilteredList}
+										 excludePast={this.props.excludePast}
+                                         changeExcludePast={this.props.changeExcludePast} />
 					</span>
-					<span className="input-group-btn" title="Select Sort">
+					<span className="input-group-btn">
 					<EventSortSelect sortTypes={this.props.sortTypes} updateSort={this.props.updateSort} />
 					</span>
 				</div>
