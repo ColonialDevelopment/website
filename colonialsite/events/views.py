@@ -14,8 +14,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 def index(request):
     title = "Events Page"
     template = 'events/index.html'
-    component = 'events.js'
-
+    component = 'events.entry.js'
 
     context = {
             'title': title,
