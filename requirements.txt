@@ -1,5 +1,4 @@
 #infrastructure
-python == 2.7.13
 Django >= 1.8.12
 djangorestframework >= 3.0
 django-cas-client == 1.2.0
