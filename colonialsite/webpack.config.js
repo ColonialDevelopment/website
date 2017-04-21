@@ -6,14 +6,12 @@ module.exports = {
     context: __dirname,
     watch: true,
     entry: [
-        'webpack-dev-server/client?http://localhost:3000',
-        'webpack/hot/only-dev-server',
-        './assets/js/pages/events/events',
+        './assets/js/pages/menus/menus',
     ],
 
     output: {
         path: path.resolve('./assets/bundles/'),
-        filename: 'events.js',
+        filename: 'menus.js',
         publicPath: 'http://localhost:3000/assets/bundles/',
     },
 

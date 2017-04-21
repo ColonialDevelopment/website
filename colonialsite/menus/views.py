@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import coloauth as accounts
-from menus.models import Menu, Dish, getMealList
-from menus.serializers import MenuSerializer, DishSerializer
+from menus.models import Menu, Dish, Rating, getMealList
+from menus.serializers import MenuSerializer, DishSerializer, RatingSerializer
 
 from rest_framework import viewsets
 
@@ -42,3 +42,7 @@ class DishViewSet(viewsets.ModelViewSet):
     """
     queryset = Dish.objects.all().order_by('name')
     serializer_class = DishSerializer
+
+class RatingViewSet(viewsets.ModelViewSet):
+    queryset = Rating.objects.all().order_by('value')
+    serializer_class = RatingSerializer

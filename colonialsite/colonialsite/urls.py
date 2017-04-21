@@ -22,9 +22,7 @@ import menus.views
 router = routers.DefaultRouter()
 router.register(r'api/menus', menus.views.MenuViewSet)
 router.register(r'api/dishes', menus.views.DishViewSet)
-router.register(r'api/ratings', menus.views.DishViewSet)
-
-
+router.register(r'api/ratings', menus.views.RatingViewSet)
 urlpatterns = [
     url(r'^accounts/', include('coloauth.urls')),
     url(r'^admin/', admin.site.urls),

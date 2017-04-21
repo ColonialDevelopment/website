@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 MEAL_CHOICES = (
             ('Breakfast', 'Breakfast'),
@@ -9,19 +10,30 @@ MEAL_CHOICES = (
             ('Brunch', 'Brunch'),
             ('Dinner', 'Dinner'),
     )
-
+PERMISSION_CHOICES = (
+        ('NG', 'No Guests or Meal Exchanges'),
+        ('NME', 'No Meal Exchanges'),
+        ('SGO', 'Sophomore Guests Only'),
+        ('NTO', 'No Boxes for Take-out'),
+        ('ALL', 'Guests and Meal Exchanges Allowed')
+    )
 
 # Create your models here.
-
-class Dish(models.Model):
-    name = models.CharField(max_length=50)
-    rating = models.FloatField(default=0.0)
-    reviewingUsers = models.ManyToManyField(User, blank=True)
 
 class Menu(models.Model):
     date = models.DateField('meal date')
     meal = models.CharField(max_length=10, choices=MEAL_CHOICES)
-    dishes = models.ManyToManyField(Dish, blank=True)
+    meal_permissions = models.CharField(max_length=10, choices=PERMISSION_CHOICES, default="ALL")
+
+class Dish(models.Model):
+    menus = models.ManyToManyField(Menu, blank=False)
+    name = models.CharField(max_length=50)
+
+class Rating(models.Model):
+    dish = models.ForeignKey(Dish)
+    reviewingUser = models.OneToOneField(User, blank=True)
+    value = models.FloatField(default=0.0, 
+                              validators=[MinValueValidator(0.0), MaxValueValidator(5.0)])
 
 def getMealList(date):
     if date.weekday() > 4:
