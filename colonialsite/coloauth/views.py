@@ -1,18 +1,14 @@
 # Authentication views
 # Author: DG Kim
 
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.template import loader
-from django.shortcuts import render, redirect, render_to_response
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from .forms import ColoRegistrationForm
+#from .forms import ColoRegistrationForm
 from django.template.context_processors import csrf
-from dashboard import views as dash_views
+#from dashboard import views as dash_views
 from datetime import datetime
-
-import hashlib, random
-from base64 import b64encode
-import requests
 
 from django.conf import settings
 
