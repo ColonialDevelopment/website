@@ -10,11 +10,13 @@ class Member(models.Model):
         ('Social Chair', 'Social Chair'),
         ('Treasurer', 'Treasurer'),
         ('House Manager', 'House Manager'),
-        ('Beverage Chair', 'IM Chair'),
-        ('Community Chair', 'Publicity Chair'),
+        ('Beverage Chair', 'Beverage Chair'),
+        ('IM Chair', 'IM Chair'),
+        ('Community Chair', 'Community Chair'),
+        ('Publicity Chair', 'Publicity Chair'),
         ('Assistant Social Chair', 'Assistant Social Chair'),
         ('Sophomore Representative', 'Sophomore Representative'),
-        ('Co-Finance Chair', 'Co-Finance Chair'),
+        ('Finance Chair', 'Finance Chair'),
         ('Colonial Development Lead', 'Colonial Development Lead')
     )
 

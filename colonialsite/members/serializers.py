@@ -4,4 +4,7 @@ from members.models import Member
 class MemberSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Member
-		fields = ('pk', 'officer_pos', 'birthday', 'class_year', 'dorm', 'room_num', 'bio')
+		fields = '__all__'
+		read_only_fields = ('name', 'netid', 'birthday', 'class_year', 'major',
+						'dorm', 'room_num', 'email', 'hometown',)
+
