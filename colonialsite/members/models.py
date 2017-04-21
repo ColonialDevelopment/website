@@ -1,9 +1,7 @@
-from __future__ import unicode_literals
-
 from django.db import models
-from django import forms
-from django.contrib.auth.models import User
+from django.utils.encoding import python_2_unicode_compatible
 
+@python_2_unicode_compatible
 class Member(models.Model):
 
     OFFICER_CHOICES = (
@@ -32,3 +30,6 @@ class Member(models.Model):
     email           = models.EmailField()
     hometown        = models.CharField(max_length = 50)
     bio             = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
