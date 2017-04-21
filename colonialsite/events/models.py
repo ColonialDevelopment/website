@@ -28,6 +28,7 @@ class Event(models.Model):
 		('Movie Room', 'Movie Room'),
 		('Taproom', 'Taproom'),
 		('Colonial', 'Colonial'),
+		('Other', 'Other (See Description)'),
 	)
 
 	CATEGORY_CHOICES = (
