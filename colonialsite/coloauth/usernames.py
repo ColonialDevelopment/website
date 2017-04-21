@@ -1,12 +1,17 @@
 USER_LIST = [
 	'nyang',
 	'anniec',
-	'jasonfu',
 	'juliez', 
 	'junghwan',
 	'bwzhu', 
 	'ninaw',
 	'zyfan',
 	'ruchames',
-	'sjiao'
+	'sjiao',
+	'mblucas',
+	'fukatsu',
+	'afuente',
+	'jcova',
+	'hshwang',
+	'tianayz',
 ]

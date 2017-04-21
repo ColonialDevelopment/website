@@ -23,7 +23,7 @@ MEDIA_URL = '/media/'
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '+t7jc!h^o)^%hhw7wq&!n_82ja5v7y^1dvy7o$z=vm6=n93_-4'
+SECRET_KEY = 'gitignored for security purposes'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -147,6 +147,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 STATICFILES_DIRS = [
         os.path.join(BASE_DIR, 'assets'),
 ]
@@ -161,3 +162,4 @@ WEBPACK_LOADER = {
 TIGERBOOK_LOGIN = 'nyang+colonialsite'
 TIGERBOOK_PW = '0918fc61e5849654ebde7f06d74d891f'
 
+ALLOWED_HOSTS=['52.32.49.7', '127.0.0.1', 'localhost']
