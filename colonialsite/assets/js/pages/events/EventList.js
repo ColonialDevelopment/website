@@ -1,6 +1,7 @@
 import React from 'react';
 import Event from './Event.js';
 import EventFilterTable from './EventFilterTable.js';
+import EventDetail from './EventDetail';
 
 function sortByDate(a, b){
     a = new Date(a.start_date);
@@ -45,7 +46,7 @@ var EventList = React.createClass({
     },
 
     getInitialState: function() {
-        return {data: [], filtered_data:[], 
+        return {data: [], filtered_data:[],
             types:
             [
             {id:"Semiformal", selected:true},
@@ -69,12 +70,12 @@ var EventList = React.createClass({
         setInterval(this.loadContentFromServer,
             this.props.pollInterval)
     },
-    updateFilters: function(types) { 
+    updateFilters: function(types) {
         //Types selected is a list of all the types of events that we want to include in the filtered_data
         var types_selected = types.filter(function (type){
             return type.selected;
         });
-        this.setState({filtered_data: 
+        this.setState({filtered_data:
             this.state.data.reduce(function(events_selected, event){
                 var hits = types_selected.filter(function(event_type){
                     return event_type.id === event.category;
@@ -126,6 +127,9 @@ var EventList = React.createClass({
             this.state.filtered_data.sort(sortFunction)
         });
     },
+    renderDetail: function(id) {
+      this.setState({event: this.state.filtered_data.find(event => event.pk == id)})
+    },
     render: function() {
         return (
                 <div>
@@ -137,7 +141,11 @@ var EventList = React.createClass({
                                             updateSort={this.updateSort}
                                             sortTypes={this.state.sortTypes}
                                             excludePast={this.state.excludePast}
-                                            changeExcludePast={this.changeExcludePast} />
+                                            changeExcludePast={this.changeExcludePast}
+                                            renderDetail={this.renderDetail} />
+                    </div>
+                    <div className="container col-lg-6 hidden-md hidden-sm hidden-xs">
+                      <EventDetail activeEvent={this.state.event} />
                     </div>
                 </div>
                )

@@ -4,7 +4,7 @@ import { Panel } from 'react-bootstrap';
 var Event = React.createClass({
 	render: function(){
 		return (
-				<Panel header={this.props.date}>
+				<Panel onClick={() => {this.props.onClick(this.props.id)}} header={this.props.date}>
                        <span>{this.props.name}</span>
                 </Panel>
                )
