@@ -2,4 +2,6 @@ import csv
 
 with open('./coloauth/members.csv', 'rb') as f:
 	reader = csv.reader(f, delimiter=',', quotechar='"')
-	USER_LIST = [row[1] for row in reader]
+	header = [item.lower() for item in reader.next()]
+	index = header.index('netid')
+	USER_LIST = [row[index] for row in reader]
