@@ -34,3 +34,4 @@ _testmain.go
 
 # mac ds_store file unncessary
 .DS_Store
+webpack-stats.json

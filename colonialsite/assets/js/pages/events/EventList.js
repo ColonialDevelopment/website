@@ -54,6 +54,7 @@ var EventList = React.createClass({
             {id:"Other", selected:true},
             {id:"Language Table", selected:true},
             {id:"Sophomore Dinner", selected:true},
+            {id:"Study Break", selected:true}
             ],
             sortTypes:
             [
