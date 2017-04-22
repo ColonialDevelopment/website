@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from django import forms
+import re
 
 @python_2_unicode_compatible
 class Member(models.Model):
@@ -35,3 +37,29 @@ class Member(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class MemberForm(forms.ModelForm):
+    class Meta:
+        model = Member
+        fields = ['name', 'netid', 'pref_name', 'officer_pos', 'birthday', 'class_year',
+        'major', 'dorm', 'room_num', 'email', 'hometown', 'bio']
+
+    name = forms.CharField(disabled=True, required=False)
+    netid = forms.CharField(disabled=True, required=False)
+    pref_name = forms.CharField(required=False, label="Preferred Name")
+    officer_pos = forms.CharField(disabled=True, required=False, label = "Officer Position")
+    birthday = forms.DateField(required=False)
+    class_year = forms.CharField(disabled=True, required=False)
+    major = forms.CharField(disabled=True, required=False)
+    dorm = forms.CharField(disabled=True, required=False)
+    room_num = forms.CharField(disabled=True, required=False, label = "Room Number")
+    email = forms.CharField(disabled=True, required=False)
+    hometown = forms.CharField(disabled=True, required=False)
+    bio = forms.CharField(required=False, widget=forms.Textarea)
+
+    def clean(self):
+        super(MemberForm, self).clean() # copied from events so not sure if this is right
+        preferred = self.cleaned_data.get('pref_name')
+        bday = self.cleaned_data.get('birthday')
+        bio = self.cleaned_data.get('bio')
