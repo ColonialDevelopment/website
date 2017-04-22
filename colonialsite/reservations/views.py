@@ -26,7 +26,7 @@ def view(request, reservation_id):
     except Reservation.DoesNotExist:
         raise Http404("Reservation does not exist.")
 
-    if not request.user == reservation.requestor:
+    if not request.user == reservation.requester:
         if not reservation.approval == "Approved":
             return HttpResponse("You may not view a non-approved reservation that is not yours.")
 
