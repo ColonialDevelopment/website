@@ -1,5 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MenuDisplay from './MenuDisplay.js';
+import MenuInputDummyContainer from './MenuInputDummyContainer.js';
 
-ReactDOM.render(<EventList url='/api/menus' pollInterval={100000}/>, window.react_mount)
+ReactDOM.render(<MenuInputDummyContainer url='/api/dishes' pollInterval={100000}/>, window.react_mount)

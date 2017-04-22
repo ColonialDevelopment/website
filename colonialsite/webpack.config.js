@@ -11,7 +11,7 @@ module.exports = {
 
     output: {
         path: path.resolve('./assets/bundles/'),
-        filename: 'menus.js',
+        filename: 'menus.entry.js',
         publicPath: 'http://localhost:3000/assets/bundles/',
     },
 

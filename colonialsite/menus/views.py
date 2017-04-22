@@ -2,20 +2,27 @@ from django.shortcuts import render
 import coloauth as accounts
 from menus.models import Menu, Dish, Rating, getMealList
 from menus.serializers import MenuSerializer, DishSerializer, RatingSerializer
+from django.contrib.auth.decorators import login_required
 
 from rest_framework import viewsets
 
 import datetime
 # Create your views here.
 
+@login_required
 def index(request):
-    if request.user.is_authenticated():
-        context = {
-                'date': datetime.datetime.now(),
-                }
-        return render(request, 'menus/index.html', context)
-    else:
-        return redirect('coloauth:login_page')
+    title = "Menus"
+    template = 'menus/index.html'
+    component = 'menus.entry.js'
+
+
+    context = {
+            'title': title,
+            'component': component,
+            }
+
+    return render(request, template, context)
+
 
 def menu_entry_page(request):
     #if request.user.is_staff:

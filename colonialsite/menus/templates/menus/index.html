@@ -1,5 +1,11 @@
 {% extends 'dashboard/index.html' %}
 
 {% block 'body' %}
-Menus
+<div id="react"></div>
+    <script>
+        window.react_mount = document.getElementById('react');
+    </script>
+
+    <!-- Render each template with a path to the component script -->
+    <script src="/static/bundles/{{component}}"></script>
 {% endblock %}
