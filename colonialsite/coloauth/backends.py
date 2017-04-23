@@ -48,7 +48,6 @@ def makemember(username):
 	'X-WSSE': 'UsernameToken Username="%s", PasswordDigest="%s", Nonce="%s", Created="%s"' % (username, generated_digest, nonce, created)
 	}
 	r = requests.get(url, headers=headers).json()
-	print(headers)
 
 	newmember = Member.objects.create(
 		name 		= r['full_name'],
