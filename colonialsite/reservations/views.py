@@ -38,7 +38,7 @@ def request(request):
         form = ReservationForm(request.POST)
         if form.is_valid():
             new_reservation = form
-            new_reservation.instance.requestor = request.user
+            new_reservation.instance.requester = request.user
             new_reservation.instance.approval = 'Submitted'
             new_reservation.instance.submit_date = datetime.datetime.now()
             new_reservation.save()

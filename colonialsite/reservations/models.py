@@ -27,6 +27,7 @@ class Reservation(models.Model):
     )
 
     room        = models.CharField(max_length = 10, choices = ROOM_CHOICES)
+    title       = models.CharField(max_length = 30, blank=True)
     start_date  = models.DateTimeField('start date/time')
     end_date    = models.DateTimeField('end date/time')
     description = models.TextField()
@@ -48,12 +49,13 @@ def time_overlap(start_1, end_1, start_2, end_2):
 class ReservationForm(forms.ModelForm):
     class Meta:
         model = Reservation
-        fields = ['room', 'start_date', 'end_date', 'description',]
+        fields = ['room', 'title', 'start_date', 'end_date', 'description',]
 
     def clean(self):
         super(ReservationForm, self).clean()
         end = self.cleaned_data.get('end_date')
         start = self.cleaned_data.get('start_date')
+        title = self.cleaned_data.get('title')
         rm = self.cleaned_data.get('room')
         descr = self.cleaned_data.get('description')
         reservations = Reservation.objects.filter(room = rm, approval = "Approved")
@@ -61,7 +63,7 @@ class ReservationForm(forms.ModelForm):
         # check non-null
         # I shouldn't have to manually do this
         if rm == None or start == None or end == None or descr == None:
-            raise forms.ValidationError("All fields are required")
+            raise forms.ValidationError("Required field is currently blank")
 
         # check if start is in the future
         if start < timezone.now():
