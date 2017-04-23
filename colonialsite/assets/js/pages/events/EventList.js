@@ -28,7 +28,7 @@ var EventList = React.createClass({
             cache: false,
             success: function(data) {
                 this.setState({data:data.results})
-                this.updateFilters(this.state.types);
+                this.updateFilters(this.state.types, true);
                 if (this.state.filtered_data !== [])
                     this.setState({event:this.state.filtered_data[0]})
                 this.updateSort("Date");
@@ -41,30 +41,26 @@ var EventList = React.createClass({
         var date = new Date(event.start_date);
         return date > now;
     },
-    changeExcludePast: function(e){
-        this.setState({excludePast: e.target.checked},
-            () => this.updateFilters(this.state.types)
-            );
-    },
 
     getInitialState: function() {
         return {data: [], filtered_data:[],
             types:
             [
-            {id:"Semiformal", selected:true},
+            {id:"IMs", selected:true},
             {id:"Friday Party", selected:true},
-            {id:"Other", selected:true},
-            {id:"Language Table", selected:true},
+            {id:"Semiformal", selected:true},
+            {id:"Study Break", selected:true},
             {id:"Sophomore Dinner", selected:true},
-            {id:"Study Break", selected:true}
+            {id:"Language Table", selected:true},
+            {id:"Other", selected:true}
             ],
             sortTypes:
             [
-            {id:"Date", checked:true},
-            {id:"Category", checked:false},
-            {id:"Location", checked:false}
+            {id:"Date"},
+            {id:"Category"},
+            {id:"Location"}
             ],
-            excludePast:true
+            defaultSort:"Date"
         }
     },
 
@@ -73,7 +69,7 @@ var EventList = React.createClass({
         setInterval(this.loadContentFromServer,
             this.props.pollInterval)
     },
-    updateFilters: function(types) {
+    updateFilters: function(types, excludePast) {
         //Types selected is a list of all the types of events that we want to include in the filtered_data
         var types_selected = types.filter(function (type){
             return type.selected;
@@ -84,7 +80,7 @@ var EventList = React.createClass({
                     return event_type.id === event.category;
                 });
                 if (hits.length > 0) {
-                    if ( (!this.state.excludePast || this.isFuture(event)) && event.status === "Open")
+                    if ((!excludePast || this.isFuture(event)) && event.status === "Open")
                         events_selected.push(event);
                 }
                 return events_selected;
@@ -95,36 +91,12 @@ var EventList = React.createClass({
         switch(sortType){
             case "Category":
                 sortFunction = sortByType;
-                this.setState({
-                    sortTypes:
-                    [
-                    {id:"Date", checked:false},
-                    {id:"Category", checked:true},
-                    {id:"Location", checked:false}
-                    ]
-                });
                 break;
             case "Location":
                 sortFunction = sortByLocation;
-                this.setState({
-                    sortTypes:
-                    [
-                    {id:"Date", checked:false},
-                    {id:"Category", checked:false},
-                    {id:"Location", checked:true}
-                    ]
-                });
                 break;
             default:
                 sortFunction = sortByDate;
-                this.setState({
-                    sortTypes:
-                    [
-                    {id:"Date", checked:true},
-                    {id:"Category", checked:false},
-                    {id:"Location", checked:false}
-                    ]
-                });
         }
         this.setState({filtered_data:
             this.state.filtered_data.sort(sortFunction)
@@ -143,10 +115,9 @@ var EventList = React.createClass({
                                             updateFilteredList={this.updateFilters}
                                             updateSort={this.updateSort}
                                             sortTypes={this.state.sortTypes}
-                                            excludePast={this.state.excludePast}
-                                            changeExcludePast={this.changeExcludePast}
                                             renderDetail={this.renderDetail} 
-                                            selected_event={this.state.event}/>
+                                            selected_event={this.state.event}
+                                            defaultSort={this.state.defaultSort} />
                     </div>
                     <div className="container col-lg-6 hidden-md hidden-sm hidden-xs">
                       <EventDetail activeEvent={this.state.event} />

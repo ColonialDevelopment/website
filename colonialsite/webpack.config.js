@@ -10,11 +10,13 @@ module.exports = {
         /*'./assets/js/pages/events/events',*/
         {
             events: './assets/js/pages/events/events'
+            /*menus: './assets/js/pages/menus/menus'*/
         },
 
     output: {
         path: path.resolve('./assets/bundles/'),
-        filename: '[name].entry.js',
+        filename: '[name]-[hash].js',
+        publicPath:'http://localhost:3000/bundles/js'
     },
 
     plugins: [

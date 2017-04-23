@@ -104,7 +104,7 @@ class EventTable extends React.Component {
 		var rows = [];
 		this.props.events.forEach((event) => {
 			var selected= (this.props.event===event);
-			if (event.title.indexOf(this.props.filterText) === -1)
+			if (!(event.title.toLowerCase()).includes(this.props.filterText.toLowerCase()))
 				return;
 			rows.push(<EventRow renderDetail={this.props.renderDetail} event={event} key={event.pk} selected={selected}/>)
 		});
@@ -167,12 +167,10 @@ class EventFilterTable extends React.Component {
 					/>
 					<span className="input-group-btn">
 					<EventFilterDropdown types={this.props.types}
-										 updateFilteredList={this.props.updateFilteredList}
-										 excludePast={this.props.excludePast}
-                                         changeExcludePast={this.props.changeExcludePast} />
+										 updateFilteredList={this.props.updateFilteredList} />
 					</span>
 					<span className="input-group-btn">
-					<EventSortSelect sortTypes={this.props.sortTypes} updateSort={this.props.updateSort} />
+					<EventSortSelect sortTypes={this.props.sortTypes} defaultSort={this.props.defaultSort} updateSort={this.props.updateSort} />
 					</span>
 				</div>
 				<br></br>
