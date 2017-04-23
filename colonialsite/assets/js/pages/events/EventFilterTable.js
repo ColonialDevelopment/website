@@ -89,6 +89,7 @@ class EventRow extends React.Component {
 					  date={getDate(this.props.event.start_date)}
 						description={this.props.event.description}
 						id={this.props.event.pk}
+						selected={this.props.selected}
 					  key={event.pk} />
 		)
 	}
@@ -102,9 +103,10 @@ class EventTable extends React.Component {
 	render() {
 		var rows = [];
 		this.props.events.forEach((event) => {
+			var selected= (this.props.event===event);
 			if (event.title.indexOf(this.props.filterText) === -1)
 				return;
-			rows.push(<EventRow renderDetail={this.props.renderDetail} event={event} key={event.pk} />)
+			rows.push(<EventRow renderDetail={this.props.renderDetail} event={event} key={event.pk} selected={selected}/>)
 		});
 		return (
 			<div className="scroll-container">
@@ -178,6 +180,7 @@ class EventFilterTable extends React.Component {
 					renderDetail={this.props.renderDetail}
 					events={this.props.events}
 					filterText={this.state.filterText}
+					event={this.props.selected_event}
 				/>
 			</div>
 		);

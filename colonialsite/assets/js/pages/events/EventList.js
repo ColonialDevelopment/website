@@ -29,6 +29,8 @@ var EventList = React.createClass({
             success: function(data) {
                 this.setState({data:data.results})
                 this.updateFilters(this.state.types);
+                if (this.state.filtered_data !== [])
+                    this.setState({event:this.state.filtered_data[0]})
                 this.updateSort("Date");
             }.bind(this)
         })
@@ -136,14 +138,15 @@ var EventList = React.createClass({
                 <div>
                     <div className="container col-md-12 col-sm-12 col-xs-12 col-lg-6">
                      <div className='scroll-container-header border-bottom-1'> Events: </div>
-                        <EventFilterTable events={this.state.filtered_data}
+                        <EventFilterTable   events={this.state.filtered_data}
                                             types={this.state.types}
                                             updateFilteredList={this.updateFilters}
                                             updateSort={this.updateSort}
                                             sortTypes={this.state.sortTypes}
                                             excludePast={this.state.excludePast}
                                             changeExcludePast={this.changeExcludePast}
-                                            renderDetail={this.renderDetail} />
+                                            renderDetail={this.renderDetail} 
+                                            selected_event={this.state.event}/>
                     </div>
                     <div className="container col-lg-6 hidden-md hidden-sm hidden-xs">
                       <EventDetail activeEvent={this.state.event} />

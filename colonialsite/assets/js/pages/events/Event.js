@@ -3,11 +3,22 @@ import { Panel } from 'react-bootstrap';
 
 var Event = React.createClass({
 	render: function(){
-		return (
-				<Panel onClick={() => {this.props.onClick(this.props.id)}} header={this.props.date}>
-                       <span>{this.props.name}</span>
-                </Panel>
-               )
+		if (this.props.selected){
+			console.log("selected");
+			return(
+					<Panel onClick={() => {this.props.onClick(this.props.id);}} header={this.props.date} style={{backgroundColor:"#DEF1DE"}}>
+	                       <span>{this.props.name}</span>
+	                </Panel>
+	               )
+		}
+		else
+		{
+			return (
+					<Panel onClick={() => {this.props.onClick(this.props.id);}} header={this.props.date}>
+	                       <span>{this.props.name}</span>
+	                </Panel>
+				)
+		}
 	}
 
 });
