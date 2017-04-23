@@ -1,5 +1,5 @@
 {% extends 'dashboard/index.html' %}
-
+{% load render_bundle from webpack_loader %}
 {% block 'body' %}
 <div id="react"></div>
     <script>
@@ -7,5 +7,5 @@
     </script>
 
     <!-- Render each template with a path to the component script -->
-    <script src="/static/bundles/{{component}}"></script>
+   {% render_bundle 'menus'%}
 {% endblock %}

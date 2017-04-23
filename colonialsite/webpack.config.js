@@ -5,13 +5,13 @@ var BundleTracker = require('webpack-bundle-tracker')
 module.exports = {
     context: __dirname,
     watch: true,
-    entry: [
-        './assets/js/pages/menus/menus',
-    ],
+    entry: {
+        menus:'./assets/js/pages/menus/menus',
+    },
 
     output: {
         path: path.resolve('./assets/bundles/'),
-        filename: 'menus.entry.js',
+        filename: '[name]-[hash].js',
         publicPath: 'http://localhost:3000/assets/bundles/',
     },
 
