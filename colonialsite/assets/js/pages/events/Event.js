@@ -11,5 +11,4 @@ var Event = React.createClass({
 	}
 
 });
-
 export default Event;

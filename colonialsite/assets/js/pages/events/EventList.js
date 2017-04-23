@@ -8,24 +8,13 @@ var EventList = React.createClass({
             datatype: 'json',
             cache: false,
             success: function(data) {
-                this.setState({data:data});
+                this.setState({data:data.results});
             }.bind(this)
         })
     },
 
     getInitialState: function() {
-        return {data: [{name:"Casual Wednesday", id:20}, {name:"Monday Madness", id:21},
-        {name:"Casual Wednesday", id:0}, {name:"Monday Madness", id:1},
-        {name:"Casual Wednesday", id:2}, {name:"Monday Madness", id:3},
-        {name:"Casual Wednesday", id:4}, {name:"Monday Madness", id:5},
-        {name:"Casual Wednesday", id:6}, {name:"Monday Madness", id:7},
-        {name:"Casual Wednesday", id:8}, {name:"Monday Madness", id:9},
-        {name:"Casual Wednesday", id:10}, {name:"Monday Madness", id:11},
-        {name:"Casual Wednesday", id:12}, {name:"Monday Madness", id:13},
-        {name:"Casual Wednesday", id:14}, {name:"Monday Madness", id:15},
-        {name:"Casual Wednesday", id:16}, {name:"Monday Madness", id:17},
-        {name:"Casual Wednesday", id:18}, {name:"Monday Madness", id:19},
-        ]}
+        return {data: []}
     },
 
     componentDidMount: function() {
@@ -36,8 +25,8 @@ var EventList = React.createClass({
     render: function() {
         if (this.state.data){
             var eventNodes = this.state.data.map(function(event){
-                return (<Event key={event.id}
-                               name={event.name}/>)
+                return (<Event key={event.pk}
+                               name={event.title}/>)
             })
         }
         return (
