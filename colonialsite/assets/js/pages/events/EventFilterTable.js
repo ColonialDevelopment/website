@@ -104,7 +104,7 @@ class EventTable extends React.Component {
 		var rows = [];
 		this.props.events.forEach((event) => {
 			var selected= (this.props.event===event);
-			if (event.title.indexOf(this.props.filterText) === -1)
+			if (!(event.title.toLowerCase()).includes(this.props.filterText.toLowerCase()))
 				return;
 			rows.push(<EventRow renderDetail={this.props.renderDetail} event={event} key={event.pk} selected={selected}/>)
 		});
