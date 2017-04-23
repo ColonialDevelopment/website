@@ -82,7 +82,7 @@ var EventList = React.createClass({
                     return event_type.id === event.category;
                 });
                 if (hits.length > 0) {
-                    if (!this.state.excludePast || this.isFuture(event))
+                    if ( (!this.state.excludePast || this.isFuture(event)) && event.status === "Open")
                         events_selected.push(event);
                 }
                 return events_selected;
