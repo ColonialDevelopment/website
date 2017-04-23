@@ -4,7 +4,6 @@ import { Panel } from 'react-bootstrap';
 var Event = React.createClass({
 	render: function(){
 		if (this.props.selected){
-			console.log("selected");
 			return(
 					<Panel onClick={() => {this.props.onClick(this.props.id);}} header={this.props.date} style={{backgroundColor:"#DEF1DE"}}>
 	                       <span>{this.props.name}</span>
