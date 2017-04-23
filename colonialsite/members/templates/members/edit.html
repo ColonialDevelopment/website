@@ -1,0 +1,17 @@
+{% extends "dashboard/index.html" %}
+{% block 'body' %}
+
+<div class="row">
+    <div class='text-center'>
+        <h1> Editing your info </h1>
+    </div>
+</div>
+
+<div class="row container">
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Confirm changes">
+    </form>
+</div>
+{% endblock %}

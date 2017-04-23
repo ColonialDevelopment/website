@@ -23,7 +23,7 @@ MEDIA_URL = '/media/'
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '+t7jc!h^o)^%hhw7wq&!n_82ja5v7y^1dvy7o$z=vm6=n93_-4'
+SECRET_KEY = 'gitignored for security purposes'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'dashboard.apps.DashboardConfig',
     'events.apps.EventsConfig',
     'menus.apps.MenusConfig',
+    'members.apps.MembersConfig',
     'webpack_loader',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cas',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -58,7 +60,16 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'cas.middleware.CASMiddleware',
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    #'cas.backends.CASBackend',
+    'coloauth.backends.RestrictedCASBackend',
+)
+
+CAS_SERVER_URL = 'https://fed.princeton.edu/cas/'
 
 REST_FRAMEWORK = {
         'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
@@ -116,7 +127,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Change default login page
-LOGIN_URL = '/accounts/login'
+LOGIN_URL = '/accounts/login/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
@@ -136,6 +147,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 STATICFILES_DIRS = [
         os.path.join(BASE_DIR, 'assets'),
 ]
@@ -146,3 +158,8 @@ WEBPACK_LOADER = {
             'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
             }
         }
+
+TIGERBOOK_LOGIN = 'nyang+colonialsite'
+TIGERBOOK_PW = '0918fc61e5849654ebde7f06d74d891f'
+
+ALLOWED_HOSTS=['52.32.49.7', '127.0.0.1', 'localhost']

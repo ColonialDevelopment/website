@@ -1,5 +1,4 @@
 from django.shortcuts import render
-import coloauth as accounts
 from menus.models import Menu, Dish, getMealList
 from menus.serializers import MenuSerializer, DishSerializer
 

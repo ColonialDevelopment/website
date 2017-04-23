@@ -10,7 +10,10 @@ from django.views.generic.dates import DayArchiveView, MonthArchiveView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
+
+from rest_framework import generics
 from .models import ReservationForm, Reservation
+from .serializers import ReservationSerializer
 
 @login_required
 def index(request):
@@ -23,7 +26,7 @@ def view(request, reservation_id):
     except Reservation.DoesNotExist:
         raise Http404("Reservation does not exist.")
 
-    if not request.user == reservation.requestor:
+    if not request.user == reservation.requester:
         if not reservation.approval == "Approved":
             return HttpResponse("You may not view a non-approved reservation that is not yours.")
 
@@ -70,3 +73,13 @@ class ReservationDayView(LoginRequiredMixin, DayArchiveView):
     make_object_list = True
     allow_empty = True
     allow_future = True
+
+# ----------------------------------
+
+class ReservationList(LoginRequiredMixin, generics.ListCreateAPIView):
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
+
+class ReservationDetail(LoginRequiredMixin, generics.RetrieveUpdateDestroyAPIView):
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
