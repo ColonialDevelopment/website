@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import coloauth as accounts
-from menus.models import Menu, Dish, Rating, getMealList
-from menus.serializers import MenuSerializer, DishSerializer, RatingSerializer
+from menus.models import MenuCategory, Menu, Dish, Rating, getMealList
+from menus.serializers import MenuCategorySerializer, MenuSerializer, DishSerializer, RatingSerializer
 from django.contrib.auth.decorators import login_required
 
 from rest_framework import viewsets
@@ -53,3 +53,7 @@ class DishViewSet(viewsets.ModelViewSet):
 class RatingViewSet(viewsets.ModelViewSet):
     queryset = Rating.objects.all().order_by('value')
     serializer_class = RatingSerializer
+
+class MenuCategoryViewSet(viewsets.ModelViewSet):
+    queryset = MenuCategory.objects.all().order_by('category')
+    serializer_class = MenuCategorySerializer

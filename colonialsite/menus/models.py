@@ -17,7 +17,13 @@ PERMISSION_CHOICES = (
         ('NTO', 'No Boxes for Take-out'),
         ('ALL', 'Guests and Meal Exchanges Allowed')
     )
-
+CATEGORY_CHOICES = (
+    ('Soups', 'Soups'),
+    ('Hot Line', 'Hot Line'),
+    ('On the Grill', 'On the Grill'),
+    ('On the Chafer', 'On the Chafer'),
+    ('Dessert', 'Dessert'),
+    )
 # Create your models here.
 
 class Menu(models.Model):
@@ -25,13 +31,38 @@ class Menu(models.Model):
     meal = models.CharField(max_length=10, choices=MEAL_CHOICES)
     meal_permissions = models.CharField(max_length=10, choices=PERMISSION_CHOICES, default="ALL")
 
+    def __str__(self):
+        return '%s %s' % (self.date, self.meal)
+
+class MenuCategory(models.Model):
+    menu = models.ForeignKey(Menu, blank=False)
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+
+    def __str__(self):
+        return '%s %s %s' % (self.menu.date, self.menu.meal, self.category)
+
 class Dish(models.Model):
-    menus = models.ManyToManyField(Menu, blank=False)
+    menus = models.ManyToManyField(MenuCategory, blank=False)
     name = models.CharField(max_length=50)
+    
+    allergens = models.CharField(max_length=20, blank=True)
+    vegetarian = models.BooleanField(default=False)
+    kosher_halal = models.BooleanField(default=False)
+    vegan = models.BooleanField(default=False)
+    dairy_free = models.BooleanField(default=False)
+    soy_free = models.BooleanField(default=False)
+    nut_free = models.BooleanField(default=False)
+
+    def __str__(self):
+        return '%s' % (self.name)
 
 class Rating(models.Model):
+    
+    class Meta:
+        unique_together = (('dish', 'reviewingUser'),)
+
     dish = models.ForeignKey(Dish)
-    reviewingUser = models.OneToOneField(User, blank=True)
+    reviewingUser = models.ForeignKey(User, blank=True)
     value = models.FloatField(default=0.0, 
                               validators=[MinValueValidator(0.0), MaxValueValidator(5.0)])
 
