@@ -4,17 +4,17 @@ var BundleTracker = require('webpack-bundle-tracker')
 
 module.exports = {
     context: __dirname,
-    watch: true,
-    entry: [
-        'webpack-dev-server/client?http://localhost:3000',
-        'webpack/hot/only-dev-server',
-        './assets/js/pages/events/events',
-    ],
+    entry: 
+        /*'webpack-dev-server/client?http://localhost:3000',
+        'webpack/hot/only-dev-server',*/
+        /*'./assets/js/pages/events/events',*/
+        {
+            events: './assets/js/pages/events/events'
+        },
 
     output: {
         path: path.resolve('./assets/bundles/'),
-        filename: 'events.js',
-        publicPath: 'http://localhost:3000/assets/bundles/',
+        filename: '[name].entry.js',
     },
 
     plugins: [

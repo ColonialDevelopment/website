@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django import forms
 from django.contrib.auth.models import User
+from django.utils.encoding import python_2_unicode_compatible
 
 import uuid, os
 
@@ -11,6 +12,7 @@ def get_file_path(instance, filename):
     filename = "%s-%s.%s" % (instance.title, uuid.uuid4(), ext)
     return os.path.join('event_uploads/', filename)
 
+@python_2_unicode_compatible
 class Event(models.Model):
 	STATUS_CHOICES = (
 		('Closed', 'Closed'),   # Viewable, closed to RSVPs
@@ -28,6 +30,7 @@ class Event(models.Model):
 		('Movie Room', 'Movie Room'),
 		('Taproom', 'Taproom'),
 		('Colonial', 'Colonial'),
+		('Other', 'Other (See Description)'),
 	)
 
 	CATEGORY_CHOICES = (
@@ -52,6 +55,10 @@ class Event(models.Model):
 	recurring	= models.BooleanField(default=False)
 	# image		= models.FilePathField(blank=True)
 	image 		= models.FileField(upload_to=get_file_path, blank=True)
+
+	def __str__(self):
+		return self.title
+
 
 class CreateForm(forms.ModelForm):
 	class Meta:

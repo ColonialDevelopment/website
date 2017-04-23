@@ -2,9 +2,14 @@ from django.contrib import admin
 from .models import Event
 
 class EventAdmin(admin.ModelAdmin):
-    fields = ['title', 'status', 'start_date', 'end_date', 'recurring',
-    		 'description', 'image', 'location', 'category', 'members']
-    list_display = ['title', 'start_date', 'status']
-    list_filter = ['start_date', 'status', 'recurring', 'location', 'category']
+	def attending_members_count(self, obj):
+		return obj.members.count()
+	attending_members_count.short_description = "Attending Members Count"
+
+	fields = ['title', 'status', 'start_date', 'end_date', 'recurring',
+			 'description', 'image', 'location', 'category', 'members',]
+	readonly_fields = ['members',]
+	list_display = ['title', 'start_date', 'status', 'attending_members_count']
+	list_filter = ['start_date', 'status', 'recurring', 'location', 'category']
 
 admin.site.register(Event, EventAdmin)
