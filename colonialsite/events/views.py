@@ -109,6 +109,27 @@ def cancel(request, event_id):
         event.members.remove(request.user)
     return HttpResponseRedirect(url)
 
+@login_required
+def api_rsvp(request, event_id):
+    try:
+        event = Event.objects.get(pk = event_id)
+    except Event.DoesNotExist:
+        raise Http404("Event does not exist.")
+
+    if request.user not in event.members.all():
+        event.members.add(request.user)
+    return HttpResponse("User added to RSVPs")
+
+@login_required
+def api_cancel(request, event_id):
+    try:
+        event = Event.objects.get(pk = event_id)
+    except Event.DoesNotExist:
+        raise Http404("Event does not exist.")
+
+    if request.user in event.members.all():
+        event.members.remove(request.user)
+    return HttpResponse("User removed from RSVPs")
 
 
 class EventListAll(LoginRequiredMixin, generics.ListAPIView):
