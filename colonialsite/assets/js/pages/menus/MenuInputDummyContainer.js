@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import MenuInput from './MenuInput.js';
+import Dish from './Dish.js';
 
 class MenuInputDummyContainer extends Component {
 	constructor(props) {
@@ -25,32 +26,21 @@ class MenuInputDummyContainer extends Component {
     }
 
     render() {
-    	return (
-    		<MenuInput dishes={this.state.data} />
-		)
+        var dishes = this.state.data.map(function(dish){
+            return (
+                <Dish   dish={dish}
+                        editable={true}
+                        ratable={true}
+                  />
+            );
+        })
 
-    	/*
-    	console.log("state in render");
-    	console.log(this.state);
-        if (this.state.data){
-            var eventNodes = this.state.data.map(function(dish){
-                return (
-                	<div>
-                		{dish.name}
-                	</div>
-        		)
-            })
-        }
-        return (
-                <div>
-                    <div className="container col-md-12 col-sm-12 col-xs-12 col-lg-6">
-                     <div className='scroll-container-header border-bottom-1'> Events: </div>
-                        <div className="scroll-container">
-                        {eventNodes}
-                        </div>
-                    </div>
-                </div>
-               )*/
+    	return (
+            <div>
+    		<MenuInput dishes={this.state.data} />
+            {dishes}
+            </div>
+		)
     }
 }
 

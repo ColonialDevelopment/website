@@ -1,7 +1,7 @@
 {% extends 'dashboard/index.html' %}
 {% load render_bundle from webpack_loader %}
 {% block 'body' %}
-<div id="react"></div>
+<div id="react">{% csrf_token %}</div>
     <script>
         window.react_mount = document.getElementById('react');
     </script>

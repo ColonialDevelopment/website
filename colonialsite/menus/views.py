@@ -54,6 +54,9 @@ class RatingViewSet(viewsets.ModelViewSet):
     queryset = Rating.objects.all().order_by('value')
     serializer_class = RatingSerializer
 
+    def perform_create(self, serializer):
+        new_rating = serializer.save(reviewingUser=self.request.user)
+        
 class MenuCategoryViewSet(viewsets.ModelViewSet):
     queryset = MenuCategory.objects.all().order_by('category')
     serializer_class = MenuCategorySerializer

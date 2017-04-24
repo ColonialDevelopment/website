@@ -64,7 +64,7 @@ class Rating(models.Model):
     dish = models.ForeignKey(Dish)
     reviewingUser = models.ForeignKey(User, blank=True)
     value = models.FloatField(default=0.0, 
-                              validators=[MinValueValidator(0.0), MaxValueValidator(5.0)])
+                              validators=[MinValueValidator(1.0), MaxValueValidator(5.0)])
 
 def getMealList(date):
     if date.weekday() > 4:
