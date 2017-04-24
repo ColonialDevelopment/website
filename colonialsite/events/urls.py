@@ -8,8 +8,10 @@ urlpatterns = [
     url(r'^create$', views.create, name = 'events_create'),
     #ex. /events/view/1
     url(r'^view/(?P<event_id>[0-9]+)$', views.view, name = 'events_view'),
-    url(r'^view/(?P<event_id>[0-9]+)/rsvp$', views.rsvp, name = 'events_rsvp'),
-    url(r'^view/(?P<event_id>[0-9]+)/cancel$', views.cancel, name = 'events_cancel'),
+    url(r'^view/(?P<event_id>[0-9]+)/rsvp$', views.rsvp),
+    url(r'^view/(?P<event_id>[0-9]+)/cancel$', views.cancel),
     url(r'^viewall$', views.EventListAll.as_view(), name = 'events_all'),
     url(r'^api/detail/(?P<pk>[0-9]+)$', views.EventDetail.as_view(), name = 'events_detail'),
+    url(r'^api/(?P<event_id>[0-9]+)/rsvp$', views.api_rsvp, name = 'events_rsvp'),
+    url(r'^api/(?P<event_id>[0-9]+)/cancel$', views.api_cancel, name = 'events_cancel'),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

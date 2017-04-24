@@ -2,7 +2,7 @@ from django.shortcuts import render
 import datetime
 
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.http import HttpResponse, HttpResponseRedirect, Http404, HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from .models import CreateForm, Event
 from events.serializers import EventSerializer
@@ -109,6 +109,33 @@ def cancel(request, event_id):
         event.members.remove(request.user)
     return HttpResponseRedirect(url)
 
+@login_required
+def api_rsvp(request, event_id):
+    try:
+        event = Event.objects.get(pk = event_id)
+    except Event.DoesNotExist:
+        raise Http404("Event does not exist.")
+
+    if event.status != 'Open':
+        return HttpResponseForbidden("Closed or Hidden Event")
+
+    if request.user not in event.members.all():
+        event.members.add(request.user)
+    return HttpResponse("User added to RSVPs")
+
+@login_required
+def api_cancel(request, event_id):
+    try:
+        event = Event.objects.get(pk = event_id)
+    except Event.DoesNotExist:
+        raise Http404("Event does not exist.")
+
+    if event.status != 'Open':
+        return HttpResponseForbidden("Closed or Hidden Event")
+
+    if request.user in event.members.all():
+        event.members.remove(request.user)
+    return HttpResponse("User removed from RSVPs")
 
 
 class EventListAll(LoginRequiredMixin, generics.ListAPIView):
