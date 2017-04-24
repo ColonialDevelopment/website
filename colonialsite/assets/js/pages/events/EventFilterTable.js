@@ -90,7 +90,8 @@ class EventRow extends React.Component {
 						description={this.props.event.description}
 						id={this.props.event.pk}
 						selected={this.props.selected}
-					  key={event.pk} />
+					 	key={this.props.event.pk}
+					 	category={this.props.event.category} />
 		)
 	}
 }

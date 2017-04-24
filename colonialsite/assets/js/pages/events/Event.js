@@ -5,7 +5,12 @@ var Event = React.createClass({
 	render: function(){
 		if (this.props.selected){
 			return(
-					<Panel onClick={() => {this.props.onClick(this.props.id);}} header={this.props.date} style={{backgroundColor:"#DEF1DE"}}>
+					<Panel onClick={() => {this.props.onClick(this.props.id);}} 
+						   header={<span>
+						   			<span>{this.props.date}</span>
+						   			<span style={{float:'right'}}>{this.props.category}</span>
+					   			   </span>} 
+			   			   style={{backgroundColor:"#DEF1DE"}}>
 	                       <span>{this.props.name}</span>
 	                </Panel>
 	               )
@@ -13,7 +18,10 @@ var Event = React.createClass({
 		else
 		{
 			return (
-					<Panel onClick={() => {this.props.onClick(this.props.id);}} header={this.props.date}>
+					<Panel onClick={() => {this.props.onClick(this.props.id);}} 
+						   header={<span>
+						   		<span>{this.props.date}</span>
+						   		<span style={{float:'right'}}>{this.props.category}</span></span>}>
 	                       <span>{this.props.name}</span>
 	                </Panel>
 				)
