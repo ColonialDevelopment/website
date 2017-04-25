@@ -37,10 +37,10 @@ _testmain.go
 # mac ds_store file unncessary
 .DS_Store
 
+media
 webpack-stats.json
 settings.py
 
 # server stuff
 *.log
 start_gunicorn.sh
-

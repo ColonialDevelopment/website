@@ -1,12 +1,13 @@
 {% extends "dashboard/index.html" %}
 {% load staticfiles %}
-
+{% load render_bundle from webpack_loader %}
 {% block title %}
 {{title}}
 {% endblock %}
 
 {% block style %}
 <link rel="stylesheet" type="text/css" href="/static/css/events/style.css" />
+<link rel="stylesheet" href="node_modules/react-star-rating/dist/css/react-star-rating.min.css" />
 {% endblock %}
 
 {% block 'body' %}
@@ -16,5 +17,6 @@
     </script>
 
     <!-- Render each template with a path to the component script -->
-    <script src="/static/bundles/{{component}}"></script>
-{% endblock %}
+    {% render_bundle 'events' %}
+    <!-- <script src="/static/bundles/{{component}}"></script>
+ -->{% endblock %}

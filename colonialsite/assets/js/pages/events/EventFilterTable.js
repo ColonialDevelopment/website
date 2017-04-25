@@ -89,7 +89,9 @@ class EventRow extends React.Component {
 					  date={getDate(this.props.event.start_date)}
 						description={this.props.event.description}
 						id={this.props.event.pk}
-					  key={event.pk} />
+						selected={this.props.selected}
+					 	key={this.props.event.pk}
+					 	category={this.props.event.category} />
 		)
 	}
 }
@@ -102,9 +104,10 @@ class EventTable extends React.Component {
 	render() {
 		var rows = [];
 		this.props.events.forEach((event) => {
-			if (event.title.indexOf(this.props.filterText) === -1)
+			var selected= (this.props.event===event);
+			if (!(event.title.toLowerCase()).includes(this.props.filterText.toLowerCase()))
 				return;
-			rows.push(<EventRow renderDetail={this.props.renderDetail} event={event} key={event.pk} />)
+			rows.push(<EventRow renderDetail={this.props.renderDetail} event={event} key={event.pk} selected={selected}/>)
 		});
 		return (
 			<div className="scroll-container">
@@ -165,12 +168,10 @@ class EventFilterTable extends React.Component {
 					/>
 					<span className="input-group-btn">
 					<EventFilterDropdown types={this.props.types}
-										 updateFilteredList={this.props.updateFilteredList}
-										 excludePast={this.props.excludePast}
-                                         changeExcludePast={this.props.changeExcludePast} />
+										 updateFilteredList={this.props.updateFilteredList} />
 					</span>
 					<span className="input-group-btn">
-					<EventSortSelect sortTypes={this.props.sortTypes} updateSort={this.props.updateSort} />
+					<EventSortSelect sortTypes={this.props.sortTypes} defaultSort={this.props.defaultSort} updateSort={this.props.updateSort} />
 					</span>
 				</div>
 				<br></br>
@@ -178,6 +179,7 @@ class EventFilterTable extends React.Component {
 					renderDetail={this.props.renderDetail}
 					events={this.props.events}
 					filterText={this.state.filterText}
+					event={this.props.selected_event}
 				/>
 			</div>
 		);
