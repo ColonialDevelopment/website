@@ -68,6 +68,18 @@ def edit(request):
             "bio": member.bio})
         return render(request, "members/edit.html", {'form': form})
 
+@login_required
+def index(request):
+    title = "Member Page"
+    template = 'members/index.html'
+
+    context = {
+            'title': title
+            }
+
+    return render(request, template, context)
+
+    
 # @login_required
 # def view(request, netid):
 #     try:

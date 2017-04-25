@@ -1,0 +1,22 @@
+{% extends "dashboard/index.html" %}
+{% load staticfiles %}
+{% load render_bundle from webpack_loader %}
+{% block title %}
+{{title}}
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="/static/css/members/style.css" />
+<link rel="stylesheet" href="/node_modules/react-star-rating/dist/css/react-star-rating.min.css" />
+{% endblock %}
+
+{% block 'body' %}
+<div id="react"></div>
+    <script>
+        window.react_mount = document.getElementById('react');
+    </script>
+
+    <!-- Render each template with a path to the component script -->
+    {% render_bundle 'members' %}
+    <!-- <script src="/static/bundles/{{component}}"></script>
+ -->{% endblock %}
