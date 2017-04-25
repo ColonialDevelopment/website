@@ -34,3 +34,4 @@ _testmain.go
 .DS_Store
 media
 webpack-stats.json
+settings.py

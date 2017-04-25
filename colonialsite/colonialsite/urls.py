@@ -17,13 +17,13 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from rest_framework import routers
-import menus.views
+from menus.views import MenuViewSet, DishViewSet, RatingViewSet, MenuCategoryViewSet
 
 router = routers.DefaultRouter()
-router.register(r'api/menus', menus.views.MenuViewSet)
-router.register(r'api/dishes', menus.views.DishViewSet)
-router.register(r'api/ratings', menus.views.RatingViewSet)
-router.register(r'api/menu_categories', menus.views.MenuCategoryViewSet)
+router.register(r'api/menus', MenuViewSet)
+router.register(r'api/dishes', DishViewSet)
+router.register(r'api/ratings', RatingViewSet)
+router.register(r'api/menu_categories', MenuCategoryViewSet)
 
 urlpatterns = [
     url(r'^accounts/', include('coloauth.urls')),
