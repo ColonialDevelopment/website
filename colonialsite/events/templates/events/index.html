@@ -1,6 +1,6 @@
 {% extends "dashboard/index.html" %}
 {% load staticfiles %}
-
+{% load render_bundle from webpack_loader %}
 {% block title %}
 {{title}}
 {% endblock %}
@@ -17,5 +17,6 @@
     </script>
 
     <!-- Render each template with a path to the component script -->
-    <script src="/static/bundles/{{component}}"></script>
-{% endblock %}
+    {% render_bundle 'events' %}
+    <!-- <script src="/static/bundles/{{component}}"></script>
+ -->{% endblock %}

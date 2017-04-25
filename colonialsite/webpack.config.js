@@ -9,7 +9,6 @@ module.exports = {
         menus:'./assets/js/pages/menus/menus',
         events:'./assets/js/pages/events/events'
     },
-
     output: {
         path: path.resolve('./assets/bundles/'),
         filename: '[name]-[hash].js',
