@@ -1,4 +1,6 @@
 import { Component } from 'react';
+import EventDetailModal from './EventDetailModal.js';
+import RSVPButton from './RSVPButton';
 
 class EventDetail extends Component {
   constructor(props){
@@ -18,7 +20,7 @@ class EventDetail extends Component {
 
   render() {
     if (this.props.activeEvent) {
-      const   { title, description, location } = this.props.activeEvent
+      const   { title, description, location, pk, rsvp_status, status } = this.props.activeEvent
       // If there is an image to display
       if (this.props.activeEvent.image) {
         return(
@@ -43,6 +45,11 @@ class EventDetail extends Component {
                     {description}
                   </p>
                 </div>
+                <RSVPButton eventId={pk}
+                            url={"/api/events/"}
+                            rsvp_status={rsvp_status}
+                            status={status}
+                            />
               </div>
               <div className="col-lg-4">
                 {this.renderImage()}
@@ -73,20 +80,25 @@ class EventDetail extends Component {
                 <p>
                   {description}
                 </p>
+                 <RSVPButton eventId={pk}
+                            url={"/api/events/"}
+                            rsvp_status={rsvp_status}
+                            status={status}
+                            />
               </div>
             </div>
           </div>
         )
       }
     }
-  else {
-    return(
-      <div>
-      <h2 style={{paddingTop: 10, paddingBottom: 10}}>Event Details</h2>
-      <p className="lead text-muted">Click an event to view its details</p>
-      </div>
-    )
-  }
+    else {
+      return(
+        <div>
+        <h2 style={{paddingTop: 10, paddingBottom: 10}}>Event Details</h2>
+        <p className="lead text-muted">Click an event to view its details</p>
+        </div>
+      )
+    }
   }
 }
 

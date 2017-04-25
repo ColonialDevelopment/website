@@ -9,7 +9,7 @@ class EventAdmin(admin.ModelAdmin):
 	fields = ['title', 'status', 'start_date', 'end_date', 'recurring',
 			 'description', 'image', 'location', 'category', 'members',]
 	readonly_fields = ['members',]
-	list_display = ['title', 'start_date', 'status', 'attending_members_count']
+	list_display = ['title', 'start_date', 'status', 'category', 'attending_members_count']
 	list_filter = ['start_date', 'status', 'recurring', 'location', 'category']
 
 admin.site.register(Event, EventAdmin)
