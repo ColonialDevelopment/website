@@ -15,15 +15,10 @@ class EditableTextBox extends Component{
 		this.state={
 			text:text
 		}
-		this.dataChanged = this.dataChanged.bind(this);
 	}
 
-	dataChanged(data){
-		this.setState({text:data.message});
-	}
 	render(){
 		return (<div className="container-fluid">
-			<form>
             <InlineEdit
               className={this.props.className}
               staticElement={this.props.staticElement}
@@ -35,11 +30,6 @@ class EditableTextBox extends Component{
               change={this.props.dataChanged}
               style={this.props.customStyle}
             />
-            <Button onClick={this.props.handleSubmit}
-            		>
-            		Update
-    		</Button>
-    		</form> 
         </div>)
 	}
 }
