@@ -1,5 +1,6 @@
 import {Component} from 'react';
 import InlineEdit from 'react-edit-inline';
+import {Button} from 'react-bootstrap';
 
 class EditableTextBox extends Component{
 	constructor(props){
@@ -18,11 +19,11 @@ class EditableTextBox extends Component{
 	}
 
 	dataChanged(data){
-		console.log(data);
 		this.setState({text:data.message});
 	}
 	render(){
 		return (<div className="container-fluid">
+			<form>
             <InlineEdit
               className={this.props.className}
               staticElement={this.props.staticElement}
@@ -31,9 +32,14 @@ class EditableTextBox extends Component{
               maxLength={this.props.maxLength}
               text={this.state.text}
               paramName="message"
-              change={this.dataChanged}
+              change={this.props.dataChanged}
               style={this.props.customStyle}
             />
+            <Button onClick={this.props.handleSubmit}
+            		>
+            		Update
+    		</Button>
+    		</form> 
         </div>)
 	}
 }

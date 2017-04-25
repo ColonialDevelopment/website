@@ -2,14 +2,54 @@ import {Component} from 'react';
 import {Panel, Image} from 'react-bootstrap';
 import InlineEdit from 'react-edit-inline';
 import EditableTextBox from './EditableTextBox';
+import Cookies from 'js-cookie';
 
 class Member extends Component{
 	constructor(props){
 		super(props);
 		this.state={
-			bio:this.props.member.bio
+			bio:this.props.member.bio,
+			changed:false
 		}
 	}
+
+	bio_data_changed(data){
+		this.setState({bio:data.message});
+
+		var csrftoken = Cookies.get('csrftoken');
+		var post_bio=
+		{
+			data:data.message
+		}
+		function csrfSafeMethod(method) {
+    	// these HTTP methods do not require CSRF protection
+   	 	return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+		}
+		$.ajaxSetup({
+    		beforeSend: function(xhr, settings) {
+    			if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            		xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        		}
+    		}
+		});
+		$.ajax({
+			context:this,
+			type:"POST",
+			url:"/api/members/bio",
+			datatype:'json',
+			contentType:'application/json',
+			data:JSON.stringify(data.message)
+		})
+		.done(function(){
+			console.log("Bio updated Successfully")
+		})
+		.fail(function(jqXHR, textStatus, errorThrown){
+			console.log(textStatus);
+			console.log(jqXHR);
+			console.log("API endpoint unimplemented")
+		})	
+	}
+
 	render(){
 		const {	name, 
 				netid, 
@@ -22,6 +62,21 @@ class Member extends Component{
 				pref_name,
 				birthday,
 				bio} = this.props.member
+
+		var bioNode = this.props.editable ? 
+	  									    (<EditableTextBox default_text={this.state.bio}
+															  key={"bio_text"}
+															  className={"p"}
+					              							  staticElement={"div"}
+												              editingElement={"textarea"}
+												              activeClassName={"form-control bio-input"}
+												              maxLength={2000}
+												              dataChanged={this.bio_data_changed.bind(this)}
+												              style={{font:15, height:"300px !important"}}
+															  handleSubmit={(data) => console.log(data)}
+															   />) 
+										: bio;
+
 		return (
 			<div className="container">
 				<div className="col-md-12 col-sm-12 col-lg-12 col-xs-12">
@@ -46,15 +101,9 @@ class Member extends Component{
 					</div>
 					<div className="col-sm-12 col-md-10 col-lg-10 col-xs-12">
 						<h2>Bio</h2>
-						<EditableTextBox  default_text={this.state.bio}
-										  key={"bio_text"}
-										  className={"p"}
-              							  staticElement={"div"}
-							              editingElement={"textarea"}
-							              activeClassName={"form-control bio-input"}
-							              maxLength={2000}
-							              style={{font:15, height:"300px !important"}}
-										   />
+						<div>
+						{bioNode}
+						</div>
 					</div>
 				</Panel>
 				</div>
