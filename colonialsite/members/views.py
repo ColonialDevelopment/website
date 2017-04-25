@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.shortcuts import render
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -65,7 +66,7 @@ def edit(request):
             "email": member.email,
             "hometown": member.hometown,
             "bio": member.bio})
-    return render(request, "members/edit.html", {'form': form})
+        return render(request, "members/edit.html", {'form': form})
 
 # @login_required
 # def view(request, netid):
