@@ -14,8 +14,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 def index(request):
     title = "Events Page"
     template = 'events/index.html'
-    component = 'events.js'
-
+    component = 'events.entry.js'
 
     context = {
             'title': title,
@@ -44,8 +43,10 @@ def view(request, event_id):
             return render(request, 'events/view_notgoing_closed.html', {'event': event, })
 
     else:
-        # Something here about officer permissions
-        return HttpResponse("This is a hidden event.")
+        if request.user.has_perm('events.add_event'):
+            return HttpResponse("You are an officer viewing a hidden event.")
+        else:
+            return HttpResponse("This is a hidden event.")
 
 
 
@@ -110,6 +111,10 @@ def cancel(request, event_id):
 
 
 
-class EventListAll(LoginRequiredMixin, generics.ListCreateAPIView):
+class EventListAll(LoginRequiredMixin, generics.ListAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+
+class EventDetail(LoginRequiredMixin, generics.RetrieveAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer

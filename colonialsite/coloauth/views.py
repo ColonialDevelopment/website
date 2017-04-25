@@ -1,14 +1,16 @@
 # Authentication views
 # Author: DG Kim
 
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.template import loader
-from django.shortcuts import render, redirect, render_to_response
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from .forms import ColoRegistrationForm
+#from .forms import ColoRegistrationForm
 from django.template.context_processors import csrf
-from dashboard import views as dash_views
-import datetime
+#from dashboard import views as dash_views
+from datetime import datetime
+
+from django.conf import settings
 
 # login view
 def login_page(request):
@@ -25,7 +27,7 @@ def login_page(request):
                 login(request, user)
                 # Redirect to a success page.
                 context = {
-                        'date': datetime.datetime.now(),
+                        'date': datetime.now(),
                 }
 
                 return redirect('dashboard:dashboard-index')
@@ -50,17 +52,17 @@ def logout_page(request):
     return HttpResponse('logged out')
 
 # register view
-def register(request):
-    if request.POST:
-        form = ColoRegistrationForm(request.POST)     # create form object
-        if form.is_valid():
-            form.save()
-            return HttpResponse('registered')
-        else:
-            return HttpResponse('no')
-    else:
-        template = loader.get_template('coloauth/register.html')
-        context = {}
-        context.update(csrf(request))
-        context['form'] = ColoRegistrationForm()
-        return HttpResponse(template.render(context, request))
+# def register(request):
+#     if request.POST:
+#         form = ColoRegistrationForm(request.POST)     # create form object
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponse('registered')
+#         else:
+#             return HttpResponse('no')
+#     else:
+#         template = loader.get_template('coloauth/register.html')
+#         context = {}
+#         context.update(csrf(request))
+#         context['form'] = ColoRegistrationForm()
+#         return HttpResponse(template.render(context, request))

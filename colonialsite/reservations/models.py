@@ -31,11 +31,11 @@ class Reservation(models.Model):
     end_date    = models.DateTimeField('end date/time')
     description = models.TextField()
     approval    = models.CharField(max_length = 10, choices = STATUS_CHOICES)
-    requestor   = models.ForeignKey(User, on_delete=models.CASCADE)
+    requester   = models.ForeignKey(User, on_delete=models.CASCADE)
     submit_date = models.DateTimeField('creation date/time')
 
     def __str__(self):
-        return self.requestor.__str__() + ": " + self.room.__str__() + " @ " + self.start_date.replace(tzinfo=None).ctime()
+        return self.requester.__str__() + ": " + self.room.__str__() + " @ " + self.start_date.replace(tzinfo=None).ctime()
 
 
 def time_overlap(start_1, end_1, start_2, end_2):

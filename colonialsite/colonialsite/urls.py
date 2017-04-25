@@ -17,7 +17,12 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from rest_framework import routers
+
+from django.conf.urls.static import static
+from django.conf import settings
+
 from menus.views import MenuViewSet, DishViewSet, RatingViewSet, MenuCategoryViewSet
+import cas.views
 
 router = routers.DefaultRouter()
 router.register(r'api/menus', MenuViewSet)
@@ -26,12 +31,15 @@ router.register(r'api/ratings', RatingViewSet)
 router.register(r'api/menu_categories', MenuCategoryViewSet)
 
 urlpatterns = [
-    url(r'^accounts/', include('coloauth.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^reservations/', include('reservations.urls')),
     url(r'^menus/', include('menus.urls')),
     url(r'^events/', include('events.urls', namespace='events')),
     url(r'^$', include('dashboard.urls', namespace='dashboard')),
-]
+    url(r'^members/', include('members.urls', namespace='members')),
+    url(r'^accounts/login/$', cas.views.login, name='login'),
+    url(r'^accounts/logout/$', cas.views.logout, name='logout'),
+    url(r'^staff/', include('coloauth.urls'))
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += router.urls
