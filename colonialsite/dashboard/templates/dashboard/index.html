@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load render_bundle from webpack_loader %}
 <head>
   <title>{% block title %}Colonial Club{% endblock %}</title>
 </head>
@@ -25,23 +26,6 @@
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
 
-
-
-<!-- <div class="container-fluid">
-   <div class="page-header">
-	    <div class="row">
-   	    </div>
-
-	    <div class="row center-block" style="max-width:50px; max-height:50px;">
-		    <img src="{% static "reservations/images/colonial-logo-transparent.png" %}" class="img-responsive" >
-   	    </div>
-
-	    <div class="row center-block logo-text" style="max-width:150px; max-height:40px;font-family:Helvetica;color:#00138B;">
-   	        <h4>COLONIAL CLUB</h4>
-   	    </div>
-    </div>
-</div> -->
-
 <nav class="navbar navbar-default">
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -58,18 +42,12 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
-                <li><a href="/menus/">Meals<span class="sr-only">(current)</span></a></li>
+                <li><a href="/menus/">Meals<span class="sr-only"> (current)</span></a></li>
                 <li><a href="/reservations/">Reservations</a></li>
                 <li><a href="/events/">Events</a></li>
               </ul>
-              <form class="navbar-form navbar-left" role="search">
-                <div class="form-group">
-                  <input type="text" class="form-control" placeholder="Search our members!">
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-              </form>
               <ul class="nav navbar-nav navbar-right">
-                  <li><a href="#">{{ request.user.username }}</a></li>
+                  <li><a href="/members">{{ request.user.username }}</a></li>
                 <li><a href="/accounts/logout">Logout</a></li>
               </ul>
             </div><!-- /.navbar-collapse -->
@@ -78,42 +56,11 @@
 
 
 {% block 'body' %}
-<div class="container-fluid">
-    <div class="row">
-        <h3 class="text-center">Colonial Members' Page</h3>
-    </div>
-    <div class="row container-fluid">
-        <div class="col-md-6">
-            <h4 class="text-center">Today's Menu</h4>
-            <p>
-            Insert menu text here
-            </p>
-        <div class="col-md-2"></div>
-        <div class="col-md-4">
-            <div class="row">
-                <h4 class="text-center">Announcements</h4>
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                    date: Insert notification here
-                    </div>
-                </div>
+<div id="react">{% csrf_token %}</div>
+    <script>
+        window.react_mount = document.getElementById('react');
+    </script>
 
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                    date: Insert notification here
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <h4 class="text-center">This Week's Events</h4>
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                    date: Insert notification here
-                    </div>
-                </div>
-            </div>
-        </div>
-</div>
+    <!-- Render each template with a path to the component script -->
+    {% render_bundle 'members' %}
 {% endblock %}
-

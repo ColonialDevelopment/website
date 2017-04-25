@@ -187,11 +187,9 @@ class Member extends Component{
 						</div>
 					</div>
 					<div className="col-sm-12 col-md-10 col-lg-10 col-xs-12">
-						<h2>Bio</h2>
 						<div>
 						{bioNode}
 						</div>
-
 					</div>
 				</Panel>
 				</div>

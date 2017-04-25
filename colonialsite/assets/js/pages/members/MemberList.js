@@ -28,7 +28,7 @@ class MemberList extends Component{
 		var memberNodes= this.state.members.map(function(member){
 			return (
 				<Member member={member}
-						editable={true} />
+						editable={false} />
 				)
 		});
 		return (
