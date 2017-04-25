@@ -2,6 +2,7 @@ import React from 'react';
 import Event from './Event.js';
 import EventFilterTable from './EventFilterTable.js';
 import EventDetail from './EventDetail';
+import EventDetailModal from './EventDetailModal';
 
 function sortByDate(a, b){
     a = new Date(a.start_date);
@@ -29,8 +30,6 @@ var EventList = React.createClass({
             success: function(data) {
                 this.setState({data:data.results})
                 this.updateFilters(this.state.types, true);
-                if (this.state.filtered_data !== [])
-                    this.setState({event:this.state.filtered_data[0]})
                 this.updateSort("Date");
             }.bind(this)
         })
@@ -103,7 +102,7 @@ var EventList = React.createClass({
         });
     },
     renderDetail: function(id) {
-      this.setState({event: this.state.filtered_data.find(event => event.pk == id)})
+      this.setState({event: this.state.filtered_data.find(event => event.pk == id), showModal:true})
     },
     render: function() {
         return (
@@ -115,12 +114,19 @@ var EventList = React.createClass({
                                             updateFilteredList={this.updateFilters}
                                             updateSort={this.updateSort}
                                             sortTypes={this.state.sortTypes}
-                                            renderDetail={this.renderDetail} 
+                                            renderDetail={this.renderDetail}
                                             selected_event={this.state.event}
                                             defaultSort={this.state.defaultSort} />
                     </div>
                     <div className="container col-lg-6 hidden-md hidden-sm hidden-xs">
-                      <EventDetail activeEvent={this.state.event} />
+                        <EventDetail key={"Large screen"}
+                                     activeEvent={this.state.event} />
+                    </div>
+                    <div className="container">
+                        <EventDetailModal key={"smallScreen"}
+                                          activeEvent={this.state.event}
+                                          showModal={this.state.showModal && window.innerWidth < 1200}
+                                          onHide={() => this.setState({ showModal: false})} />
                     </div>
                 </div>
                )

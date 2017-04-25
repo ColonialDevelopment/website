@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import EventDetailModal from './EventDetailModal.js';
 
 class EventDetail extends Component {
   constructor(props){
@@ -79,14 +80,14 @@ class EventDetail extends Component {
         )
       }
     }
-  else {
-    return(
-      <div>
-      <h2 style={{paddingTop: 10, paddingBottom: 10}}>Event Details</h2>
-      <p className="lead text-muted">Click an event to view its details</p>
-      </div>
-    )
-  }
+    else {
+      return(
+        <div>
+        <h2 style={{paddingTop: 10, paddingBottom: 10}}>Event Details</h2>
+        <p className="lead text-muted">Click an event to view its details</p>
+        </div>
+      )
+    }
   }
 }
 
