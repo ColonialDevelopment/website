@@ -8,7 +8,6 @@ class EventDetailModal extends Component{
   }
   render() {
   	if (this.props.activeEvent){
-  		console.log(this.props.activeEvent);
       const   { title, description, location } = this.props.activeEvent
       return(
           <Modal onHide={this.props.onHide} show={this.props.showModal} bsSize="large" >

@@ -39,6 +39,8 @@ class Event(models.Model):
 		('Study Break', 'Study Break'),
 		('Sophomore Dinner', 'Sophomore Dinner'),
 		('Language Table', 'Language Table'),
+		("Members' Nights", "Members' Nights"),
+		('Weekly Events', 'Weekly Events'),
 		('Other', 'Other'),
 	)
 

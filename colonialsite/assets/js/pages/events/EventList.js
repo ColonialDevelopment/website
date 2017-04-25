@@ -51,6 +51,8 @@ var EventList = React.createClass({
             {id:"Study Break", selected:true},
             {id:"Sophomore Dinner", selected:true},
             {id:"Language Table", selected:true},
+            {id:"Members' Nights", selected:true},
+            {id:"Weekly Events", selected:true},
             {id:"Other", selected:true}
             ],
             sortTypes:
@@ -79,7 +81,7 @@ var EventList = React.createClass({
                     return event_type.id === event.category;
                 });
                 if (hits.length > 0) {
-                    if ((!excludePast || this.isFuture(event)) && event.status === "Open")
+                    if ((!excludePast || this.isFuture(event)) && event.status !== "Hidden")
                         events_selected.push(event);
                 }
                 return events_selected;

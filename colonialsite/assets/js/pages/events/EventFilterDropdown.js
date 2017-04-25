@@ -13,7 +13,6 @@ class EventFilterDropdown extends React.Component{
 	}
 
 	changeSelection(id) {
-		console.log(id);
 		var types_selected = this.state.types.map(function(d) {
 			return {
 				id:d.id,
@@ -25,8 +24,6 @@ class EventFilterDropdown extends React.Component{
 	}
 
 	changeExcludePast(oldState) {
-		console.log("In changeExcludePast");
-		console.log(oldState);
 		this.state.excludePast = !oldState;
 		this.props.updateFilteredList(this.state.types, !oldState);
 	}
@@ -35,13 +32,11 @@ class EventFilterDropdown extends React.Component{
   	}
 
   	onToggle(open) {
-  		console.log(open);
     	if (this._inputWasClicked) {
       		this._inputWasClicked = false;
       		return;
    		}
     	this.setState({open: open});
-    	console.log(this.state.open);
   	}
 	render(){
 		var checks = this.state.types.map(function(d) {
