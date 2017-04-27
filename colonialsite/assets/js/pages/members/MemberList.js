@@ -1,5 +1,6 @@
 import {Component} from 'react';
 import Member from './Member';
+import {Typeahead} from 'react-bootstrap-typeahead';
 
 class MemberList extends Component{
 	constructor(props){
@@ -19,22 +20,29 @@ class MemberList extends Component{
         })
     }
 
+    handleSearch(data){
+    	console.log(data);
+    }
 	componentDidMount() {
         this.loadContentFromServer();
         setInterval(this.loadContentFromServer,
             this.props.pollInterval)
     }
 	render() {
-		var memberNodes= this.state.members.map(function(member){
-			return (
-				<Member member={member}
-						editable={false} />
-				)
-		});
 		return (
 			<div className="container">
-				{memberNodes}
-			</div>
+			<Typeahead onInputChange={this.handleSearch.bind(this)}
+					   options={this.state.members}
+					   labelKey={'name'}
+					   renderMenuItemChildren={(result, props) => {
+					   	return (
+    						<Member member={result}
+									editable={false} />
+    						)
+					   }}
+					   filterBy={['name', 'major', 'dorm', 'hometown', 'netid', 'officer_pos']} 
+					    />
+		    </div>
 			)
 	}
 }
