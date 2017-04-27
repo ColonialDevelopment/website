@@ -42,6 +42,9 @@ class MenuCategory(models.Model):
         return '%s %s %s' % (self.menu.date, self.menu.meal, self.category)
 
 class Dish(models.Model):
+    class Meta:
+        verbose_name_plural = 'dishes'
+
     menus = models.ManyToManyField(MenuCategory, blank=False)
     name = models.CharField(max_length=50)
     
