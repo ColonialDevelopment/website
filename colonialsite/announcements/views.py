@@ -6,6 +6,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework import generics, views, parsers
 from .serializers import AnnouncementSerializer
 from .models import Announcement, get_file_path
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 
 class AnnouncementListAll(LoginRequiredMixin, generics.ListAPIView):
 	queryset = Announcement.objects.all()
@@ -58,6 +60,15 @@ class AnnouncementPost(LoginRequiredMixin, views.APIView):
 		announcement.save()
 		return HttpResponse(status_code = 204)
 
+@login_required
 def index(request):
-	return HttpResponse("Announcements root")
+    title = "Staff Dashboard"
+    template = 'announcements/index.html'
+
+
+    context = {
+            'title': title
+            }
+
+    return render(request, template, context)
 

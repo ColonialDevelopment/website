@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'announcements.apps.AnnouncementsConfig',
     'reservations.apps.ReservationsConfig',
     'coloauth.apps.ColoauthConfig',
     'dashboard.apps.DashboardConfig',
