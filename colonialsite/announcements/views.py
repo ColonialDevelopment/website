@@ -18,14 +18,9 @@ class AnnouncementDetail(LoginRequiredMixin, generics.RetrieveAPIView):
 	serializer_class = AnnouncementSerializer
 
 class AnnouncementPost(LoginRequiredMixin, views.APIView):
-	parser_classes = (parsers.JSONParser, parsers.FileUploadParser, )
+	parser_classes = (parsers.JSONParser, parsers.MultiPartParser, parsers.FormParser,)
 
-	def post(self, request, filename, format=None):
-		file_obj = request.data['file']
-		file_path = get_file_path(filename)
-		with open(file_path, 'wb+') as destination:
-			for chunk in file_obj.chunks():
-				destination.write(chunk)
+	def post(self, request):
 
 		new_announcement = Announcement.objects.create(
 			poster = request.user,
@@ -33,11 +28,10 @@ class AnnouncementPost(LoginRequiredMixin, views.APIView):
 			start_date = request.data['start_date'],
 			end_date = request.data['end_date'],
 			description = request.data['description'],
-			attachment = open(file_path),
-			#attachment = request.data['file']
+			attachment = request.data['file']
 		)
 		new_announcement.save()
-		return HttpResponse(status_code = 204)
+		return HttpResponse(status=204)
 
 	def put(self, request, filename, format=None):
 		try:
@@ -46,7 +40,7 @@ class AnnouncementPost(LoginRequiredMixin, views.APIView):
 			raise Http404("No such announcement")
 
 		file_obj = request.data['file']
-		file_path = get_file_path(filename)
+		file_path = get_file_path(announcement, filename)
 		with open(file_path, 'wb+') as destination:
 			for chunk in file_obj.chunks():
 				destination.write(chunk)
@@ -55,10 +49,10 @@ class AnnouncementPost(LoginRequiredMixin, views.APIView):
 		announcement.start_date = request.data['start_date']
 		announcement.end_date = request.data['end_date']
 		announcement.description = request.data['description']
-		# announcement.attachment = file_path
+		announcement.attachment = file_path
 		announcements.attachment = open(file_path)
 		announcement.save()
-		return HttpResponse(status_code = 204)
+		return HttpResponse(status=204)
 
 @login_required
 def index(request):

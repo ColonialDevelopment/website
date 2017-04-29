@@ -9,9 +9,9 @@ from datetime import datetime
 
 import uuid, os
 
-def get_file_path(instance, filename):
+def get_file_path(title, filename):
     ext = filename.split('.')[-1]
-    filename = "%s-%s.%s" % (instance.title, uuid.uuid4(), ext)
+    filename = "%s-%s.%s" % (title, uuid.uuid4(), ext)
     return os.path.join('announcement_uploads/', filename)
 
 # Create your models here.

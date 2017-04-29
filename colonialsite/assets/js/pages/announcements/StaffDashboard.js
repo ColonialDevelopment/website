@@ -1,5 +1,5 @@
 import {Component} from 'react';
-import {ANNOUNCEMENTS_URL} from '../../statics/urls';
+import {ANNOUNCEMENTS_POST} from '../../statics/urls';
 import AnnouncementForm from './AnnouncementForm';
 
 class StaffDashboard extends Component{
@@ -8,7 +8,7 @@ class StaffDashboard extends Component{
 	}
 	render(){
 		return (
-			<AnnouncementForm url={ANNOUNCEMENTS_URL} />
+			<AnnouncementForm url={ANNOUNCEMENTS_POST} />
 		)
 	}
 }
