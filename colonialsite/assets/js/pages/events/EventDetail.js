@@ -28,6 +28,7 @@ class EventDetail extends Component {
                             status={status}
                             renderDetail={this.props.renderDetail}
                             />)
+      
       // If there is an image to display
       if (this.props.activeEvent.image) {
         return(
