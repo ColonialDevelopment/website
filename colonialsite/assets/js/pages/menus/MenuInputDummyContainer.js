@@ -36,7 +36,7 @@ class MenuInputDummyContainer extends Component {
         })
 
     	return (
-            <div>
+            <div className='container'>
     		<MenuInput dishes={this.state.data} />
             {dishes}
             </div>
