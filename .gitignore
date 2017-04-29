@@ -44,3 +44,5 @@ settings.py
 # server stuff
 *.log
 start_gunicorn.sh
+*.csv
+
