@@ -8,7 +8,11 @@ class StaffDashboard extends Component{
 	}
 	render(){
 		return (
-			<AnnouncementForm url={ANNOUNCEMENTS_POST} />
+			<div className='container'>
+				<div className='col-md-8'>
+					<AnnouncementForm url={ANNOUNCEMENTS_POST} />
+				</div>
+			</div>
 		)
 	}
 }
