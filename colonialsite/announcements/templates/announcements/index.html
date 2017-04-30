@@ -1,10 +1,6 @@
 {% extends 'dashboard/index.html' %}
 {% load render_bundle from webpack_loader %}
 
-{% block style %}
-<link rel="stylesheet" type="text/css" href="/static/css/announcements/react-datetime.css" />
-{% endblock %}
-
 {% block 'body' %}
 <div id="react">{% csrf_token %}</div>
     <script>

@@ -7,8 +7,7 @@
     "babelify": "~7.3.0",
     "bower": "~1.8.0",
     "js-cookie": "^2.1.4",
-    "react-bootstrap": "^0.30.8",
-    "react-star-rating-component": "^1.2.4"
+    "react-bootstrap": "^0.30.8"
   },
   "devDependencies": {
     "babel-core": "~6.22.1",

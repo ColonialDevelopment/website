@@ -22,6 +22,14 @@ function sortByLocation(a, b){
 }
 
 var EventList = React.createClass({
+    statics: { 
+        sortTypes:
+            [
+                {id:"Date"},
+                {id:"Category"},
+                {id:"Location"}
+            ]
+    },  
     loadContentFromServer: function(){
         $.ajax({
             url:this.props.url,
@@ -29,8 +37,13 @@ var EventList = React.createClass({
             cache: false,
             success: function(data) {
                 this.setState({data:data.results})
-                this.updateFilters(this.state.types, true);
-                this.updateSort("Date");
+                this.updateFilters(this.state.types, this.state.excludePast);
+                if (this.state.event){
+                    this.setState({
+                        event: this.state.filtered_data.find(event => event.pk == this.state.event.pk), 
+                        showModal:true
+                    })
+                }
             }.bind(this)
         })
     },
@@ -42,41 +55,35 @@ var EventList = React.createClass({
     },
 
     getInitialState: function() {
-        return {data: [], filtered_data:[],
+        return {
+            data: [], 
+            filtered_data:[],
             types:
             [
-            {id:"IMs", selected:true},
-            {id:"Friday Party", selected:true},
-            {id:"Semiformal", selected:true},
-            {id:"Study Break", selected:true},
-            {id:"Sophomore Dinner", selected:true},
-            {id:"Language Table", selected:true},
-            {id:"Members' Nights", selected:true},
-            {id:"Weekly Events", selected:true},
-            {id:"Other", selected:true}
+                {id:"IMs", selected:true},
+                {id:"Friday Party", selected:true},
+                {id:"Semiformal", selected:true},
+                {id:"Study Break", selected:true},
+                {id:"Sophomore Dinner", selected:true},
+                {id:"Language Table", selected:true},
+                {id:"Members' Nights", selected:true},
+                {id:"Weekly Events", selected:true},
+                {id:"Other", selected:true}
             ],
-            sortTypes:
-            [
-            {id:"Date"},
-            {id:"Category"},
-            {id:"Location"}
-            ],
-            defaultSort:"Date"
+            excludePast:true,
+            sortType:"Date",
         }
     },
-
     componentDidMount: function() {
         this.loadContentFromServer();
-        setInterval(this.loadContentFromServer,
-            this.props.pollInterval)
     },
     updateFilters: function(types, excludePast) {
         //Types selected is a list of all the types of events that we want to include in the filtered_data
+        this.setState({excludePast:excludePast, types:types});
         var types_selected = types.filter(function (type){
             return type.selected;
         });
-        this.setState({filtered_data:
-            this.state.data.reduce(function(events_selected, event){
+        var filtered_data = this.state.data.reduce(function(events_selected, event){
                 var hits = types_selected.filter(function(event_type){
                     return event_type.id === event.category;
                 });
@@ -85,9 +92,17 @@ var EventList = React.createClass({
                         events_selected.push(event);
                 }
                 return events_selected;
-            }.bind(this), [])});
+            }.bind(this), []);
+        this.updateSort(this.state.sortType, filtered_data);
+        if (this.state.event){
+                    this.setState({
+                        event: filtered_data.find(event => event.pk == this.state.event.pk), 
+                        showModal:true
+                    })
+                }
     },
-    updateSort: function(sortType){
+
+    updateSort: function(sortType, filtered_data){
         var sortFunction;
         switch(sortType){
             case "Category":
@@ -99,12 +114,17 @@ var EventList = React.createClass({
             default:
                 sortFunction = sortByDate;
         }
-        this.setState({filtered_data:
-            this.state.filtered_data.sort(sortFunction)
+        this.setState({
+            filtered_data: filtered_data.sort(sortFunction),
+            sortType:sortType
         });
     },
     renderDetail: function(id) {
-      this.setState({event: this.state.filtered_data.find(event => event.pk == id), showModal:true})
+        this.setState({
+                event: this.state.filtered_data.find(event => event.pk == id), 
+                showModal:true
+        })
+        this.loadContentFromServer();
     },
     render: function() {
         return (
@@ -113,22 +133,25 @@ var EventList = React.createClass({
                      <div className='scroll-container-header border-bottom-1'> Events: </div>
                         <EventFilterTable   events={this.state.filtered_data}
                                             types={this.state.types}
-                                            updateFilteredList={this.updateFilters}
-                                            updateSort={this.updateSort}
-                                            sortTypes={this.state.sortTypes}
-                                            renderDetail={this.renderDetail}
+                                            sortTypes={EventList.sortTypes}
                                             selected_event={this.state.event}
-                                            defaultSort={this.state.defaultSort} />
+                                            defaultSort={this.state.sortType}
+
+                                            renderDetail={this.renderDetail}
+                                            updateFilteredList={this.updateFilters}
+                                            updateSort={this.updateSort} />
                     </div>
                     <div className="container col-lg-6 hidden-md hidden-sm hidden-xs">
                         <EventDetail key={"Large screen"}
-                                     activeEvent={this.state.event} />
+                                     activeEvent={this.state.event}
+                                     renderDetail={this.renderDetail} />
                     </div>
                     <div className="container">
                         <EventDetailModal key={"smallScreen"}
                                           activeEvent={this.state.event}
                                           showModal={this.state.showModal && window.innerWidth < 1200}
-                                          onHide={() => this.setState({ showModal: false})} />
+                                          onHide={() => this.setState({ showModal: false})}
+                                          renderDetail={this.renderDetail} />
                     </div>
                 </div>
                )
