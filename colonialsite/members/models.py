@@ -3,6 +3,11 @@ from django.utils.encoding import python_2_unicode_compatible
 from django import forms
 import re
 
+'''
+Member model that contains a member's name, netid, preferred name, officer
+position (if applicable), birthday, class year, major, dorm/room number, email,
+hometown, and bio
+'''
 @python_2_unicode_compatible
 class Member(models.Model):
 
@@ -38,7 +43,10 @@ class Member(models.Model):
     def __str__(self):
         return self.name
 
-
+'''
+Form to modify certain Member fields (notably bio, birthday, preferred name).
+Will likely be replaced later by post methods in views.
+'''
 class MemberForm(forms.ModelForm):
     class Meta:
         model = Member
@@ -59,7 +67,7 @@ class MemberForm(forms.ModelForm):
     bio = forms.CharField(required=False, widget=forms.Textarea)
 
     def clean(self):
-        super(MemberForm, self).clean() # copied from events so not sure if this is right
+        super(MemberForm, self).clean()
         preferred = self.cleaned_data.get('pref_name')
         bday = self.cleaned_data.get('birthday')
         bio = self.cleaned_data.get('bio')

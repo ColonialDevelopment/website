@@ -17,19 +17,8 @@ class MemberDetail(LoginRequiredMixin, generics.RetrieveAPIView):
     lookup_field = 'netid'
     serializer_class = MemberSerializer
 
-    # name            = models.CharField(max_length = 50)
-    # netid           = models.CharField(max_length = 10)
-    # pref_name       = models.CharField(max_length = 20, blank=True, verbose_name = 'Preferred Name')
-    # officer_pos		= models.CharField(max_length = 30, choices = OFFICER_CHOICES, blank=True, verbose_name = 'Officer Position')
-    # birthday	    = models.DateField(blank=True, null=True)
-    # class_year	    = models.CharField(max_length = 10)
-    # major           = models.CharField(max_length = 50)
-    # dorm            = models.CharField(max_length = 30)
-    # room_num        = models.CharField(max_length = 10, verbose_name = "Room Number")
-    # email           = models.EmailField()
-    # hometown        = models.CharField(max_length = 50)
-    # bio             = models.TextField(blank=True)
-
+# View method to use MemberForm. Temporary way to modify user data.
+# Will eventually get phased out and replaced by POST methods.
 @login_required
 def edit(request):
     member = Member.objects.get(netid=request.user)
@@ -68,6 +57,8 @@ def edit(request):
             "bio": member.bio})
         return render(request, "members/edit.html", {'form': form})
 
+# Will display page with currently logged in member information.
+# To be populated by frontend/react bundle?
 @login_required
 def index(request):
     title = "Member Page"
@@ -78,12 +69,3 @@ def index(request):
             }
 
     return render(request, template, context)
-
-    
-# @login_required
-# def view(request, netid):
-#     try:
-#         member = Member.objects.get(netid = netid)
-#     except Member.DoesNotExist:
-#         raise Http404("Member does not exist.")
-
