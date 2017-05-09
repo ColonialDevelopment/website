@@ -1,8 +1,9 @@
 import { Component } from 'react';
-import { FormControl, FormGroup } from 'react-bootstrap';
+import { FormControl, FormGroup, InputGroup, Button } from 'react-bootstrap';
 import DishAutocomplete from './DishAutocomplete.js';
 import DishInputDetails from './DishInputDetails.js';
 import {Typeahead} from 'react-bootstrap-typeahead';
+import Dish from './Dish.js';
 
 class MenuInput extends Component {
 	constructor(props){
@@ -17,12 +18,12 @@ class MenuInput extends Component {
 			this.setState({inputDish: null})
 		} else {
 			this.setState({inputDish: dish[0]})
-			console.log(dish[0].name)
 		}
 	}
 
 	finishSubmit() {
 		this.setState({inputDish:null})
+		this.props.updateDishes();
 	}
 
 	render () {
@@ -34,12 +35,19 @@ class MenuInput extends Component {
 
 		return (
 			<div>
-				<Typeahead options={this.props.dishes}
-				           labelKey={'name'}
-				           allowNew
-                           newSelectionPrefix="Add a new dish: "
-                           onChange={this.handleSelect}
-	            />
+				<Typeahead 	   options={this.props.dishes}
+					           labelKey={'name'}
+					           allowNew
+	                           newSelectionPrefix="Add a new dish: "
+	                           onChange={this.handleSelect}
+	                           submitFormOnEnter={true}
+	                           renderMenuItemChildren={(result, props) =>{
+	                           		return (
+	                           			<Dish   dish={result}
+	                        			editable={false}
+	                    				ratable={false}
+	                  					/>);
+	                           }} />
 	            {detail}
 			</div>
 		)

@@ -21,14 +21,13 @@ class MenuInputDummyContainer extends Component {
 
 	componentDidMount() {
         this.loadContentFromServer();
-        setInterval(this.loadContentFromServer,
-            this.props.pollInterval)
     }
 
     render() {
         var dishes = this.state.data.map(function(dish){
             return (
-                <Dish   dish={dish}
+                <Dish   key={dish.id}
+                        dish={dish}
                         editable={true}
                         ratable={true}
                   />
@@ -37,7 +36,9 @@ class MenuInputDummyContainer extends Component {
 
     	return (
             <div className='container'>
-    		<MenuInput dishes={this.state.data} />
+    		<MenuInput dishes={this.state.data}
+                       updateDishes={this.loadContentFromServer.bind(this)} />
+            <br/>
             {dishes}
             </div>
 		)

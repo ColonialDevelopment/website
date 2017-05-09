@@ -72,15 +72,14 @@ class DishInputDetails extends Component {
 			data:post_or_put_dish_data
 		})
 		.then(function(){ 
-			console.log("Dish Added to menu");
-		})
+			this.props.finishSubmit();
+		}.bind(this))
 		.catch(function(jqXHR, textStatus, errorThrown){
 			console.log(textStatus);
 			console.log(jqXHR);
 			console.log("You have already reviewed this and we messed up")
 		})
-/*		this.props.finishSubmit();
-*/		e.preventDefault()
+		e.preventDefault()
 	}
 
 	render() {
