@@ -1,5 +1,7 @@
 import { Component } from 'react';
 import { Checkbox } from 'react-bootstrap';
+import Cookies from 'js-cookie';
+var axios = require('axios');
 
 class DishInputDetails extends Component {
 	constructor(props) {
@@ -41,11 +43,44 @@ class DishInputDetails extends Component {
 
 	handleSubmit(e) {
 		// does some submission stuff
-		var type = (this.props.dish.customOption ? 'PUT' : 'POST')
-		var url = '/api/dish/'
-
+		var type = (this.props.dish.customOption ? 'post' : 'put')
+		var url = (this.props.dish.customOption ? '/api/dishes/' : '/api/dishes/'+this.props.dish.id+'/add_dish_to_menu/')
 		// ajax call be here
-		e.preventDefault()
+		var csrftoken = Cookies.get('csrftoken');
+		var post_dish_data =
+		{
+			name:this.props.dish.name,
+			menus:[this.props.menu_id],
+			allergens:this.state.allergens,
+			dairy_free:this.state.dairy_free,
+			kosher_halal:this.state.kosher_halal,
+			nut_free:this.state.nut_free,
+			sory_free:this.state.soy_free,
+			vegan:this.state.vegan,
+			vegetarian:this.state.vegetarian
+		}
+		var put_dish_data =
+		{
+			menu:this.props.menu_id
+		}
+		var post_or_put_dish_data = (this.props.dish.customOption ? post_dish_data : put_dish_data)
+		axios({
+			method:type,
+			url:url,
+			responseType:'json',
+			headers: { "X-CSRFToken": csrftoken},
+			data:post_or_put_dish_data
+		})
+		.then(function(){ 
+			console.log("Dish Added to menu");
+		})
+		.catch(function(jqXHR, textStatus, errorThrown){
+			console.log(textStatus);
+			console.log(jqXHR);
+			console.log("You have already reviewed this and we messed up")
+		})
+/*		this.props.finishSubmit();
+*/		e.preventDefault()
 	}
 
 	render() {
@@ -108,8 +143,8 @@ class DishInputDetails extends Component {
 					Rating: {this.props.dish.avg_rating} from {this.props.dish.num_ratings} ratings.
 				</div>
 				<div>
-					<button className='btn btn-default'
-							type='submit'
+					<button type="button"
+							className='btn btn-default'
 							onClick={this.handleSubmit}
 					>
 						Submit

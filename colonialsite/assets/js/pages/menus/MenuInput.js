@@ -9,28 +9,28 @@ class MenuInput extends Component {
 		super(props);
 		this.state = {inputDish: null};
 		this.handleSelect = this.handleSelect.bind(this)
-		this.handleClick = this.handleClick.bind(this)
+		this.finishSubmit = this.finishSubmit.bind(this)
 	}
 
 	handleSelect(dish) {
-		console.log(dish)
 		if (dish.length === 0) {
 			this.setState({inputDish: null})
 		} else {
 			this.setState({inputDish: dish[0]})
 			console.log(dish[0].name)
 		}
-		//this.setState({value: e.target.value})
 	}
 
-	handleClick(e) {
-		console.log(e)
+	finishSubmit() {
+		this.setState({inputDish:null})
 	}
 
 	render () {
 		var detail
 		if (this.state.inputDish)
-			detail = <DishInputDetails dish={this.state.inputDish}/>
+			detail = <DishInputDetails dish={this.state.inputDish}
+									   finishSubmit={this.finishSubmit}
+									   menu_id={1}/>
 
 		return (
 			<div>

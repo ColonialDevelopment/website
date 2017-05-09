@@ -1,6 +1,7 @@
 import {Component} from 'react';
 import StarRatingComponent from 'react-star-rating-component';
 import Cookies from 'js-cookie';
+var axios = require('axios');
 
 class Rating extends Component{
 	constructor(props){
@@ -8,41 +9,32 @@ class Rating extends Component{
 		this.state={
 			rating:this.props.your_rating,
 			editable: this.props.editable,
+			rating_id:this.props.rating_id,
 			starColor: ""
 		}
 	}
 
 	onStarClick(nextValue, prevValue, name){
 		var csrftoken = Cookies.get('csrftoken');
-		var post_rating=
+		var post_or_put_rating=
 		{
 			dish:this.props.id,
 			value:nextValue
 		}
-		function csrfSafeMethod(method) {
-    	// these HTTP methods do not require CSRF protection
-   	 	return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-		}
-		$.ajaxSetup({
-    		beforeSend: function(xhr, settings) {
-    			if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            		xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        		}
-    		}
-		});
-		$.ajax({
-			context:this,
-			type:"POST",
-			url:this.props.url,
-			datatype:'json',
+		var method = (this.state.rating_id > 0 ? 'put' : 'post');
+		var url = (this.state.rating_id > 0 ? '/api/ratings/'+this.state.rating_id+'/' : '/api/ratings/')
 
-			contentType:'application/json',
-			data:JSON.stringify(post_rating)
+		axios({
+			context:this,
+			method: method,
+			url:url,
+			headers: { "X-CSRFToken": csrftoken},
+			data:post_or_put_rating
 		})
-		.done(function(){
-			this.setState({editable:false, rating:event.rating})
-		})
-		.fail(function(jqXHR, textStatus, errorThrown){
+		.then(function(response_data){
+			this.setState({editable:false, rating:event.rating, rating_id:response_data.data.id})
+		}.bind(this))
+		.catch(function(jqXHR, textStatus, errorThrown){
 			console.log(textStatus);
 			console.log(jqXHR);
 			console.log("You have already reviewed this and we messed up")
@@ -51,7 +43,6 @@ class Rating extends Component{
 
 	render(){
 		const { rating } = this.state;
-		console.log(this.props.rating);
 		return (
 			<div>
 			<div>

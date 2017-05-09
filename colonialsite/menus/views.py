@@ -3,7 +3,8 @@ import coloauth as accounts
 from menus.models import MenuCategory, Menu, Dish, Rating, getMealList
 from menus.serializers import MenuCategorySerializer, MenuSerializer, DishSerializer, RatingSerializer
 from django.contrib.auth.decorators import login_required
-
+from rest_framework.decorators import detail_route
+from rest_framework.response import Response
 from rest_framework import viewsets
 
 import datetime
@@ -49,6 +50,15 @@ class DishViewSet(viewsets.ModelViewSet):
     """
     queryset = Dish.objects.all().order_by('name')
     serializer_class = DishSerializer
+
+    @detail_route(methods=['put'])
+    def add_dish_to_menu(self, request, pk=None):
+        dish = self.get_object()
+        added_menu = request.data['menu']
+        dish.menus.add(MenuCategory.objects.get(id=added_menu))
+        dish.save()
+        return Response({'status':'added to menu'})
+
 
 class RatingViewSet(viewsets.ModelViewSet):
     queryset = Rating.objects.all().order_by('value')
