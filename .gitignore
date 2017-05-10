@@ -16,6 +16,7 @@ node_modules
 bundles
 media
 static
+production_migrations
 
 # Architecture specific extensions/prefixes
 *.[568vq]
