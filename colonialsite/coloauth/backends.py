@@ -36,8 +36,8 @@ class RestrictedCASBackend(CASBackend):
 		return user
 
 
-def makemember(username):
-	url = 'https://tigerbook.herokuapp.com/api/v1/undergraduates/' + username
+def makemember(newuser):
+	url = 'https://tigerbook.herokuapp.com/api/v1/undergraduates/' + newuser
 	created = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 	nonce = ''.join([random.choice('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/=') for i in range(32)])
 	username = settings.TIGERBOOK_LOGIN
