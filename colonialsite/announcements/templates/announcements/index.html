@@ -1,0 +1,12 @@
+{% extends 'dashboard/index.html' %}
+{% load render_bundle from webpack_loader %}
+
+{% block 'body' %}
+<div id="react">{% csrf_token %}</div>
+    <script>
+        window.react_mount = document.getElementById('react');
+    </script>
+
+    <!-- Render each template with a path to the component script -->
+   {% render_bundle 'announcements'%}
+{% endblock %}

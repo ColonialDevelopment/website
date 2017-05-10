@@ -19,13 +19,13 @@ class EventFilterDropdown extends React.Component{
 				selected: (d.id == id ? !d.selected : d.selected)
 			}
 		})
-		this.setState({ types: types_selected });
 		this.props.updateFilteredList(types_selected, this.state.excludePast);
+		this.setState({ types: types_selected });
 	}
 
-	changeExcludePast(oldState) {
-		this.state.excludePast = !oldState;
-		this.props.updateFilteredList(this.state.types, !oldState);
+	changeExcludePast() {
+		this.props.updateFilteredList(this.state.types, !this.state.excludePast);
+		this.setState({excludePast : !this.state.excludePast});
 	}
 	inputWasClicked() {
     	this._inputWasClicked = true;
@@ -59,14 +59,14 @@ class EventFilterDropdown extends React.Component{
 		var checkExcludePast = () => {
 			if (this.state.excludePast){
 				return (
-					<MenuItem key="Exclude Past" style={{backgroundColor:"#E8E8E8"}} onSelect={this.inputWasClicked.bind(this)}onClick={this.changeExcludePast.bind(this, this.state.excludePast)}>
+					<MenuItem key="Exclude Past" style={{backgroundColor:"#E8E8E8"}} onSelect={this.inputWasClicked.bind(this)}onClick={this.changeExcludePast.bind(this)}>
 						<Glyphicon glyph="check" />Exclude Past
 					</MenuItem>	
 				)
 			}
 			else{
 				return (
-					<MenuItem key="Exclude Past" onSelect={this.inputWasClicked.bind(this)} onClick={this.changeExcludePast.bind(this, this.state.excludePast)}>
+					<MenuItem key="Exclude Past" onSelect={this.inputWasClicked.bind(this)} onClick={this.changeExcludePast.bind(this)}>
 						Exclude Past
 					</MenuItem>	
 				)

@@ -26,7 +26,9 @@ class EventDetail extends Component {
                             url={"/api/events/"}
                             rsvp_status={rsvp_status}
                             status={status}
+                            renderDetail={this.props.renderDetail}
                             />)
+      
       // If there is an image to display
       if (this.props.activeEvent.image) {
         return(

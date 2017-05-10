@@ -38,8 +38,11 @@ urlpatterns = [
     url(r'^menus/', include('menus.urls')),
     url(r'^events/', include('events.urls', namespace='events')),
     url(r'^members/', include('members.urls', namespace='members')),
+    url(r'^announcements/', include('announcements.urls', namespace='announcements')),
+
     url(r'^api/members/', include('members.api_urls', namespace='members_api')),
     url(r'^api/events/', include('events.api_urls', namespace='events_api')),
+    url(r'^api/announcements/', include('announcements.api_urls', namespace='announcements_api')),
 
     url(r'^accounts/login/$', cas.views.login, name='login'),
     url(r'^accounts/logout/$', cas.views.logout, name='logout'),
