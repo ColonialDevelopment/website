@@ -8,7 +8,6 @@ from menus import views
 app_name = "menus"
 
 router = routers.DefaultRouter()
-router.register(r'menus', views.MenuViewSet)
 router.register(r'dishes', views.DishViewSet)
 
 

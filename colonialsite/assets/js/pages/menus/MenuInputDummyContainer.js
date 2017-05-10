@@ -8,21 +8,19 @@ class MenuInputDummyContainer extends Component {
 		this.state = {data: []};
 	}
 
-    loadContentFromServer() {
-        $.ajax({
-            url: this.props.url,
-            datatype: 'json',
-            cache: false,
-            success: function(data) {
-                this.setState({data:data.results});
-            }.bind(this)
-        })
-    }
+  loadContentFromServer() {
+      $.ajax({
+          url: this.props.url,
+          datatype: 'json',
+          cache: false,
+          success: function(data) {
+              this.setState({data:data.results});
+          }.bind(this)
+      })
+  }
 
 	componentDidMount() {
         this.loadContentFromServer();
-        setInterval(this.loadContentFromServer,
-            this.props.pollInterval)
     }
 
     render() {

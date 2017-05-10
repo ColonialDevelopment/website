@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from menus.models import Rating, Menu, Dish, MenuCategory, MEAL_CHOICES
+from menus.models import Rating, Dish, MenuCategory, MEAL_CHOICES
 
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
@@ -39,25 +39,15 @@ class MenuCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MenuCategory
-        fields = ('dishes', 'menu', 'category')
+        fields = ('dishes', 'date', 'category', 'meal', 'meal_permissions')
 
     def get_dishes(self, obj):
         return (obj.dish_set.all().values())
 
-class MenuSerializer(serializers.ModelSerializer):
-    menu_categories = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Menu
-        fields = ('menu_categories', 'date', 'meal')
-
-    def get_menu_categories(self, obj):
-        return (obj.menucategory_set.all().values())
-
 class RatingSerializer(serializers.ModelSerializer):
     dish_name = serializers.SerializerMethodField()
     reviewingUser = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
-    
+
     class Meta:
         model = Rating
         fields = ('value', 'dish', 'dish_name', 'reviewingUser')
