@@ -10,14 +10,19 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 class AnnouncementListAll(LoginRequiredMixin, generics.ListAPIView):
+	"""Class-based view to return all announcements. Supports GET only."""
 	queryset = Announcement.objects.all()
 	serializer_class = AnnouncementSerializer
 
 class AnnouncementDetail(LoginRequiredMixin, generics.RetrieveAPIView):
+	"""Class-based view to return a single announcement. Supports GET only."""
 	queryset = Announcement.objects.all()
 	serializer_class = AnnouncementSerializer
 
 class AnnouncementPost(LoginRequiredMixin, views.APIView):
+	"""Class-based view allowing creation and editing of announcements.
+	Supports POST and PUT only."""
+
 	parser_classes = (parsers.JSONParser, parsers.MultiPartParser, parsers.FormParser,)
 
 	def post(self, request):
@@ -32,6 +37,7 @@ class AnnouncementPost(LoginRequiredMixin, views.APIView):
 		)
 		new_announcement.save()
 		return HttpResponse(status=204)
+
 
 	def put(self, request, filename, format=None):
 		try:
@@ -54,15 +60,15 @@ class AnnouncementPost(LoginRequiredMixin, views.APIView):
 		announcement.save()
 		return HttpResponse(status=204)
 
+
 @login_required
 def index(request):
-    title = "Staff Dashboard"
-    template = 'announcements/index.html'
+	"""User-facing announcements index view."""
+	title = "Staff Dashboard"
+	template = 'announcements/index.html'
+	context = {
+			'title': title
+			}
 
-
-    context = {
-            'title': title
-            }
-
-    return render(request, template, context)
+	return render(request, template, context)
 
