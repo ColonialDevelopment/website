@@ -7,6 +7,7 @@ from rest_framework import generics
 from members.serializers import MemberSerializer
 from .models import Member, MemberForm
 from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.views.decorators.http import require_POST
 
 class MemberListAll(LoginRequiredMixin, generics.ListAPIView):
 	queryset = Member.objects.all()
@@ -69,3 +70,48 @@ def index(request):
             }
 
     return render(request, template, context)
+
+@login_required
+@require_POST
+def post_bio(request):
+    """ API endpoint to post a bio."""
+    try:
+        member = Member.objects.get(netid = request.user)
+    except Member.DoesNotExist:
+        raise Http404("No matching member object") 
+
+    member.bio = request.data
+    member.save()
+    return HttpResponse(status=204)
+
+@login_required
+@require_POST
+def post_bday(request):
+    """ API endpoint to post a birthday."""
+    try:
+        member = Member.objects.get(netid = request.user)
+    except Member.DoesNotExist:
+        raise Http404("No matching member object") 
+
+    member.birthday = request.data
+    member.save()
+    return HttpResponse(status=204)
+
+@login_required
+@require_POST
+def post_name(request):
+    """ API endpoint to post a preferred name."""
+    try:
+        member = Member.objects.get(netid = request.user)
+    except Member.DoesNotExist: 
+        raise Http404("No matching member object") 
+
+    member.pref_name = request.data
+    member.save()
+    return HttpResponse(status=204)
+
+
+
+
+    
+

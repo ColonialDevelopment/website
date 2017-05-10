@@ -8,6 +8,8 @@ class MemberAdmin(admin.ModelAdmin):
 	readonly_fields = ['name', 'netid', 'birthday', 'class_year', 'major',
 						'dorm', 'room_num', 'email', 'hometown',]
 	list_display = ['name', 'netid', 'class_year',]
+	search_fields = ['name', 'netid', 'pref_name', 'class_year', 'major', 'dorm', 'hometown']
+	list_filter = ['class_year',]
 
 admin.site.register(Member, MemberAdmin)
 
