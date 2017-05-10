@@ -1,18 +1,174 @@
+from __future__ import unicode_literals
+
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Permission, User
-from django.contrib.admin.models import LogEntry
+from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
+from django.utils.html import escape
+from django.core.urlresolvers import reverse, NoReverseMatch
+from django.contrib.contenttypes.models import ContentType
+from django.utils.encoding import force_text
+from django.utils.translation import ugettext_lazy as _
 
 class CustomUserAdmin(UserAdmin):
-    def __init__(self, *args, **kwargs):
-        super(UserAdmin, self).__init__(*args, **kwargs)
-        UserAdmin.list_display = list(UserAdmin.list_display) + ['permissions']
+    list_display = ('username', 'is_staff')
 
-    def permissions(self, obj):
-        return ', '.join([p.name for p in obj.user_permissions.all()])
 
-# Register your models here.
+
+
+action_names = {
+    ADDITION: _('Addition'),
+    DELETION: _('Deletion'),
+    CHANGE: _('Change'),
+}
+
+
+# from https://github.com/yprez/django-logentry-admin/blob/master/logentry_admin/admin.py
+class ActionListFilter(admin.SimpleListFilter):
+    title = _('Action')
+    parameter_name = 'action_flag'
+
+    def lookups(self, request, model_admin):
+        return action_names.items()
+
+    def queryset(self, request, queryset):
+        if self.value():
+            queryset = queryset.filter(action_flag=self.value())
+        return queryset
+
+class UserListFilter(admin.SimpleListFilter):
+    title = _('staff user')
+    parameter_name = 'user'
+
+    def lookups(self, request, model_admin):
+        staff = User.objects.filter(is_staff=True)
+        return (
+            (s.id, force_text(s))
+            for s in staff
+        )
+
+    def queryset(self, request, queryset):
+        if self.value():
+            queryset = queryset.filter(user_id=self.value(),
+                                        user__is_staff=True)
+        return queryset
+
+class LogEntryAdmin(admin.ModelAdmin):
+    date_hierarchy = 'action_time'
+
+    readonly_fields = ([f.name for f in LogEntry._meta.fields] +
+                        ['object_link', 'action_description', 'user_link'])
+
+    fieldsets = (
+        (_('Metadata'), {
+            'fields': (
+                'action_time',
+                'user_link',
+                'action_description',
+                'object_link',
+            )
+        }),
+        (_('Detail'), {
+            'fields': (
+                'change_message',
+                'content_type',
+                'object_id',
+                'object_repr',
+            )
+        }),
+    )
+
+
+    list_filter = [
+        UserListFilter,
+        'content_type',
+        ActionListFilter
+    ]
+
+    search_fields = [
+        'object_repr',
+        'change_message'
+    ]
+
+    list_display_links = [
+        'action_time',
+        'change_message',
+    ]
+    
+    list_display = [
+            'action_time',
+            'user_link',
+            'content_type',
+            'object_link',
+            'action_description',
+            'change_message',
+    ]
+    
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_superuser and request.method != 'POST'
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def object_link(self, obj):
+        object_link = escape(obj.object_repr)
+        content_type = obj.content_type
+
+        if obj.action_flag != DELETION and content_type is not None:
+            # try returning an actual link instead of object repr string
+            try:
+                url = reverse(
+                      'admin:{}_{}_change'.format(content_type.app_label,
+                                                content_type.model),
+                        args=[obj.object_id]
+                )
+                object_link = '<a href="{}">{}</a>'.format(url, object_link)
+            except NoReverseMatch:
+                pass
+            return object_link
+
+    object_link.allow_tags = True
+    object_link.admin_order_field = 'object_repr'
+    object_link.short_description = _('object')
+
+    def user_link(self, obj):
+        content_type = ContentType.objects.get_for_model(type(obj.user))
+        user_link = escape(force_text(obj.user))
+        try:
+            # try returning an actual link instead of object repr string
+            url = reverse(
+                'admin:{}_{}_change'.format(content_type.app_label,
+                                            content_type.model),
+                args=[obj.user.pk]
+            )
+            user_link = '<a href="{}">{}</a>'.format(url, user_link)
+        except NoReverseMatch:
+            pass
+        return user_link
+    
+    user_link.allow_tags = True
+    user_link.admin_order_field = 'user'
+    user_link.short_description = 'user'
+
+    def get_queryset(self, request):
+        queryset = super(LogEntryAdmin, self).get_queryset(request)
+        return queryset.prefetch_related('content_type')
+
+    def get_actions(self, request):
+        actions = super(LogEntryAdmin, self).get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+
+    def action_description(self, obj):
+        return action_names[obj.action_flag]
+    action_description.short_description = _('Action')
+
+
+admin.site.register(LogEntry, LogEntryAdmin)
 admin.site.register(Permission)
-admin.site.register(LogEntry)
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
