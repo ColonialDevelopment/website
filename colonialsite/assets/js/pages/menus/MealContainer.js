@@ -80,12 +80,11 @@ class MealContainer extends Component {
     let todayString = this.state.date.split('-');
     todayString[1] = (parseInt(todayString[1]));
     let today = new Date(`${todayString[0]},${todayString[1]},${todayString[2]}`);
-    console.log('Today is: ' + today);
+
     let tomorrow = new Date();
     tomorrow.setDate(today.getDate() + 1);
-    console.log('Tomorrow should be: ' + tomorrow);
     const returnString = this.formatDate(tomorrow);
-    console.log('Formatted tomorrow date is: ' + returnString)
+
     let dayOfWeek = tomorrow.getDay();
     if (dayOfWeek === 0) dayOfWeek = 7;
 
@@ -159,9 +158,9 @@ class MealContainer extends Component {
           </div>
           <div className="panel-body">
             <div className="row">
-              <div className="col-lg-4 text-center"><Meal data={this.state.breakfast} name="Breakfast" /></div>
-              <div className="col-lg-4 text-center"><Meal data={this.state.lunch} name="Lunch" /></div>
-              <div className="col-lg-4 text-center"><Meal data={this.state.dinner} name="Dinner" /></div>
+              <div className="col-lg-4 text-center"><Meal meal={this.state.breakfast} name="Breakfast" /></div>
+              <div className="col-lg-4 text-center"><Meal meal={this.state.lunch} name="Lunch" /></div>
+              <div className="col-lg-4 text-center"><Meal meal={this.state.dinner} name="Dinner" /></div>
             </div>
           </div>
           </div>
