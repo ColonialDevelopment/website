@@ -9,9 +9,11 @@ class DishSerializer(serializers.ModelSerializer):
     rating = serializers.SerializerMethodField()
     num_ratings = serializers.SerializerMethodField()
     avg_rating = serializers.SerializerMethodField()
+    rating_id = serializers.SerializerMethodField()
+
     class Meta:
         model = Dish
-        fields = ('id', 'name', 'rating', 'num_ratings', 'menus', 'avg_rating', 'allergens',
+        fields = ('id', 'name', 'rating', 'rating_id', 'num_ratings', 'menus', 'avg_rating', 'allergens',
                     'vegetarian', 'vegan', 'kosher_halal', 'dairy_free', 'soy_free', 'nut_free')
 
     def get_avg_rating(self, obj):
@@ -30,6 +32,14 @@ class DishSerializer(serializers.ModelSerializer):
             return 0.0
         else:
             return rating[0].value
+
+    def get_rating_id(self, obj):
+        user = self.context['request'].user.id
+        rating = obj.rating_set.all().filter(reviewingUser=user, dish=obj.id)
+        if len(rating.all().values()) is 0:
+            return 0
+        else:
+            return rating[0].id
 
     def get_num_ratings(self, obj):
         return len(obj.rating_set.all().values())
@@ -50,7 +60,7 @@ class RatingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Rating
-        fields = ('value', 'dish', 'dish_name', 'reviewingUser')
+        fields = ('id', 'value', 'dish', 'dish_name', 'reviewingUser')
         validators = [
             UniqueTogetherValidator(
                 queryset=Rating.objects.all(),

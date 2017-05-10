@@ -18,7 +18,8 @@ class Dish extends Component {
 					avg_rating={this.props.dish.avg_rating}
 					url="/api/ratings/"
 					editable={this.props.editable}
-					id={this.props.dish.id} />
+					id={this.props.dish.id}
+					rating_id={this.props.dish.rating_id} />
 			</Panel>
 			)
 	}
