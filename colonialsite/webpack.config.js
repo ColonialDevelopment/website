@@ -7,7 +7,8 @@ module.exports = {
     watch: true,
     entry: {
         menus:'./assets/js/pages/menus/menus',
-        events:'./assets/js/pages/events/events'
+        events:'./assets/js/pages/events/events',
+        announcements:'./assets/js/pages/announcements/announcements'
     },
     output: {
         path: path.resolve('./assets/bundles/'),
