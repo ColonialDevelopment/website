@@ -31,7 +31,6 @@ function clean_time(time_array){
 	var hour = parseInt(time_array[0]);
 	var minutes = time_array[1];
 	var PM = true;
-
 	switch (hour){
 		case 0:
 			hour = "8";
@@ -55,11 +54,13 @@ function clean_time(time_array){
 		case 4:
 			hour="12";
 			PM = false;
+			console.log("hour is 12")
 			break;
 
 		default:
+			PM = hour >= 16
 			hour = hour > 16 ? (hour - 4) - 12 : (hour - 4)
-			PM = hour > 16
+			if (hour === 16) hour = 12;
 		}
 
 	return ("" + hour + ":" + minutes + " " + (PM ? "PM" : "AM"));
