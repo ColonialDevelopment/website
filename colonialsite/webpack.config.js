@@ -8,7 +8,7 @@ module.exports = {
     entry: {
         menus:'./assets/js/pages/menus/menus',
         events:'./assets/js/pages/events/events',
-        members:'./assets/js/pages/members/members'
+        members:'./assets/js/pages/members/dashboard'
     },
     output: {
         path: path.resolve('./assets/bundles/'),
