@@ -37,7 +37,7 @@ class AnnouncementContainer extends Component{
 		}
     	return (
             <div>
-            <div className='announcement-header'>Check for important news from Kathleen</div>
+            <div className='announcement-header'>Announcements from the T5 and Kathleen</div>
     		<div className='scroll-container'>
     		{announcements}
     		</div>

@@ -134,7 +134,6 @@ var EventList = React.createClass({
         if (this.props.small){
             return (
                 <div>
-                     <div className='scroll-container-header border-bottom-1'> Events: </div>
                         <EventFilterTable   events={this.state.filtered_data}
                                             types={this.state.types}
                                             sortTypes={EventList.sortTypes}

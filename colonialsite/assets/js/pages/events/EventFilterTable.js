@@ -159,7 +159,7 @@ class EventFilterTable extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div style={{marginTop:7}}>
 				<div className="input-group">
 					<SearchBar
 						filterText={this.state.filterText}
