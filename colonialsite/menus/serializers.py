@@ -45,14 +45,14 @@ class DishSerializer(serializers.ModelSerializer):
         return len(obj.rating_set.all().values())
 
 class MenuCategorySerializer(serializers.ModelSerializer):
-    dishes = serializers.SerializerMethodField()
+    dishes = DishSerializer(many=True)
 
     class Meta:
         model = MenuCategory
         fields = ('dishes', 'date', 'category', 'meal', 'meal_permissions')
 
     def get_dishes(self, obj):
-        return (obj.dish_set.all().values())
+        return (map(lambda x: DishSerializer(x).data, obj.dish_set.all().values()))
 
 class RatingSerializer(serializers.ModelSerializer):
     dish_name = serializers.SerializerMethodField()

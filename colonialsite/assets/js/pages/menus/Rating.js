@@ -33,6 +33,7 @@ class Rating extends Component{
 		})
 		.then(function(response_data){
 			this.setState({editable:false, rating:event.rating, rating_id:response_data.data.id})
+			this.props.finishSubmit();
 		}.bind(this))
 		.catch(function(jqXHR, textStatus, errorThrown){
 			console.log(textStatus);

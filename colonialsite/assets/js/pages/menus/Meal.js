@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
+import Rating from './Rating';
 
 function categorySort(a, b){
 
@@ -23,7 +24,15 @@ class Meal extends Component {
     return data.map((entry) => {
       if (entry.category === category) {
         return entry.dishes.map((dish) => {
-          return <ListItem key={dish.id} primaryText={dish.name} />
+          return (<ListItem key={dish.id} primaryText={dish.name} secondaryText={"Rating: "+ dish.avg_rating} onClick={(e) => this.props.showModal(
+                                                (<Rating your_rating={dish.rating}   
+                                                         avg_rating={dish.avg_rating}
+                                                         url="/api/ratings/"
+                                                         editable={false}
+                                                         finishSubmit={this.props.finishSubmit}
+                                                         id={dish.id}
+                                                         rating_id={dish.rating_id} />), 'Rate '+dish.name)} />
+            )
         })
       }
     })
@@ -76,7 +85,7 @@ class Meal extends Component {
         </h3>
         <div style={{borderStyle: 'solid', borderWidth: '1px', borderColor: '#9ea5af'}}>
           <List className='text-left'>
-            <ListItem secondaryText="No meals have been entered yet" />
+            <ListItem secondaryText="This meal has not yet been posted!" />
           </List>
         </div>
       </div>

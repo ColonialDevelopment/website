@@ -1,6 +1,6 @@
 from django.shortcuts import render
 import coloauth as accounts
-from menus.models import MenuCategory, Dish, Rating, getMealList
+from menus.models import MenuCategory, Dish, Rating
 from menus.serializers import MenuCategorySerializer, DishSerializer, RatingSerializer
 from django.contrib.auth.decorators import login_required
 from rest_framework.decorators import detail_route
@@ -14,26 +14,11 @@ import datetime
 def index(request):
     title = "Menus"
     template = 'menus/index.html'
-    component = 'menus.entry.js'
-
-
     context = {
-            'title': title,
-            'component': component,
+            'title': title
             }
 
     return render(request, template, context)
-
-
-def menu_entry_page(request):
-    #if request.user.is_staff:
-        context = {
-                'date':datetime.datetime.now(),
-                'meals':getMealList(datetime.datetime.now()),
-                }
-        return render(request, 'menus/create.html', context)
-    #else:
-    #    return redirect('dashboard:dashboard-index')
 
 class DishViewSet(viewsets.ModelViewSet):
     """

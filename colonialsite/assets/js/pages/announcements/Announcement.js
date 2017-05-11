@@ -7,9 +7,10 @@ class Announcement extends Component{
 	render(){
 		const {id, title, start_date, end_date, description, attachment} = this.props.announcement;
 		const human_start_date = moment(start_date).format('LLLL');
-		const file = attachment.split('/').length >= 6 ? (<form method="get" action={attachment}>
-								<button type="submit" className="btn btn-primary announcement-file">Attached File</button>
-							</form>) : (<div></div>)
+		const file = attachment.split('/').length >= 6  ? (<form method="get" action={attachment}>
+															<button type="submit" className="btn btn-primary announcement-file">Attached File</button>
+														  </form>) 
+														: (<div></div>)
 		return(
 			<div className='announcement-item'>
 				<div className='announcement-header'>

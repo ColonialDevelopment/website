@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import Meal from './Meal';
+
 import DatePicker from 'material-ui/DatePicker';
+import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+
 import CreateIcon from 'material-ui/svg-icons/content/create';
 import PrevButton from 'material-ui/svg-icons/navigation/chevron-left';
 import NextButton from 'material-ui/svg-icons/navigation/chevron-right';
@@ -9,7 +12,7 @@ import NextButton from 'material-ui/svg-icons/navigation/chevron-right';
 class MealContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {date: props.today.date, day: props.today.day, data: null};
+    this.state = {date: props.today.date, day: props.today.day, data: null, open:false};
     // this.changeDay = this.changeDay.bind(this);
   }
 
@@ -66,7 +69,6 @@ class MealContainer extends Component {
 
   // Change date for the datepicker component
   changeDate(newDate) {
-    console.log(newDate);
     const date = new Date(newDate);
     const returnString = this.formatDate(date);
     let dayOfWeek = date.getDay();
@@ -114,8 +116,35 @@ class MealContainer extends Component {
   openDatePicker() {
     this.refs.dp.openDialog();
   }
+  showModal(rating, title){
+    this.setState({modalBody:rating, modalTitle:title, open:true});
+  }
+  finishSubmit(){
+    this.setState({open:false, modalBody:null, modalTitle:null});
+    this.fetchData();
+  }
 
   render() {
+    const close = (
+        <FlatButton
+          label="Close"
+          primary={true}
+          onTouchTap={function(){
+                              this.setState({open:false})
+                            }.bind(this)}
+        /> 
+      );
+    const dialog = (<Dialog title={this.state.modalTitle}
+                  actions={close}
+                  modal={true}
+                  open={this.state.open}
+                  onRequestClose={function(){
+                                      this.setState({open:false})
+                                  }.bind(this)
+                                 }
+                  onTouchTap={function(){this.setState({open:false})}.bind(this)}>
+                  {this.state.modalBody}
+          </Dialog>)
     // Menu display for weekends
     if (this.state.day == 6 || this.state.day == 7)
       return(
@@ -136,11 +165,12 @@ class MealContainer extends Component {
               </div>
               <div className="panel-body">
                 <div className="row">
-                  <div className="col-lg-6 text-center"><Meal meal={this.state.brunch} name="Brunch" /></div>
-                  <div className="col-lg-6 text-center"><Meal meal={this.state.dinner} name="Dinner" /></div>
+                  <div className="col-lg-6 text-center"><Meal meal={this.state.brunch} name="Brunch" showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
+                  <div className="col-lg-6 text-center"><Meal meal={this.state.dinner} name="Dinner" showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
                 </div>
               </div>
             </div>
+            {dialog}
         </div>
       )
     // Menu display for weekdays
@@ -162,12 +192,13 @@ class MealContainer extends Component {
           </div>
           <div className="panel-body">
             <div className="row">
-              <div className="col-lg-4 text-center"><Meal meal={this.state.breakfast} name="Breakfast" /></div>
-              <div className="col-lg-4 text-center"><Meal meal={this.state.lunch} name="Lunch" /></div>
-              <div className="col-lg-4 text-center"><Meal meal={this.state.dinner} name="Dinner" /></div>
+              <div className="col-lg-4 text-center"><Meal meal={this.state.breakfast} name="Breakfast" showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)} /></div>
+              <div className="col-lg-4 text-center"><Meal meal={this.state.lunch} name="Lunch" showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
+              <div className="col-lg-4 text-center"><Meal meal={this.state.dinner} name="Dinner" showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
             </div>
           </div>
           </div>
+          {dialog}
       </div>
     )
   }
