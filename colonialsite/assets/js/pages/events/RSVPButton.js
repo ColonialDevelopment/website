@@ -4,9 +4,6 @@ import {Button} from 'react-bootstrap';
 class RSVPButton extends Component {
 	constructor(props){
 		super(props);
-		this.state= {
-			rsvp:this.props.rsvp_status
-		}
 	}
 	handleSubmit(url){
 		$.ajax({
@@ -16,7 +13,7 @@ class RSVPButton extends Component {
 			contentType:'application/json'
 		})
 		.done(function(){
-			this.setState({rsvp:!this.state.rsvp})
+			this.props.renderDetail(this.props.eventId);
 		})
 		.fail(function(jqXHR, textStatus, errorThrown){
 			console.log(textStatus);
@@ -30,7 +27,7 @@ class RSVPButton extends Component {
 				<div> RSVP for this event is closed </div>
 			)
 		}
-		if (!this.state.rsvp){
+		if (!this.props.rsvp_status){
 			return (
 			<Button bsStyle="success"
 					onClick={this.handleSubmit.bind(this, this.props.url+this.props.eventId+'/rsvp')}>

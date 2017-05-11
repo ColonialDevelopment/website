@@ -163,15 +163,14 @@ class Member extends Component{
 
 
 		return (
-			<div className="container">
-				<div className="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+				<div>
 				<Panel>
-					<div className="col-md-2 col-lg-2 col-sm-4 col-xs-4">
+					<div className="col-md-4 col-lg-4 col-sm-4 col-xs-4">
 						<Panel style={{backgroundColor:"gray"}}>
 						<Image src={"https://tigerbook.herokuapp.com/images/"+netid} responsive />
 						</Panel>
 					</div>
-					<div className="col-md-8 col-lg-8 col-sm-8 col-xs-8">
+					<div className="col-md-4 col-lg-4 col-sm-4 col-xs-4">
 						<br/><br/>
 						<h2 className="text-center">{pref_name} {name}</h2>
 						<div className="text-center">
@@ -186,16 +185,11 @@ class Member extends Component{
 						{birthdayNode}
 						</div>
 					</div>
-					<div className="col-sm-12 col-md-10 col-lg-10 col-xs-12">
-						<h2>Bio</h2>
-						<div>
+					<div>
 						{bioNode}
-						</div>
-
 					</div>
 				</Panel>
 				</div>
-			</div>
 			)
 	}
 }

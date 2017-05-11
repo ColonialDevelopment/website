@@ -12,4 +12,3 @@ class MemberAdmin(admin.ModelAdmin):
 	list_filter = ['class_year',]
 
 admin.site.register(Member, MemberAdmin)
-
