@@ -21,11 +21,10 @@ from rest_framework import routers
 from django.conf.urls.static import static
 from django.conf import settings
 
-from menus.views import MenuViewSet, DishViewSet, RatingViewSet, MenuCategoryViewSet
+from menus.views import DishViewSet, RatingViewSet, MenuCategoryViewSet
 import cas.views
 
 router = routers.DefaultRouter()
-router.register(r'api/menus', MenuViewSet)
 router.register(r'api/dishes', DishViewSet)
 router.register(r'api/ratings', RatingViewSet)
 router.register(r'api/menu_categories', MenuCategoryViewSet)

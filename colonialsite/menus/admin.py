@@ -1,11 +1,5 @@
 from django.contrib import admin
-from .models import Menu, Dish, Rating
-
-class MenuAdmin(admin.ModelAdmin):
-    fields = ['date', 'meal', 'meal_permissions']
-    list_display = ['date', 'meal']
-    list_filter = ['date', 'meal']
-    search_fields = ['date', 'meal']
+from .models import Dish, Rating, MenuCategory
 
 class DishAdmin(admin.ModelAdmin):
 	fields = ['menus', 'name']
@@ -19,6 +13,11 @@ class RatingAdmin(admin.ModelAdmin):
 	list_filter = ['dish', 'reviewingUser', 'value']
 	search_fields = ['dish', 'reviewingUser']
 
+class MenuCategoryAdmin(admin.ModelAdmin):
+	fields = ['date', 'meal', 'meal_permissions', 'category']
+	list_display = ['meal', 'date']
+	list_filter = ['meal', 'date']
+
 admin.site.register(Rating, RatingAdmin)
 admin.site.register(Dish, DishAdmin)
-admin.site.register(Menu, MenuAdmin)
+admin.site.register(MenuCategory, MenuCategoryAdmin)

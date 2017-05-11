@@ -13,7 +13,7 @@ pytz >= 2016.4
 
 # Debugging
 django-debugtools >= 1.6
-ipython >= 4.1.2
+#ipython >= 4.1.2
 ptpython >= 0.32
 
 
