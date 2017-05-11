@@ -6,7 +6,12 @@ from .models import Announcement
 
 # Register your models here.
 class AnnouncementAdmin(admin.ModelAdmin):
-	list_display = ['title', 'poster', 'start_date', 'end_date']
-	list_filter = ['start_date', 'end_date']
+	def contains_attachment(self, obj):
+		return (obj.attachment != None)
+	contains_attachment.short_description = "Contains attachment?"
+
+	list_display = ['title', 'poster', 'start_date', 'end_date', 'contains_attachment']
+	list_filter = ['poster', 'start_date', 'end_date']
+	search_fields = ['title', 'description']
 
 admin.site.register(Announcement, AnnouncementAdmin)
