@@ -66,6 +66,7 @@ class MealContainer extends Component {
 
   // Change date for the datepicker component
   changeDate(newDate) {
+    console.log(newDate);
     const date = new Date(newDate);
     const returnString = this.formatDate(date);
     let dayOfWeek = date.getDay();
@@ -82,6 +83,7 @@ class MealContainer extends Component {
     let today = new Date(`${todayString[0]},${todayString[1]},${todayString[2]}`);
 
     let tomorrow = new Date();
+    tomorrow.setMonth(today.getMonth());
     tomorrow.setDate(today.getDate() + 1);
     const returnString = this.formatDate(tomorrow);
 
@@ -94,10 +96,12 @@ class MealContainer extends Component {
 
   goYesterday() {
     let todayString = this.state.date.split('-');
-    todayString[1] = (parseInt(todayString[1]) - 1);
     const today = new Date(`${todayString[0]},${todayString[1]},${todayString[2]}`);
+    
     let yesterday = new Date();
+    yesterday.setMonth(today.getMonth());
     yesterday.setDate(today.getDate() - 1);
+    
     const returnString = this.formatDate(yesterday);
 
     let dayOfWeek = yesterday.getDay();
