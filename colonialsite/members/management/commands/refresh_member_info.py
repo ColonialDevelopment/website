@@ -10,6 +10,7 @@ import requests
 # if this stops working due to 401, check https://time.is
 
 # todo: add options to only update for certain class years, existing members, etc
+# Command to import member data from TigerBook API
 class Command(BaseCommand):
 	def handle(self, *args, **options):
 
