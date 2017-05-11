@@ -19,10 +19,11 @@ var Event = React.createClass({
 		{
 			return (
 					<Panel onClick={() => {this.props.onClick(this.props.id);}} 
-						   header={<span>
-						   		<span>{this.props.date}</span>
-						   		<span style={{float:'right'}}>{this.props.category}</span></span>}>
-	                       <span>{this.props.name}</span>
+						   header={	<span>
+						   				<span>{this.props.date}</span>
+						   				<span style={{float:'right'}}>{this.props.category}</span>
+					   				</span>}>
+       			   	<span>{this.props.name}</span>
 	                </Panel>
 				)
 		}

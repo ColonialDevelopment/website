@@ -5,21 +5,20 @@ class Announcement extends Component{
 		super(props);
 	}
 	render(){
-		const {id, title, start_date, end_date, description, href} = this.props.announcement;
-		const human_end_date = moment(end_date).format('LLLL');
-
+		const {id, title, start_date, end_date, description, attachment} = this.props.announcement;
+		const human_start_date = moment(start_date).format('LLLL');
+		const file = attachment.split('/').length >= 6 ? (<form method="get" action={attachment}>
+								<button type="submit" className="btn btn-primary announcement-file">Attached File</button>
+							</form>) : (<div></div>)
 		return(
 			<div className='announcement-item'>
 				<div className='announcement-header'>
 				<span style={{float:'left'}}>{title}</span>
-				<span style={{float:'right'}}>Display until {human_end_date}</span>
 				</div>
 				<div className='announcement-body'>
 				{description}
 				</div>
-				<div className='announcement-attachment'>
-				<a href={href}>Attached File</a>
-				</div>
+				{file}
 			</div>
 
 		)

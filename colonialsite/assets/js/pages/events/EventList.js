@@ -31,11 +31,13 @@ var EventList = React.createClass({
             ]
     },  
     loadContentFromServer: function(){
+        console.log(this.props.url);
         $.ajax({
             url:this.props.url,
             datatype: 'json',
             cache: false,
             success: function(data) {
+                console.log(data.results);
                 this.setState({data:data.results})
                 this.updateFilters(this.state.types, this.state.excludePast);
                 if (this.state.event){

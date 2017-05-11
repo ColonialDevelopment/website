@@ -25,8 +25,14 @@ class AnnouncementContainer extends Component{
     render(){
     	if (this.state.announcements.length > 0){
     		var announcements = this.state.announcements.map(function(announcement) {
-    			return (<Announcement 	key={announcement.id}
-    									announcement={announcement} />)
+    			const now = new Date();
+    			const start = new Date(announcement.start_date);
+    			const end = new Date(announcement.end_date);
+
+    			if ( start < now && end > now){
+    				return (<Announcement 	key={announcement.id}
+    										announcement={announcement} />)
+    			}
     		})
 		}
     	return (

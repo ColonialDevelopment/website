@@ -43,10 +43,10 @@ class MemberList extends Component{
 
 		return (
 			<div>
-			<h2>Search through Members</h2>
 			<Typeahead onInputChange={this.handleSearch.bind(this)}
 					   options={this.state.members}
 					   labelKey={'name'}
+					   placeholder="Search our members!"
 					   renderMenuItemChildren={(result, props) => {
 					   	return (
     						<Member member={result}

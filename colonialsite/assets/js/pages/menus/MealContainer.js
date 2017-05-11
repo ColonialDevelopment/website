@@ -119,7 +119,7 @@ class MealContainer extends Component {
     // Menu display for weekends
     if (this.state.day == 6 || this.state.day == 7)
       return(
-        <div className="container">
+        <div className="container-fluid">
             <div className="panel panel-default">
               <div className="panel-body text-center">
                 <div style={{float: 'left', position: 'relative', left: '50%'}}>
@@ -145,7 +145,7 @@ class MealContainer extends Component {
       )
     // Menu display for weekdays
     return(
-      <div className="container">
+      <div className="container-fluid">
           <div className="panel panel-default">
           <div className="panel-body text-center">
             <div style={{float: 'left', position: 'relative', left: '50%'}}>
