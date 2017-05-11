@@ -18,7 +18,7 @@ module.exports = {
 
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new BundleTracker({filename: './webpack-stats.json'}),
         new webpack.ProvidePlugin({
             $: 'jquery',
