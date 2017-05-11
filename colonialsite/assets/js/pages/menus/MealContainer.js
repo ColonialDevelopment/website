@@ -126,7 +126,7 @@ class MealContainer extends Component {
 
   renderDate() {
     const date = this.state.date.split('-');
-    const today = new Date(date[0], date[1], date[2]);
+    const today = new Date(date[0], date[1] - 1, date[2]);
 
     let day = '';
     switch (today.getDay()) {
