@@ -6,7 +6,9 @@ module.exports = {
     context: __dirname,
     entry: {
         menus:'./assets/js/pages/menus/menus',
-        events:'./assets/js/pages/events/events'
+        events:'./assets/js/pages/events/events',
+        members:'./assets/js/pages/members/dashboard',
+        announcements:'./assets/js/pages/announcements/announcements'
     },
     output: {
         path: path.resolve('./assets/bundles/'),
@@ -15,7 +17,7 @@ module.exports = {
 
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new BundleTracker({filename: './webpack-stats.json'}),
         new webpack.ProvidePlugin({
             $: 'jquery',
