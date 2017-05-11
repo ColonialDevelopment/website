@@ -1,4 +1,5 @@
 import {Component} from 'react';
+import {Panel} from 'react-bootstrap';
 
 class Announcement extends Component{
 	constructor(props){
@@ -7,22 +8,22 @@ class Announcement extends Component{
 	render(){
 		const {id, title, start_date, end_date, description, attachment} = this.props.announcement;
 		const human_start_date = moment(start_date).format('LLLL');
-		const file = attachment.split('/').length >= 6  ? (<form method="get" action={attachment}>
-															<button type="submit" className="btn btn-primary announcement-file">Attached File</button>
-														  </form>) 
-														: (<div></div>)
+		console.log(attachment);
+		var file = (<div></div>);
+		if (attachment){
+			var file = attachment.split('/').length >= 6  ? (<form method="get" action={attachment}>
+																<button type="submit" className="btn btn-primary announcement-file">Attached File</button>
+										  					 </form>) 
+														  : (<div></div>)
+		}
 		return(
-			<div className='announcement-item'>
-				<div className='announcement-header'>
-				<span style={{float:'left'}}>{title}</span>
-				</div>
-				<div className='announcement-body'>
-				{description}
-				</div>
-				{file}
-			</div>
-
-		)
+					<Panel	header={<span>
+						   			<span>{title}</span>
+						   			<span style={{float:'right'}}>{this.props.category}</span>
+					   			   </span>} >
+	                       <span style={{float:'left'}}> {description} </span><span style={{float:'right'}}>{file}</span>
+	                </Panel>
+               )
 	}
 }
 

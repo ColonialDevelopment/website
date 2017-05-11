@@ -1,9 +1,9 @@
 import {Component} from 'react';
+import {Image} from 'react-bootstrap';
 import MemberList from './MemberList';
 import AnnouncementContainer from '../announcements/AnnouncementContainer';
-import {Image} from 'react-bootstrap';
-import MealContainer from '../menus/MealContainer';
 import EventList from '../events/EventList';
+import MealContainer from '../menus/MealContainer';
 import {EVENTS_LIST} from '../../statics/urls.js';
 
 class DashboardContainer extends Component{
@@ -24,12 +24,8 @@ class DashboardContainer extends Component{
 						<AnnouncementContainer url='/api/announcements' />
 					</div>
 					<div className="col-md-6">
-						<div className='dashboard-header'>MEMBER SEARCH</div>
-						<MemberList url='/api/members' />
-					</div>
-					<div className="col-md-12">
 						<div className='dashboard-header'>EVENTS</div>
-						<EventList url={EVENTS_LIST} pollInterval={100000}/>
+						<EventList url={EVENTS_LIST} small={true} pollInterval={100000}/>
 					</div>
 				</div>
 				<div className='dashboard-header'>MENUS</div>

@@ -119,14 +119,37 @@ var EventList = React.createClass({
             sortType:sortType
         });
     },
-    renderDetail: function(id) {
+    renderDetail: function(id, e) {
         this.setState({
                 event: this.state.filtered_data.find(event => event.pk == id), 
                 showModal:true
         })
         this.loadContentFromServer();
     },
+    hideDetail:function(){
+        this.setState({showModal:false});
+    },
     render: function() {
+
+        if (this.props.small){
+            return (
+                <div>
+                     <div className='scroll-container-header border-bottom-1'> Events: </div>
+                        <EventFilterTable   events={this.state.filtered_data}
+                                            types={this.state.types}
+                                            sortTypes={EventList.sortTypes}
+                                            selected_event={this.state.event}
+                                            defaultSort={this.state.sortType}
+
+                                            renderDetail={(id) => console.log()}
+                                            updateFilteredList={this.updateFilters}
+                                            updateSort={this.updateSort} />
+                </div>
+               )            
+        }
+
+
+
         return (
                 <div>
                     <div className="container col-md-12 col-sm-12 col-xs-12 col-lg-6">
@@ -150,7 +173,7 @@ var EventList = React.createClass({
                         <EventDetailModal key={"smallScreen"}
                                           activeEvent={this.state.event}
                                           showModal={this.state.showModal && window.innerWidth < 1200}
-                                          onHide={() => this.setState({ showModal: false})}
+                                          onHide={this.hideDetail}
                                           renderDetail={this.renderDetail} />
                     </div>
                 </div>

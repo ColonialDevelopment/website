@@ -5,7 +5,7 @@ var Event = React.createClass({
 	render: function(){
 		if (this.props.selected){
 			return(
-					<Panel onClick={() => {this.props.onClick(this.props.id);}} 
+					<Panel onClick={(e) => {this.props.onClick(this.props.id, e);}} 
 						   header={<span>
 						   			<span>{this.props.date}</span>
 						   			<span style={{float:'right'}}>{this.props.category}</span>

@@ -5,6 +5,8 @@
    padding: 10px;
    overflow-y:scroll;
    border: 1px solid #eee;
+   background-color: rgba(197, 217, 255, 0.1);;
+   border-radius:5px;
    }
 
 .scroll-container-header {
