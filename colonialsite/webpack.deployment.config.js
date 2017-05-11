@@ -7,7 +7,7 @@ module.exports = {
     entry: {
         menus:'./assets/js/pages/menus/menus',
         events:'./assets/js/pages/events/events',
-        members:'./assets/js/pages/members/dashboard',
+        dashboard:'./assets/js/pages/members/dashboard',
         announcements:'./assets/js/pages/announcements/announcements'
     },
     output: {
