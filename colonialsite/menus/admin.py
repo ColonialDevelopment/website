@@ -15,8 +15,8 @@ class RatingAdmin(admin.ModelAdmin):
 
 class MenuCategoryAdmin(admin.ModelAdmin):
 	fields = ['date', 'meal', 'meal_permissions', 'category']
-	list_display = ['meal', 'date']
-	list_filter = ['meal', 'date']
+	list_display = ['date', 'meal', 'category']
+	list_filter = ['date', 'meal', ]
 
 admin.site.register(Rating, RatingAdmin)
 admin.site.register(Dish, DishAdmin)
