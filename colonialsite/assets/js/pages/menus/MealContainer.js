@@ -27,19 +27,19 @@ class MealContainer extends Component {
         cache: false,
         success: function(data) {
             this.setState({data: data.results});
-            this.findTodayMeals();
+            this.findTodayMeals(this.state.date);
         }.bind(this)
     })
   }
 
-  findTodayMeals() {
+  findTodayMeals(date) {
     let breakfast = [];
     let lunch = [];
     let dinner = [];
     let brunch = [];
 
     this.state.data.map((mealCategory) => {
-      if (mealCategory.date === this.state.date) {
+      if (mealCategory.date === date) {
         if (mealCategory.meal === "Breakfast") breakfast.push(mealCategory);
         else if (mealCategory.meal === "Lunch") lunch.push(mealCategory);
         else if (mealCategory.meal === "Dinner") dinner.push(mealCategory);
@@ -75,7 +75,8 @@ class MealContainer extends Component {
     if (dayOfWeek === 0) dayOfWeek = 7;
 
     this.setState({ date: returnString, day: dayOfWeek });
-    this.fetchData();
+    this.findTodayMeals(returnString);
+
   }
 
   // Go to previous/next day, from the buttons
@@ -93,7 +94,7 @@ class MealContainer extends Component {
     if (dayOfWeek === 0) dayOfWeek = 7;
 
     this.setState({ date: returnString, day: dayOfWeek });
-    this.fetchData();
+    this.findTodayMeals(returnString);
   }
 
   goYesterday() {
@@ -110,7 +111,7 @@ class MealContainer extends Component {
     if (dayOfWeek === 0) dayOfWeek = 7;
 
     this.setState({ date: returnString, day: dayOfWeek });
-    this.fetchData();
+    this.findTodayMeals(returnString);
   }
 
   openDatePicker() {
