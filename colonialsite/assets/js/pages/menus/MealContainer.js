@@ -99,11 +99,11 @@ class MealContainer extends Component {
   goYesterday() {
     let todayString = this.state.date.split('-');
     const today = new Date(`${todayString[0]},${todayString[1]},${todayString[2]}`);
-    
+
     let yesterday = new Date();
     yesterday.setMonth(today.getMonth());
     yesterday.setDate(today.getDate() - 1);
-    
+
     const returnString = this.formatDate(yesterday);
 
     let dayOfWeek = yesterday.getDay();
@@ -124,6 +124,77 @@ class MealContainer extends Component {
     this.fetchData();
   }
 
+  renderDate() {
+    const date = this.state.date.split('-');
+    const today = new Date(date[0], date[1] - 1, date[2]);
+
+    let day = '';
+    switch (today.getDay()) {
+      case 0:
+        day = 'Sunday';
+        break;
+      case 1:
+        day = 'Monday';
+        break;
+      case 2:
+        day = 'Tuesday';
+        break;
+      case 3:
+        day = 'Wednesday';
+        break;
+      case 4:
+        day = 'Thursday';
+        break;
+      case 5:
+        day = 'Friday';
+        break;
+      case 6:
+        day = 'Saturday';
+        break;
+    }
+
+    let month = '';
+    switch (today.getMonth()) {
+      case 0:
+        month = 'January';
+        break;
+      case 1:
+        month = 'February';
+        break;
+      case 2:
+        month = 'March';
+        break;
+      case 3:
+        month = 'April';
+        break;
+      case 4:
+        month = 'May';
+        break;
+      case 5:
+        month = 'June';
+        break;
+      case 6:
+        month = 'July';
+        break;
+      case 7:
+        month = 'August';
+        break;
+      case 8:
+        month = 'September';
+        break;
+      case 9:
+        month = 'October';
+        break;
+      case 10:
+        month = 'November';
+        break;
+      case 11:
+        month = 'December';
+        break;
+    }
+    return (day + ', ' + month + ' ' + today.getDate());
+  }
+
   render() {
     const close = (
         <FlatButton
@@ -132,7 +203,7 @@ class MealContainer extends Component {
           onTouchTap={function(){
                               this.setState({open:false})
                             }.bind(this)}
-        /> 
+        />
       );
     const dialog = (<Dialog title={this.state.modalTitle}
                   actions={close}
@@ -154,7 +225,7 @@ class MealContainer extends Component {
                 <div style={{float: 'left', position: 'relative', left: '50%'}}>
                   <div style={{float: 'left', position: 'relative', left: '-50%'}}>
                     <FlatButton onTouchTap={this.goYesterday.bind(this)} style={{marginTop: '18px', textAlign: 'center', float: 'left'}} icon={<PrevButton />} />
-                    <h2 style={{ float: 'left' }}>{this.state.date}</h2>
+                    <h2 style={{ float: 'left' }}>{this.renderDate()}</h2>
                     <FlatButton onTouchTap={this.goTomorrow.bind(this)} style={{marginTop: '18px', textAlign: 'center'}} icon={<NextButton />} />
                   </div>
                   <div style={{ clear: 'both' }}/>
@@ -181,7 +252,7 @@ class MealContainer extends Component {
             <div style={{float: 'left', position: 'relative', left: '50%'}}>
               <div style={{float: 'left', position: 'relative', left: '-50%'}}>
                 <FlatButton onTouchTap={this.goYesterday.bind(this)} style={{marginTop: '18px', textAlign: 'center', float: 'left'}} icon={<PrevButton />} />
-                <h2 style={{ float: 'left' }}>{this.state.date}</h2>
+                <h2 style={{ float: 'left' }}>{this.renderDate()}</h2>
                 <FlatButton onTouchTap={this.goTomorrow.bind(this)} style={{marginTop: '18px', textAlign: 'center'}} icon={<NextButton />} />
               </div>
               <div style={{ clear: 'both' }}/>
