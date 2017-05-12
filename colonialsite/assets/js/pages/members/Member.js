@@ -165,12 +165,8 @@ class Member extends Component{
 		return (
 				<div>
 				<Panel>
-					<div className="col-md-4 col-lg-4 col-sm-4 col-xs-4">
-						<Panel style={{backgroundColor:"gray"}}>
 						<Image src={"https://tigerbook.herokuapp.com/images/"+netid} responsive />
-						</Panel>
-					</div>
-					<div className="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+					<div>
 						<br/><br/>
 						<h2 className="text-center">{pref_name} {name}</h2>
 						<div className="text-center">

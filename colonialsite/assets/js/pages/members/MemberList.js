@@ -23,8 +23,9 @@ class MemberList extends Component{
     }
 
     handleSearch(data){
+    			console.log(data);
     	const new_display = this.state.members.filter(member => {
-    				return member.name===data
+    				return (member.name.toLowerCase()).includes(data[0].name.toLowerCase())
     			});
     	this.setState({displayed_members:new_display})
     }
@@ -32,31 +33,37 @@ class MemberList extends Component{
         this.loadContentFromServer();
     }
 	render() {
-		if (this.state.displayed_members.length > 0){
-			var displayedMembers = this.state.displayed_members.map(function(member){
-				return (<Member 	key={member.netid}
-									member={member}
-						 			editable={false} />)
-			})
-			var display_header = (<h2>Selected Member</h2>);
-		}
 
+		if (this.state.displayed_members.length > 0){
+			
+			var displayedMembers = this.state.displayed_members.map(function(member){
+				return (<div className='col-md-4'>
+							<Member 	key={member.netid}
+										member={member}
+						 				editable={false} />
+						</div>)
+			})
+		}
+		else{
+			if (this.state.members){
+				var displayedMembers = this.state.members.map(function(member){
+					return (<div className='col-md-4'>
+								<Member 	key={member.netid}
+											member={member}
+						 					editable={false} />
+							</div>)
+				})
+			}
+		}
 		return (
-			<div>
-			<Typeahead onInputChange={this.handleSearch.bind(this)}
+			<div className='col-md-6'>
+			<Typeahead onChange={this.handleSearch.bind(this)}
 					   options={this.state.members}
 					   labelKey={'name'}
 					   placeholder="Search our members!"
-					   renderMenuItemChildren={(result, props) => {
-					   	return (
-    						<Member member={result}
-									editable={false} />
-    						)
-					   }}
 					   filterBy={['name', 'major', 'dorm', 'hometown', 'netid', 'officer_pos']} 
 					    />
 			<br/>
-			{display_header}
 			{displayedMembers}
 		    </div>
 			)
