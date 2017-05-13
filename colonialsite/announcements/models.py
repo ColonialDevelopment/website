@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
-from django.db import models
-from django.contrib.auth.models import User
-from django.utils.encoding import python_2_unicode_compatible
-
 from datetime import datetime
+import os, uuid
 
-import uuid, os
+from django.contrib.auth.models import User
+from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 
 def get_file_path(title, filename):
 	""" Creates a file path with uuid to prevent collision."""
@@ -30,6 +28,7 @@ class Announcement(models.Model):
 	end_date 	= models.DateTimeField(verbose_name = 'Announcement expiration')
 	description	= models.TextField()
 	attachment	= models.FileField(upload_to=get_file_path, blank=True) 
+	# display text to download attachment
 	file_title  = models.CharField(max_length = 30, default="No file")
 
 	def __str__(self):

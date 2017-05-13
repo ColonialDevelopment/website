@@ -7,7 +7,9 @@ from .models import Announcement
 # Register your models here.
 class AnnouncementAdmin(admin.ModelAdmin):
 	def contains_attachment(self, obj):
-		return (obj.attachment != None)
+		if obj.attachment:
+			return 'Yes'
+		return 'No'
 	contains_attachment.short_description = "Contains attachment?"
 
 	list_display = ['title', 'poster', 'start_date', 'end_date', 'contains_attachment']
