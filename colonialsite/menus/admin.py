@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Dish, Rating, MenuCategory
 
 class DishAdmin(admin.ModelAdmin):
-	fields = ['menus', 'name']
+	#fields = '__all__'
 	list_display = ['name']
 	list_filter = ['name']
 	search_fields = ['name']
