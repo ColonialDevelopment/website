@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils.encoding import python_2_unicode_compatible
 
 MEAL_CHOICES = (
     ('Breakfast', 'Breakfast'),
@@ -25,6 +26,7 @@ CATEGORY_CHOICES = (
     ('Dessert', 'Dessert'),
 )
 
+@python_2_unicode_compatible
 class MenuCategory(models.Model):
     class Meta:
         verbose_name_plural = 'Menu Categories'
@@ -37,6 +39,7 @@ class MenuCategory(models.Model):
     def __str__(self):
         return '%s %s %s' % (self.date, self.meal, self.category)
 
+@python_2_unicode_compatible
 class Dish(models.Model):
     class Meta:
         verbose_name_plural = 'dishes'
