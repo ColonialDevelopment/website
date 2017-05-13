@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 @login_required
 def index(request):
-    title = "Events Page"
+    title = "Colonial Events"
     template = 'events/index.html'
     component = 'events.entry.js'
 

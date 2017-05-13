@@ -12,7 +12,7 @@ import datetime
 
 @login_required
 def index(request):
-    title = "Menus"
+    title = "Colonial Menus"
     template = 'menus/index.html'
     context = {
             'title': title

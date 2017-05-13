@@ -31,7 +31,7 @@ router.register(r'api/ratings', RatingViewSet)
 router.register(r'api/menu_categories', MenuCategoryViewSet)
 
 urlpatterns = [
-    url(r'^$', include('dashboard.urls', namespace='dashboard')),
+    url(r'^', include('dashboard.urls', namespace='dashboard')),
     url(r'^admin/', admin.site.urls),
     
     #url(r'^reservations/', include('reservations.urls')),
