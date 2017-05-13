@@ -3,11 +3,13 @@ import {Component} from 'react';
 import Cookies from 'js-cookie';
 
 import {Card, CardActions, CardTitle, Dialog, FlatButton, RaisedButton, TimePicker, DatePicker, TextField} from 'material-ui';
+import EventIcon from 'material-ui/svg-icons/action/event';
 
 function merge_date_time(date, time){
 
   var momentTime = moment(time);
   var momentDate = moment(date);
+  console.log(momentDate.day());
 
   var renderedDateTime = moment({
           year: momentDate.year(),
@@ -28,7 +30,9 @@ class AnnouncementForm extends Component {
 			start_date:null,
 			end_date:null,
 			description:"",
-      open: false
+      open: false,
+      start_label:"Choose Start Time",
+      end_label:"Choose Expiration Time"
 		}
 		this.uploadFile = this.uploadFile.bind(this);
     this.validateData = this.validateData.bind(this);
@@ -101,9 +105,34 @@ class AnnouncementForm extends Component {
         e.preventDefault()
     }
 
+  openStartDatePicker() {
+    this.refs.start_dp.openDialog();
+  }
+
+  handleStartChange(event, moment){
+    console.log(moment);
+    this.setState({start_date:moment})
+    this.refs.start_tp.openDialog();
+  }
+  handleStartTimeChange(event, moment){
+    this.setState({start_time:moment})
+    const date = new Date(merge_date_time(this.state.start_date, moment))
+    this.setState({start_label:date.toString().split(' ').slice(0,5).join(' ')})
+  }
+  openEndDatePicker() {
+    this.refs.end_dp.openDialog();
+  }
+  handleEndChange(event, moment){
+    this.setState({end_date:moment})
+    this.refs.end_tp.openDialog();
+  }
+  handleEndTimeChange(event, moment){
+    this.setState({end_time:moment})
+    const date = new Date(merge_date_time(this.state.end_date, moment))
+    this.setState({end_label:date.toString().split(' ').slice(0,5).join(' ')})
+  }
+
 	render(){
-
-
     const close = (
         <FlatButton
           label="Close"
@@ -141,34 +170,43 @@ class AnnouncementForm extends Component {
            				/>
            <br/>
            
-           <DatePicker hintText="Enter start date"
-                       id="start_date_field"  	
+           <DatePicker style={{display: 'none'}} 
+                       ref='start_dp' 
+                       id="start_date_field"    
                        errorText={this.state.start_error}
-                       style={{display: 'inline-block', margin:12}}
-                       onChange={(event, moment)=>this.setState({start_date:moment})}
-           				     value={this.state.start_date}/>
-           <TimePicker hintText="Enter start time"
+                       onChange={this.handleStartChange.bind(this)}
+                       value={this.state.start_date}/> 
+          <FlatButton  style={{margin:5}}
+                       onTouchTap={this.openStartDatePicker.bind(this)} 
+                       labelPosition='before' 
+                       label={this.state.start_label} 
+                       icon={<EventIcon color='#073f99'/>}/>
+           <TimePicker style={{display: 'none'}} 
+                       ref='start_tp' 
                        id="start_time_field"
                        errorText={this.state.start_error}
-                       style={{display: 'inline-block'}}
-                       onChange={(event, moment)=>this.setState({start_time:moment})}
-                       value={this.state.start_time}/>
+                       onChange={this.handleStartTimeChange.bind(this)}
+                       value={this.state.start_time} />
            <br/>
 
-           <DatePicker hintText="Enter expiration date"
-                       id="expiration_date_field"	
+           <DatePicker style={{display: 'none'}} 
+                       ref='end_dp' 
+                       id="end_date_field"    
                        errorText={this.state.end_error}
-                       style={{display: 'inline-block', margin:12}}
-                       onChange={(event, moment)=>this.setState({end_date:moment})}
-           				     value={this.state.end_date}
-                       />
-            <TimePicker hintText="Enter expiration time"
-                        id="expiration_time_field" 
-                        errorText={this.state.end_error}
-                        style={{display: 'inline-block'}}
-                        onChange={(event, moment)=>this.setState({end_time:moment})}
-                        value={this.state.end_time}
-                       />
+                       onChange={this.handleEndChange.bind(this)}
+                       value={this.state.end_date}/> 
+           <TimePicker style={{display: 'none'}} 
+                       ref='end_tp' 
+                       id="end_time_field"
+                       errorText={this.state.end_error}
+                       onChange={this.handleEndTimeChange.bind(this)}
+                       value={this.state.end_time} />
+            <FlatButton style={{margin:5}}
+                        onTouchTap={this.openEndDatePicker.bind(this)} 
+                        labelPosition='before' 
+                        label={this.state.end_label} 
+                        icon={<EventIcon color='#073f99'/>}/>
+           <br/>
             
            <CardActions>
             <RaisedButton containerElement='label'
