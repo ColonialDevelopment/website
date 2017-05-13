@@ -19,11 +19,11 @@ class DashboardContainer extends Component{
 						<img className='dashboard-image img-fluid' src="http://static1.squarespace.com/static/53a0b930e4b0514810c11acf/t/540107ece4b0b0a7e1846be0/1493499456578/?format=1500w" />
 						<div className='dashboard-header'>COLONIAL CLUB</div>	
 					</div>
-					<div className="col-md-6">
+					<div className="col-md-6 col-sm-12 col-xs-12">
 						<div className='dashboard-header'>ANNOUNCEMENTS</div>
 						<AnnouncementContainer url='/api/announcements' />
 					</div>
-					<div className="col-md-6">
+					<div className="col-md-6 col-sm-12 col-xs-12">
 						<div className='dashboard-header'>EVENTS</div>
 						<EventList url={EVENTS_LIST} small={true} pollInterval={100000}/>
 					</div>

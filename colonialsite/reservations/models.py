@@ -5,8 +5,9 @@ from django.db import models
 from django import forms
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.utils.encoding import python_2_unicode_compatible
 
-# general reservation info
+@python_2_unicode_compatible
 class Reservation(models.Model):
     ROOM_CHOICES = (
         ('Elk Room', 'Elk Room'),
