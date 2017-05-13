@@ -32,7 +32,7 @@ def rsvp(request, event_id):
         raise Http404("Event does not exist.")
 
     if event.status != 'Open':
-        return HttpResponseForbidden("Closed or Hidden Event")
+        return HttpResponseForbidden("Event does not accept RSVPs.")
 
     if request.user not in event.members.all():
         event.members.add(request.user)
@@ -46,7 +46,7 @@ def cancel(request, event_id):
         raise Http404("Event does not exist.")
 
     if event.status != 'Open':
-        return HttpResponseForbidden("Closed or Hidden Event")
+        return HttpResponseForbidden("Event does not acept RSVPs.")
 
     if request.user in event.members.all():
         event.members.remove(request.user)
