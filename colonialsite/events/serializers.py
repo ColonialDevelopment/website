@@ -7,7 +7,7 @@ class EventSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Event
 		fields = ('pk', 'title', 'start_date', 'end_date', 'image', 'rsvp_status',
-			'recurring', 'description', 'category', 'location', 'status', 'members')
+			'recurring', 'description', 'category', 'location', 'status',)
 
 	def get_rsvp_status(self, obj):
 		user = self.context['request'].user.id

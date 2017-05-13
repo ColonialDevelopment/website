@@ -54,6 +54,10 @@ class EventListAll(LoginRequiredMixin, generics.ListAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 
+    def get_queryset(self):
+        return Event.objects.exclude(status='Hidden')
+
+
 class EventDetail(LoginRequiredMixin, generics.RetrieveAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
