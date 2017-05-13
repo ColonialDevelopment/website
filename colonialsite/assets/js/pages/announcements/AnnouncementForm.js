@@ -9,7 +9,6 @@ function merge_date_time(date, time){
 
   var momentTime = moment(time);
   var momentDate = moment(date);
-  console.log(momentDate.day());
 
   var renderedDateTime = moment({
           year: momentDate.year(),
@@ -32,7 +31,8 @@ class AnnouncementForm extends Component {
 			description:"",
       open: false,
       start_label:"Choose Start Time",
-      end_label:"Choose Expiration Time"
+      end_label:"Choose Expiration Time",
+      attachment_label:"Upload a File"    
 		}
 		this.uploadFile = this.uploadFile.bind(this);
     this.validateData = this.validateData.bind(this);
@@ -98,7 +98,10 @@ class AnnouncementForm extends Component {
                                 start_date:null,
                                 end_date:null,
                                 description:"",
-                                open:true
+                                open:true,
+                                start_label:"Choose Start Time",
+                                end_label:"Choose Expiration Time",
+                                attachment_label:"Upload a File"
                               })
             }.bind(this) 
         })
@@ -110,7 +113,6 @@ class AnnouncementForm extends Component {
   }
 
   handleStartChange(event, moment){
-    console.log(moment);
     this.setState({start_date:moment})
     this.refs.start_tp.openDialog();
   }
@@ -210,10 +212,11 @@ class AnnouncementForm extends Component {
             
            <CardActions>
             <RaisedButton containerElement='label'
-                         label='Upload Attachments'
+                         label={this.state.attachment_label}
                          style={{margin:12}} >
              <input ref='file'
-                    type='file' 
+                    type='file'
+                    onChange={(e) => this.setState({attachment_label:this.refs.file.files[0].name})} 
                     style={{cursor: 'pointer',
                             position: 'absolute',
                             top: 0,

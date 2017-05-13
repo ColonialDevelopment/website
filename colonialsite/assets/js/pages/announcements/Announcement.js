@@ -8,7 +8,6 @@ class Announcement extends Component{
 	render(){
 		const {id, title, start_date, end_date, description, attachment} = this.props.announcement;
 		const human_start_date = moment(start_date).format('LLLL');
-		console.log(attachment);
 		var file = (<div></div>);
 		if (attachment){
 			var file = attachment.split('/').length >= 6  ? (<form method="get" action={attachment}>
