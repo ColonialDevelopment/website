@@ -30,6 +30,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SOPHOMORE_YEAR = '2019'
+JUNIOR_YEAR = '2018'
+SENIOR_YEAR = '2017'
 
 # Application definition
 
