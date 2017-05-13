@@ -23,16 +23,14 @@ This way we will all have consistent dependencies and modules and we will also h
 These are the developers:
 
 PM:
-Andrew Ruchames
+Nicholas Yang
 
 Frontend:
-Blair Wang
-Brandon Zhou
-Michael Zhang
-Shirley Fu
+Andrew Ruchames(Lead)
+Mel Shu
+Jay Lee
+Kathy Fan
 
 Backend:
-DG Kim (LEAD)
-Cindy Liu
-Nicholas Yang
-Cathy Chen
+Bryan Zhu
+Julie Zhu
