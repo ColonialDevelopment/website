@@ -205,8 +205,8 @@ class MealContainer extends Component {
         />
       );
     const dialog = (<Dialog title={this.state.modalTitle}
-                  actions={this.state.deleteButton}
-                  modal={true}
+                  actions={close, this.state.deleteButton}
+                  modal={false}
                   open={this.state.open}
                   onRequestClose={function(){
                                       this.setState({open:false})

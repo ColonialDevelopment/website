@@ -23,6 +23,7 @@ class MenuInput extends Component {
 
 	finishSubmit() {
 		this.setState({inputDish:null})
+		this._typeahead.getInstance().clear();
 		this.props.updateDishes();
 	}
 
@@ -38,9 +39,11 @@ class MenuInput extends Component {
 				<Typeahead 	   options={this.props.dishes}
 					           labelKey={'name'}
 					           allowNew
+					           modal={false}
 	                           newSelectionPrefix="Add a new dish: "
 	                           onChange={this.handleSelect}
 	                           submitFormOnEnter={true}
+	                           ref={ref => this._typeahead = ref}
 	                           placeholder={"Add a dish to this category"}
 	                           renderMenuItemChildren={(result, props) =>{
 	                           		return (
