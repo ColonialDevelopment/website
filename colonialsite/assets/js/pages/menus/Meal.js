@@ -8,7 +8,7 @@ function categorySort(a, b){
 
   // Change the order of these to change the order of menu categories
   // List of menu categories can be found in menus/models.py
-  const categories_array = ['Soups', 'Hot Line', 'On the Chafer', 'On the Grill', 'Dessert'];
+  const categories_array = ['On the Grill', 'Hot Line', 'On the Chafer', 'Soups', 'Dessert'];
   var first = categories_array.indexOf(a);
   var second = categories_array.indexOf(b);
 

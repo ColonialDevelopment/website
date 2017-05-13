@@ -34,13 +34,13 @@ urlpatterns = [
     url(r'^$', include('dashboard.urls', namespace='dashboard')),
     url(r'^admin/', admin.site.urls),
     
-    url(r'^reservations/', include('reservations.urls')),
+    #url(r'^reservations/', include('reservations.urls')),
     url(r'^menus/', include('menus.urls')),
     url(r'^events/', include('events.urls', namespace='events')),
-    url(r'^members/', include('members.urls', namespace='members')),
+    #url(r'^members/', include('members.urls', namespace='members')),
     url(r'^announcements/', include('announcements.urls', namespace='announcements')),
 
-    url(r'^api/members/', include('members.api_urls', namespace='members_api')),
+    #url(r'^api/members/', include('members.api_urls', namespace='members_api')),
     url(r'^api/events/', include('events.api_urls', namespace='events_api')),
     url(r'^api/announcements/', include('announcements.api_urls', namespace='announcements_api')),
 

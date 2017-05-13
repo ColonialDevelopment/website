@@ -16,7 +16,7 @@ from django.conf import settings
 def login_page(request):
     username = password = ''
     if request.user.is_authenticated():
-        return redirect('dashboard:dashboard-index')
+        return redirect('announcements:announcements_index')
     if request.POST:
         username = request.POST['username']
         password = request.POST['password']
@@ -30,7 +30,7 @@ def login_page(request):
                         'date': datetime.now(),
                 }
 
-                return redirect('dashboard:dashboard-index')
+                return redirect('announcements:announcements_index')
             else:
                 # Return a 'disabled account' error message
                 template = loader.get_template('coloauth/login.html')
@@ -49,7 +49,7 @@ def login_page(request):
 # logout view
 def logout_page(request):
     logout(request)
-    return HttpResponse('logged out')
+    return redirect('announcements:announcements_index')
 
 # register view
 # def register(request):

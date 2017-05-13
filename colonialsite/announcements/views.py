@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.http import HttpResponse, Http404
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
+from django.http import HttpResponse, Http404
+from django.shortcuts import render
+
 from rest_framework import generics, views, parsers
+
 from .serializers import AnnouncementSerializer
 from .models import Announcement, get_file_path
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+
 
 class AnnouncementListAll(LoginRequiredMixin, generics.ListAPIView):
 	"""Class-based view to return all announcements. Supports GET only."""
@@ -61,9 +65,13 @@ class AnnouncementPost(LoginRequiredMixin, views.APIView):
 		return HttpResponse(status=204)
 
 
-@login_required
+@login_required(login_url = '/staff/login/')
 def index(request):
 	"""User-facing announcements index view."""
+
+	if not request.user.has_perm('announcements.add_announcement'):
+		raise PermissionDenied
+
 	title = "Staff Dashboard"
 	template = 'announcements/index.html'
 	context = {
