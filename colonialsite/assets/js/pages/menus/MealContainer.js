@@ -13,7 +13,7 @@ class MealContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {date: props.today.date, day: props.today.day, data: null, open:false};
-    // this.changeDay = this.changeDay.bind(this);
+    this.findTodayMeals = this.findTodayMeals.bind(this);
   }
 
   componentWillMount() {
@@ -99,12 +99,13 @@ class MealContainer extends Component {
 
   goYesterday() {
     let todayString = this.state.date.split('-');
+    todayString[1] = (parseInt(todayString[1]));
+
     const today = new Date(`${todayString[0]},${todayString[1]},${todayString[2]}`);
 
     let yesterday = new Date();
     yesterday.setMonth(today.getMonth());
     yesterday.setDate(today.getDate() - 1);
-
     const returnString = this.formatDate(yesterday);
 
     let dayOfWeek = yesterday.getDay();
