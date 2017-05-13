@@ -30,6 +30,7 @@ class Announcement(models.Model):
 	end_date 	= models.DateTimeField(verbose_name = 'Announcement expiration')
 	description	= models.TextField()
 	attachment	= models.FileField(upload_to=get_file_path, blank=True) 
+	file_title  = models.CharField(max_length = 30, default="No file")
 
 	def __str__(self):
 		return self.title
