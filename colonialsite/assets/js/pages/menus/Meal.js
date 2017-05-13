@@ -4,7 +4,10 @@ import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 import Rating from './Rating';
 import DishInput from './DishInput';
+import FlatButton from 'material-ui/FlatButton';
 import CategoryInput from './CategoryInput';
+import Cookies from 'js-cookie';
+var axios = require('axios');
 
 export const categories_array = ['On the Grill', 'On the Chafer', 'Hot Line', 'Soups', 'Dessert'];
 
@@ -28,6 +31,30 @@ class Meal extends Component {
     this.renderDishes=this.renderDishes.bind(this);
     this.renderMenu=this.renderMenu.bind(this);
   }
+
+  deleteDish(id, menu_id){
+    console.log("deleting dish");
+    var type = ('delete')
+    var url = ("/api/dishes/"+id+"/remove_dish_from_menu/")
+    var csrftoken = Cookies.get('csrftoken');
+    var delete_data = {menu: menu_id}
+    axios({
+      method:type,
+      url:url,
+      responseType:'json',
+      headers: { "X-CSRFToken": csrftoken},
+      data:delete_data
+    })
+    .then(function(){ 
+      this.props.fetchData();
+    }.bind(this))
+    .catch(function(jqXHR, textStatus, errorThrown){
+      console.log(textStatus);
+      console.log(jqXHR);
+      console.log("You have already reviewed this and we messed up")
+    })
+  }
+
   // Render all the dishes in this category
   renderDishes(category, data) {
     var dishInput = this.props.edit ? <DishInput url='/api/dishes/'
@@ -37,6 +64,13 @@ class Meal extends Component {
     return (<div> {data.map((entry) => {
       if (entry.category === category.category) {
         return entry.dishes.map((dish) => {
+          const deleteButton = this.props.edit ?  <FlatButton
+                                                  key={dish.id}
+                                                  label="Delete Dish"
+                                                  primary={true}
+                                                  onTouchTap={function(){this.deleteDish(dish.id, category.id);}.bind(this)}/>
+                                                  :<div />;
+
           return (<ListItem key={dish.id} primaryText={dish.name} secondaryText={"Rating: "+ dish.avg_rating} onClick={(e) => this.props.showModal(
                                                 (<Rating your_rating={dish.rating}   
                                                          avg_rating={dish.avg_rating}
@@ -44,8 +78,11 @@ class Meal extends Component {
                                                          editable={false}
                                                          finishSubmit={this.props.finishSubmit}
                                                          id={dish.id}
-                                                         rating_id={dish.rating_id} />), 'Rate '+dish.name)} />
-            )
+                                                         rating_id={dish.rating_id} />), 
+                                                  'Rate '+ dish.name,
+                                                  deleteButton)
+        } 
+                  />)
         })
       }
     })}{dishInput}</div>)

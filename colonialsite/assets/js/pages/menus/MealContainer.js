@@ -12,7 +12,6 @@ import NextButton from 'material-ui/svg-icons/navigation/chevron-right';
 class MealContainer extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.edit);
     this.state = {date: props.today.date, day: props.today.day, data: null, open:false};
     this.findTodayMeals = this.findTodayMeals.bind(this);
   }
@@ -27,7 +26,7 @@ class MealContainer extends Component {
         datatype: 'json',
         cache: false,
         success: function(data) {
-            this.setState({data: data.results});
+            this.setState({data: data.results, open:false});
             this.findTodayMeals(this.state.date);
         }.bind(this)
     })
@@ -116,8 +115,8 @@ class MealContainer extends Component {
   openDatePicker() {
     this.refs.dp.openDialog();
   }
-  showModal(rating, title){
-    this.setState({modalBody:rating, modalTitle:title, open:true});
+  showModal(rating, title, deleteButton){
+    this.setState({modalBody:rating, modalTitle:title, deleteButton:deleteButton, open:true});
   }
   finishSubmit(){
     this.setState({open:false, modalBody:null, modalTitle:null});
@@ -205,9 +204,8 @@ class MealContainer extends Component {
                             }.bind(this)}
         />
       );
-
     const dialog = (<Dialog title={this.state.modalTitle}
-                  actions={close}
+                  actions={this.state.deleteButton}
                   modal={true}
                   open={this.state.open}
                   onRequestClose={function(){
@@ -216,6 +214,7 @@ class MealContainer extends Component {
                                  }
                   onTouchTap={function(){this.setState({open:false})}.bind(this)}>
                   {this.state.modalBody}
+
           </Dialog>)
 
     // Menu display for weekends
