@@ -6,11 +6,13 @@ import Rating from './Rating';
 import DishInput from './DishInput';
 import CategoryInput from './CategoryInput';
 
+export const categories_array = ['On the Grill', 'On the Chafer', 'Hot Line', 'Soups', 'Dessert'];
+
 function categorySort(a, b){
 
   // Change the order of these to change the order of menu categories
   // List of menu categories can be found in menus/models.py
-  const categories_array = ['On the Grill', 'On the Chafer', 'Hot Line', 'Soups', 'Dessert'];
+  
   var first = categories_array.indexOf(a.category);
   var second = categories_array.indexOf(b.category);
 
@@ -28,7 +30,6 @@ class Meal extends Component {
   }
   // Render all the dishes in this category
   renderDishes(category, data) {
-    console.log(category)
     var dishInput = this.props.edit ? <DishInput url='/api/dishes/'
                                                  renderMenu={this.props.fetchData}
                                                  menu_id={category.id}
@@ -51,9 +52,8 @@ class Meal extends Component {
   }
 
   renderMenu(categories, data) {
-    if (this.props.edit) {var categoryInput=<CategoryInput/>;}
-    if (categories.length === 0) return (<div>{categoryInput}</div>);
-    if (!data) return (<div>{categoryInput}</div>);
+    if (categories.length === 0) return (<div></div>);
+    if (!data) return (<div></div>);
     return categories.map((category) => {
       return(
         <div key={category.category}>
@@ -71,7 +71,6 @@ class Meal extends Component {
     
     let categories = new Array();
     if (this.props.meal) this.props.meal.map((entry) => {
-      console.log(entry);
       const category = entry.category;
       const id = entry.id;
       if (!
@@ -82,8 +81,12 @@ class Meal extends Component {
           ) categories.push({category:category, id:id});
     })
 
-    if (this.props.edit) {var categoryInput=<CategoryInput existingCategories={categories}/>;}
-    
+    if (this.props.edit && categories.length < 4) {var categoryInput=<CategoryInput name={this.props.name}
+                                                                                    date={this.props.date}
+                                                                                    renderMenu={this.props.fetchData}
+                                                                                    existingCategories={categories}/>;}
+    else var categoryInput=(<div/>);
+
     if (this.props.meal && this.props.meal.length !== 0) {
       categories.sort(categorySort);
       return(
@@ -93,6 +96,7 @@ class Meal extends Component {
           </h3>
           <div style={{borderStyle: 'solid', borderWidth: '1px', borderColor: '#9ea5af'}}>
             <List className='text-left'>
+              {categoryInput}
               {this.renderMenu(categories, this.props.meal)}
             </List>
           </div>

@@ -45,7 +45,7 @@ class DishSerializer(serializers.ModelSerializer):
         return len(obj.rating_set.all().values())
 
 class MenuCategorySerializer(serializers.ModelSerializer):
-    dishes = DishSerializer(many=True)
+    dishes = DishSerializer(many=True, read_only=True)
 
     class Meta:
         model = MenuCategory
