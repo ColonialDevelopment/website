@@ -4,66 +4,24 @@ import {Form, FormControl} from 'react-bootstrap';
 import EventFilterDropdown from './EventFilterDropdown.js';
 import EventSortSelect from './EventSortSelect.js';
 
-function getDay(datetime){
-	var d = new Date(datetime);
+function getDay(day){
 	var weekday = new Array(7);
-	weekday[0] = "Monday";
-	weekday[1] = "Tuesday";
-	weekday[2] = "Wednesday";
-	weekday[3]= "Thursday";
-	weekday[4] = "Friday";
-	weekday[5] = "Saturday";
-	weekday[6] =  "Sunday";
+	weekday[0] = "Sunday";
+	weekday[1] = "Monday";
+	weekday[2] = "Tuesday";
+	weekday[3]= "Wednesday";
+	weekday[4] = "Thursday";
+	weekday[5] = "Friday";
+	weekday[6] = "Saturday";
 
-	var n = weekday[d.getDay()];
+	var n = weekday[day];
 	return n;
 }
 
 function getMonth(month_number){
-	var months = ['', 'January', 'February', 'March', 'April', 'May', 'June',
+	var months = ['January', 'February', 'March', 'April', 'May', 'June',
 					'July', 'August', 'September', 'October', 'November', 'December'];
 	return months[parseInt(month_number)];
-};
-
-function clean_time(time_array){
-
-	//Coming in zulu time, convert to EST regardless of user location. -4 hours
-	var hour = parseInt(time_array[0]);
-	var minutes = time_array[1];
-	var PM = true;
-	switch (hour){
-		case 0:
-			hour = "8";
-			PM = true;
-			break;
-		case 1:
-			hour="9";
-			PM = true;
-			break;
-
-		case 2:
-			hour="10";
-			PM = true;
-			break;
-
-		case 3:
-			hour="11";
-			PM = true;
-			break;
-
-		case 4:
-			hour="12";
-			PM = false;
-			console.log("hour is 12")
-			break;
-
-		default:
-			PM = hour >= 16
-			hour = hour > 16 ? (hour - 4) - 12 : (hour - 4)
-			if (hour === 16) hour = 12;
-		}
-
-	return ("" + hour + ":" + minutes + " " + (PM ? "PM" : "AM"));
 };
 
 function getDate(datetime){
@@ -71,12 +29,13 @@ function getDate(datetime){
 	Convert dates from this format : 2018-01-02T09:59:00Z
 	to this format: 3:59 AM, January 2
 	*/
-	var year_month_day = datetime.split('T')[0].split('-');
-	var time = (datetime.split('T')[1].split('Z'))[0].split(':');
-	var time_string = clean_time(time);
-	var month_string = getMonth(year_month_day[1])+" "+year_month_day[2];
-	var day = getDay(datetime);
-	var final_date = day + ", " + month_string + " " + time_string + " " + year_month_day[0];
+	var x = moment(datetime);
+
+	var time = x.hours() % 12 + ':' + ("0" + x.minutes()).slice(-2);
+	var month_string = getMonth(x.month());
+	var date = ("0" + x.date()).slice(-2);
+	var day = getDay(x.day());
+	var final_date = day + ", " + month_string + " " + date + ' ' + time + " " + (x.year());
 	return final_date;
 };
 
