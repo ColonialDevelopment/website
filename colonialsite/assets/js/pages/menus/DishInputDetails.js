@@ -59,6 +59,7 @@ class DishInputDetails extends Component {
 			vegan:this.state.vegan,
 			vegetarian:this.state.vegetarian
 		}
+		console.log(this.props.menu_id);
 		var put_dish_data =
 		{
 			menu:this.props.menu_id

@@ -31,7 +31,7 @@ class MenuInput extends Component {
 		if (this.state.inputDish)
 			detail = <DishInputDetails dish={this.state.inputDish}
 									   finishSubmit={this.finishSubmit}
-									   menu_id={1}/>
+									   menu_id={this.props.menu_id}/>
 
 		return (
 			<div>
@@ -41,6 +41,7 @@ class MenuInput extends Component {
 	                           newSelectionPrefix="Add a new dish: "
 	                           onChange={this.handleSelect}
 	                           submitFormOnEnter={true}
+	                           placeholder={"Add a dish to this category"}
 	                           renderMenuItemChildren={(result, props) =>{
 	                           		return (
 	                           			<Dish   dish={result}

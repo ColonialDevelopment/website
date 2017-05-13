@@ -12,6 +12,7 @@ import NextButton from 'material-ui/svg-icons/navigation/chevron-right';
 class MealContainer extends Component {
   constructor(props) {
     super(props);
+    console.log(this.props.edit);
     this.state = {date: props.today.date, day: props.today.day, data: null, open:false};
     this.findTodayMeals = this.findTodayMeals.bind(this);
   }
@@ -204,6 +205,7 @@ class MealContainer extends Component {
                             }.bind(this)}
         />
       );
+
     const dialog = (<Dialog title={this.state.modalTitle}
                   actions={close}
                   modal={true}
@@ -215,6 +217,7 @@ class MealContainer extends Component {
                   onTouchTap={function(){this.setState({open:false})}.bind(this)}>
                   {this.state.modalBody}
           </Dialog>)
+
     // Menu display for weekends
     if (this.state.day == 6 || this.state.day == 7)
       return(
@@ -235,8 +238,8 @@ class MealContainer extends Component {
               </div>
               <div className="panel-body">
                 <div className="row">
-                  <div className="col-lg-6 text-center"><Meal meal={this.state.brunch} name="Brunch" showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
-                  <div className="col-lg-6 text-center"><Meal meal={this.state.dinner} name="Dinner" showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
+                  <div className="col-lg-6 text-center"><Meal meal={this.state.brunch} name="Brunch" fetchData={this.fetchData.bind(this)} edit={this.props.edit} showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
+                  <div className="col-lg-6 text-center"><Meal meal={this.state.dinner} name="Dinner" fetchData={this.fetchData.bind(this)} edit={this.props.edit} showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
                 </div>
               </div>
             </div>
@@ -262,9 +265,9 @@ class MealContainer extends Component {
           </div>
           <div className="panel-body">
             <div className="row">
-              <div className="col-lg-4 text-center"><Meal meal={this.state.breakfast} name="Breakfast" showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)} /></div>
-              <div className="col-lg-4 text-center"><Meal meal={this.state.lunch} name="Lunch" showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
-              <div className="col-lg-4 text-center"><Meal meal={this.state.dinner} name="Dinner" showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
+              <div className="col-lg-4 text-center"><Meal meal={this.state.breakfast} name="Breakfast" fetchData={this.fetchData.bind(this)} edit={this.props.edit} showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)} /></div>
+              <div className="col-lg-4 text-center"><Meal meal={this.state.lunch} name="Lunch" fetchData={this.fetchData.bind(this)} edit={this.props.edit} showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
+              <div className="col-lg-4 text-center"><Meal meal={this.state.dinner} name="Dinner" fetchData={this.fetchData.bind(this)} edit={this.props.edit} showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
             </div>
           </div>
           </div>

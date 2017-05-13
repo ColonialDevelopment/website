@@ -30,7 +30,7 @@ class DashboardContainer extends Component{
 				</div>
 				<div className='dashboard-header'>MENUS</div>
 				<div className='container'>
-					<MealContainer today={this.props.today}/>
+					<MealContainer edit={false} today={this.props.today}/>
 				</div>
 			</div>
 		)

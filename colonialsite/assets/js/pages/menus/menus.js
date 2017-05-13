@@ -25,7 +25,7 @@ const App = () => {
   return(
   <MuiThemeProvider>
     <div>
-      <MealContainer today={findDate()}/>
+      <MealContainer edit={false} today={findDate()}/>
     </div>
   </MuiThemeProvider>
   )
