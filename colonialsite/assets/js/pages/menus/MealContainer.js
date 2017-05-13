@@ -61,7 +61,7 @@ class MealContainer extends Component {
     returnString += "-" + month;
 
     let day = date.getDate() + "";
-    if (date.length === 1) day = "0" + day;
+    if (day.length === 1) day = "0" + day;
     returnString += "-" + day;
 
     return returnString
@@ -82,7 +82,6 @@ class MealContainer extends Component {
   // Go to previous/next day, from the buttons
   goTomorrow() {
     let todayString = this.state.date.split('-');
-    todayString[1] = (parseInt(todayString[1]));
     let today = new Date(`${todayString[0]},${todayString[1]},${todayString[2]}`);
 
     let tomorrow = new Date();
@@ -99,9 +98,7 @@ class MealContainer extends Component {
 
   goYesterday() {
     let todayString = this.state.date.split('-');
-    todayString[1] = (parseInt(todayString[1]));
-
-    const today = new Date(`${todayString[0]},${todayString[1]},${todayString[2]}`);
+    let today = new Date(`${todayString[0]},${todayString[1]},${todayString[2]}`);
 
     let yesterday = new Date();
     yesterday.setMonth(today.getMonth());
