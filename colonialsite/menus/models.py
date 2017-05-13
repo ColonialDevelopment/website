@@ -45,7 +45,7 @@ class Dish(models.Model):
         verbose_name_plural = 'dishes'
 
     menus = models.ManyToManyField(MenuCategory, blank=False, related_name='dishes')
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
 
     allergens = models.CharField(max_length=20, blank=True)
     vegetarian = models.BooleanField(default=False)
