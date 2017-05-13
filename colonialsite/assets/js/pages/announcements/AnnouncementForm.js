@@ -73,7 +73,8 @@ class AnnouncementForm extends Component {
     fd.append('start_date', start);
     fd.append('end_date', end);
     fd.append('description', this.state.description);
-
+    fd.append('file_title', this.state.attachment_label);
+    
     var csrftoken = Cookies.get('csrftoken');
 		function csrfSafeMethod(method) {
     	// these HTTP methods do not require CSRF protection

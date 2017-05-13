@@ -37,7 +37,8 @@ class AnnouncementPost(LoginRequiredMixin, views.APIView):
 			start_date = request.data['start_date'],
 			end_date = request.data['end_date'],
 			description = request.data['description'],
-			attachment = request.data['file']
+			attachment = request.data['file'],
+			file_title = request.data['file_title']
 		)
 		new_announcement.save()
 		return HttpResponse(status=204)
