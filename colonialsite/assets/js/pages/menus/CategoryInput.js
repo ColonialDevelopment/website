@@ -16,12 +16,9 @@ class CategoryInput extends Component{
 		this.addCategory=this.addCategory.bind(this)
 	}
 	addCategory(categoryName){
-		console.log(categories_array[categoryName]);
 		var type = ('post')
 		var url = ("/api/menu_categories/")
 		var csrftoken = Cookies.get('csrftoken');
-		console.log(this.props.date)
-		console.log(this.props.name)
 		var post_category_data =
 		{
 			meal:this.props.name,
@@ -33,12 +30,12 @@ class CategoryInput extends Component{
 		axios({
 			method:type,
 			url:url,
+			cache:false,
 			responseType:'json',
 			headers: { "X-CSRFToken": csrftoken},
 			data:post_category_data
 		})
 		.then(function(){ 
-			console.log("Posted");
 			this.props.renderMenu();
 		}.bind(this))
 		.catch(function(jqXHR, textStatus, errorThrown){
@@ -48,7 +45,6 @@ class CategoryInput extends Component{
 		})
 	}
 	handleChange(event, index, value){
-		console.log(value);
 		this.addCategory(value);
 	}
 	render(){

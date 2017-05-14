@@ -60,7 +60,6 @@ class DishInputDetails extends Component {
 			vegan:this.state.vegan,
 			vegetarian:this.state.vegetarian
 		}
-		console.log(this.props.menu_id);
 		var put_dish_data =
 		{
 			menu:this.props.menu_id
@@ -131,17 +130,20 @@ class DishInputDetails extends Component {
 						/> Vegetarian
 					</label>
 				</div>
-				<div>
+				<div style={{width:'90%'}}>
 				Allergens: 
 					<TextField
 						   value={this.state.allergens}
 						   name={'allergens'}
 						   onChange={this.handleInputChange}
+						   style={{width:'90%'}}
 				   	/>
 				</div>
+				<br/>
 				<div>
 					Rating: {this.props.dish.avg_rating} from {this.props.dish.num_ratings} ratings.
 				</div>
+				<br/>
 				<div>
 					<RaisedButton 	onClick={this.handleSubmit}>
 						Submit

@@ -37,17 +37,17 @@ class MenuInput extends Component {
 									   menu_id={this.props.menu_id}/>
 
 		return (
-			<div>
+			<div style={{width:'90%', margin:10}}>
 				<AutoComplete  dataSource={this.props.dishes}
 							   dataSourceConfig={{text:'name', value:'id'}}
 							   openOnFocus={true}
 							   fullWidth={true}
 							   searchText={this.state.searchText}	
-							   menuStyle={{overflowY:scroll}}
+							   listStyle={{ maxHeight: 200, overflow: 'auto' }}
 							   floatingLabelText={"Add New Dish"}
+							   onUpdateInput={(searchText) => this.setState({searchText:searchText})}
 							   filter={AutoComplete.fuzzyFilter}
 	                           onNewRequest={this.handleSelect}
-	                           hintText={"Add a dish to this category"}
 	                            />
 	            {detail}
 			</div>

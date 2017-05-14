@@ -46,7 +46,6 @@ class MealContainer extends Component {
         else if (mealCategory.meal === "Brunch") brunch.push(mealCategory);
       }
     })
-
     this.setState({ breakfast, lunch, dinner, brunch });
   }
 

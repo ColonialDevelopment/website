@@ -148,6 +148,7 @@ class Meal extends Component {
         </h3>
         <div style={{borderStyle: 'solid', borderWidth: '1px', borderColor: '#9ea5af'}}>
           <List className='text-left'>
+            <ListItem secondaryText="This meal has not yet been posted!" />            
             {categoryInput}
           </List>
         </div>

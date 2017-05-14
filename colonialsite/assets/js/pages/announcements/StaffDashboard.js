@@ -28,9 +28,9 @@ class StaffDashboard extends Component{
 		return (
 			<div className='container'>
 				<div className='col-md-8'>
-					<AnnouncementForm url={ANNOUNCEMENTS_POST} />
 					<MealContainer today={findDate()}
 								   edit={true}/>
+					<AnnouncementForm url={ANNOUNCEMENTS_POST} />
 				</div>
 			</div>
 		)

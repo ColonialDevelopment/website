@@ -1,5 +1,6 @@
 {% load staticfiles %}
 {% load render_bundle from webpack_loader %}
+<html style="overflow-x:hidden">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>{% block title %}Colonial Club{% endblock %}</title>
@@ -68,3 +69,4 @@
     <!-- Render each template with a path to the component script -->
     {% render_bundle 'dashboard' %}
 {% endblock %}
+</html>
