@@ -82,8 +82,12 @@ class MealContainer extends Component {
   // Go to previous/next day, from the buttons
   goTomorrow() {
     let todayString = this.state.date.split('-');
-    let today = new Date(`${todayString[0]},${todayString[1]},${todayString[2]}`);
 
+    let today = new Date();
+    today.setMonth(parseInt(todayString[1]) - 1);
+    today.setDate(todayString[2]);
+    today.setYear(todayString[0]);
+    
     let tomorrow = new Date();
     tomorrow.setMonth(today.getMonth());
     tomorrow.setDate(today.getDate() + 1);
@@ -93,12 +97,16 @@ class MealContainer extends Component {
     if (dayOfWeek === 0) dayOfWeek = 7;
 
     this.setState({ date: returnString, day: dayOfWeek });
+    console.log(returnString);
     this.findTodayMeals(returnString);
   }
 
   goYesterday() {
     let todayString = this.state.date.split('-');
-    let today = new Date(`${todayString[0]},${todayString[1]},${todayString[2]}`);
+    let today = new Date();
+    today.setMonth(parseInt(todayString[1]) - 1);
+    today.setDate(todayString[2]);
+    today.setYear(todayString[0]);
 
     let yesterday = new Date();
     yesterday.setMonth(today.getMonth());
