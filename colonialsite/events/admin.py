@@ -54,15 +54,26 @@ class CustomDateFilter(admin.SimpleListFilter):
 
 
 class EventAdmin(admin.ModelAdmin):
+	fields = ['title', 'status', 'start_date', 'end_date', 'recurring',
+			 'description', 'image', 'location', 'category', 'members',]
+	readonly_fields = ['members',]
+
+	list_display = ['title', 'start_date', 'status', 'category', 'attending_members_count', 'soph_list', 'all_list',]
+	list_filter = [CustomDateFilter, 'status', 'recurring', 'location', 'category']
+	search_fields = ['title', 'description']
+
 	def attending_members_count(self, obj):
 		return obj.members.count()
 	attending_members_count.short_description = "Attending Members Count"
 
-	fields = ['title', 'status', 'start_date', 'end_date', 'recurring',
-			 'description', 'image', 'location', 'category', 'members',]
-	readonly_fields = ['members',]
-	list_display = ['title', 'start_date', 'status', 'category', 'attending_members_count']
-	list_filter = [CustomDateFilter, 'status', 'recurring', 'location', 'category']
-	search_fields = ['title', 'description']
+	def soph_list(self, obj):
+		return '<a href="/events/list/{}/sophs">List</a>'.format(obj.pk)
+	soph_list.short_description = "Attending Sophomores List"
+	soph_list.allow_tags = True
+
+	def all_list(self, obj):
+		return '<a href="/events/list/{}/all">List</a>'.format(obj.pk)
+	all_list.short_description = "Attending Members List"
+	all_list.allow_tags = True
 
 admin.site.register(Event, EventAdmin)
