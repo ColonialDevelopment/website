@@ -21,7 +21,8 @@ class DishSerializer(serializers.ModelSerializer):
         for x in obj.rating_set.all().values():
             ratings.append(x.get('value'))
         if ratings:
-            return reduce(lambda x, y: x + y, ratings) / len(ratings)
+            f = reduce(lambda x, y: x + y, ratings) / len(ratings)
+            return str("%.1f" % round(f, 2))
         else:
             return 0.0
 

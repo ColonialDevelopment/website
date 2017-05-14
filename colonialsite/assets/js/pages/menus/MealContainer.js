@@ -12,7 +12,8 @@ import NextButton from 'material-ui/svg-icons/navigation/chevron-right';
 class MealContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {date: props.today.date, day: props.today.day, data: null, open:false};
+    var d = props.today.day === 0 ? 7 : props.today.day;
+    this.state = {date: props.today.date, day: d, data: null, open:false};
     this.findTodayMeals = this.findTodayMeals.bind(this);
   }
 
@@ -87,7 +88,7 @@ class MealContainer extends Component {
     today.setMonth(parseInt(todayString[1]) - 1);
     today.setDate(todayString[2]);
     today.setYear(todayString[0]);
-    
+
     let tomorrow = new Date();
     tomorrow.setMonth(today.getMonth());
     tomorrow.setDate(today.getDate() + 1);
