@@ -31,11 +31,14 @@ function getDate(datetime){
 	*/
 	var x = moment(datetime);
 
-	var time = x.hours() % 12 + ':' + ("0" + x.minutes()).slice(-2);
+	var hours = x.hours() % 12;
+	if (hours == 0) hours = 12; 
+	var minutes = ("0" + x.minutes()).slice(-2);
+	const time = hours + ':' + minutes;
 	var month_string = getMonth(x.month());
 	var date = ("0" + x.date()).slice(-2);
 	var day = getDay(x.day());
-	var final_date = day + ", " + month_string + " " + date + ' ' + time + " " + (x.year());
+	var final_date = day + ", " + month_string + " " + date + ' ' + time + " " + (x.hours() >= 12 ? "PM" : "AM");
 	return final_date;
 };
 
