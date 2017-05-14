@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { Checkbox } from 'react-bootstrap';
+import { RaisedButton, TextField } from 'material-ui';
 import Cookies from 'js-cookie';
 var axios = require('axios');
 
@@ -84,8 +85,8 @@ class DishInputDetails extends Component {
 
 	render() {
 		return (
-			<form>
-				<div className='form-group'>
+			<form style={{margin:10}}>
+				<div className='form-group' >
 					<label className="checkbox-inline">
 						<input type='checkbox'
 							   checked={this.state.dairy_free}
@@ -129,25 +130,24 @@ class DishInputDetails extends Component {
 						/> Vegetarian
 					</label>
 				</div>
-				<div>
+				<div style={{width:'90%'}}>
 				Allergens: 
-					<input type='text'
+					<TextField
 						   value={this.state.allergens}
-						   className='form-control'
 						   name={'allergens'}
 						   onChange={this.handleInputChange}
+						   style={{width:'90%'}}
 				   	/>
 				</div>
+				<br/>
 				<div>
 					Rating: {this.props.dish.avg_rating} from {this.props.dish.num_ratings} ratings.
 				</div>
+				<br/>
 				<div>
-					<button type="button"
-							className='btn btn-default'
-							onClick={this.handleSubmit}
-					>
+					<RaisedButton 	onClick={this.handleSubmit}>
 						Submit
-					</button>
+					</RaisedButton>
 				</div>
 			</form>
 		)

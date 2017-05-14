@@ -19,8 +19,11 @@ class Announcement extends Component{
 					<Panel	header={<span>
 						   			<span>{title}</span>
 						   			<span style={{float:'right'}}>{this.props.category}</span>
-					   			   </span>} >
-	                       <span style={{float:'left'}}> {description} </span><span style={{float:'right'}}>{file}</span>
+					   			   </span>} > 
+	                       <div style={{wordBreak:'break-word'}}>
+	                       {description}
+	                       </div> 
+	                       <span style={{float:'right'}}>{file}</span>
 	                </Panel>
                )
 	}

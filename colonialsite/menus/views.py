@@ -36,6 +36,14 @@ class DishViewSet(viewsets.ModelViewSet):
         dish.save()
         return Response({'status':'added to menu'})
 
+    @detail_route(methods=['delete'])
+    def remove_dish_from_menu(self, request, pk=None):
+        dish = self.get_object()
+        remove_menu = request.data['menu']
+        deleteSet = MenuCategory.objects.filter(id=remove_menu)
+        for d in deleteSet:
+            dish.menus.remove(d)
+        return Response({'status':'removed from menu'})
 
 class RatingViewSet(viewsets.ModelViewSet):
     queryset = Rating.objects.all().order_by('value')

@@ -27,7 +27,7 @@ class MealContainer extends Component {
         datatype: 'json',
         cache: false,
         success: function(data) {
-            this.setState({data: data.results});
+            this.setState({data: data.results, open:false});
             this.findTodayMeals(this.state.date);
         }.bind(this)
     })
@@ -47,7 +47,6 @@ class MealContainer extends Component {
         else if (mealCategory.meal === "Brunch") brunch.push(mealCategory);
       }
     })
-
     this.setState({ breakfast, lunch, dinner, brunch });
   }
 
@@ -124,8 +123,8 @@ class MealContainer extends Component {
   openDatePicker() {
     this.refs.dp.openDialog();
   }
-  showModal(rating, title){
-    this.setState({modalBody:rating, modalTitle:title, open:true});
+  showModal(rating, title, deleteButton){
+    this.setState({modalBody:rating, modalTitle:title, deleteButton:deleteButton, open:true});
   }
   finishSubmit(){
     this.setState({open:false, modalBody:null, modalTitle:null});
@@ -214,8 +213,8 @@ class MealContainer extends Component {
         />
       );
     const dialog = (<Dialog title={this.state.modalTitle}
-                  actions={close}
-                  modal={true}
+                  actions={close, this.state.deleteButton}
+                  modal={false}
                   open={this.state.open}
                   onRequestClose={function(){
                                       this.setState({open:false})
@@ -223,7 +222,9 @@ class MealContainer extends Component {
                                  }
                   onTouchTap={function(){this.setState({open:false})}.bind(this)}>
                   {this.state.modalBody}
+
           </Dialog>)
+
     // Menu display for weekends
     if (this.state.day == 6 || this.state.day == 7)
       return(
@@ -244,8 +245,8 @@ class MealContainer extends Component {
               </div>
               <div className="panel-body">
                 <div className="row">
-                  <div className="col-lg-6 text-center"><Meal meal={this.state.brunch} name="Brunch" showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
-                  <div className="col-lg-6 text-center"><Meal meal={this.state.dinner} name="Dinner" showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
+                  <div className="col-lg-6 text-center"><Meal date={this.state.date} meal={this.state.brunch} name="Brunch" fetchData={this.fetchData.bind(this)} edit={this.props.edit} showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
+                  <div className="col-lg-6 text-center"><Meal date={this.state.date} meal={this.state.dinner} name="Dinner" fetchData={this.fetchData.bind(this)} edit={this.props.edit} showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
                 </div>
               </div>
             </div>
@@ -271,9 +272,9 @@ class MealContainer extends Component {
           </div>
           <div className="panel-body">
             <div className="row">
-              <div className="col-lg-4 text-center"><Meal meal={this.state.breakfast} name="Breakfast" showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)} /></div>
-              <div className="col-lg-4 text-center"><Meal meal={this.state.lunch} name="Lunch" showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
-              <div className="col-lg-4 text-center"><Meal meal={this.state.dinner} name="Dinner" showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
+              <div className="col-lg-4 text-center"><Meal date={this.state.date} meal={this.state.breakfast} name="Breakfast" fetchData={this.fetchData.bind(this)} edit={this.props.edit} showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)} /></div>
+              <div className="col-lg-4 text-center"><Meal date={this.state.date} meal={this.state.lunch} name="Lunch" fetchData={this.fetchData.bind(this)} edit={this.props.edit} showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
+              <div className="col-lg-4 text-center"><Meal date={this.state.date} meal={this.state.dinner} name="Dinner" fetchData={this.fetchData.bind(this)} edit={this.props.edit} showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
             </div>
           </div>
           </div>
