@@ -11,9 +11,9 @@ class CategoryInput extends Component{
 	constructor(props){
 		super(props);
 		this.state={
-			value:1
+			value: 0
 		}
-		this.addCategory=this.addCategory.bind(this)
+		this.addCategory = this.addCategory.bind(this)
 	}
 	addCategory(categoryName){
 		var type = ('post')
@@ -23,7 +23,7 @@ class CategoryInput extends Component{
 		{
 			meal:this.props.name,
 			date:this.props.date,
-			category:categories_array[categoryName],
+			category:this.props.newCategories[categoryName],
 			dishes:[],
 			meal_permissions:"ALL"
 		}
@@ -37,6 +37,7 @@ class CategoryInput extends Component{
 		})
 		.then(function(){ 
 			this.props.renderMenu();
+			this.setState({value:0});
 		}.bind(this))
 		.catch(function(jqXHR, textStatus, errorThrown){
 			console.log(textStatus);
@@ -45,31 +46,26 @@ class CategoryInput extends Component{
 		})
 	}
 	handleChange(event, index, value){
+		this.setState({value})
 		this.addCategory(value);
 	}
 	render(){
-		
-		var possibleNewCategories = []
-		if (this.props.existingCategories){
-			const x = categories_array.map(function(categoryName){
-				if (this.props.existingCategories.find(function(x){return x.category===categoryName})==undefined){
-					possibleNewCategories.push(categoryName);
-				} 
-			}.bind(this))
-		}
-		var i = 0;
-		const menuItems = possibleNewCategories.map(function(categoryName){
-			return (<MenuItem value={categories_array.indexOf(categoryName)} key={categoryName} primaryText={categoryName} />)
-		})
-		return(
-			<div>
+		const newCategories = this.props.newCategories;
+		if (newCategories.length > 0){
+			var i = 0;
+			const menuItems = newCategories.map(function(categoryName){
+				return (<MenuItem value={newCategories.indexOf(categoryName)} key={categoryName} primaryText={categoryName} />)
+			})
+			return(
+				<div>
 
-			<ListItem key={"dummy list item"} primaryText={"Add a new Category"} />
-			<DropDownMenu value={this.state.value} onChange={this.handleChange.bind(this)} >
-			{menuItems}
-			</DropDownMenu>
-			</div>
-			)
+				<ListItem key={"dummy list item"} primaryText={"Add a new Category"} />
+				<DropDownMenu value={this.state.value} onChange={this.handleChange.bind(this)} >
+				{menuItems}
+				</DropDownMenu>
+				</div>
+				)
+		}
 	}
 }
 export default CategoryInput

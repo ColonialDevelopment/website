@@ -25,6 +25,18 @@ function categorySort(a, b){
     return 1
 }
 
+function getPossibleCategories(categories){
+  var possibleNewCategories = [];
+  if (categories){
+      const x = categories_array.map(function(categoryName){
+        if (categories.find(function(x){return x.category===categoryName})==undefined){
+          possibleNewCategories.push(categoryName);
+        } 
+      }.bind(this))
+  }
+  return possibleNewCategories;
+}
+
 class Meal extends Component {
   constructor(props){
     super(props);
@@ -121,7 +133,7 @@ class Meal extends Component {
     if (this.props.edit && categories.length < 4) {var categoryInput=<CategoryInput name={this.props.name}
                                                                                     date={this.props.date}
                                                                                     renderMenu={this.props.fetchData}
-                                                                                    existingCategories={categories}/>;}
+                                                                                    newCategories={getPossibleCategories(categories)}/>;}
     else var categoryInput=(<div/>);
 
     if (this.props.meal && this.props.meal.length !== 0) {
