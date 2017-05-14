@@ -50,7 +50,7 @@ var EventList = React.createClass({
 
     isFuture: function(event){
         var now = new Date();
-        var date = new Date(event.start_date);
+        var date = new Date(event.end_date);
         return date > now;
     },
 
