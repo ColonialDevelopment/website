@@ -23,7 +23,7 @@ class Announcement(models.Model):
 	"""
 
 	poster 		= models.ForeignKey(User)
-	title		= models.CharField(max_length = 30)
+	title		= models.CharField(max_length = 50)
 	start_date 	= models.DateTimeField(verbose_name = 'Announcement release')
 	end_date 	= models.DateTimeField(verbose_name = 'Announcement expiration')
 	description	= models.TextField()
