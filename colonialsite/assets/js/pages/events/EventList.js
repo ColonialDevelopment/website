@@ -93,6 +93,7 @@ var EventList = React.createClass({
                 }
                 return events_selected;
             }.bind(this), []);
+        console.log(filtered_data);
         this.updateSort(this.state.sortType, filtered_data);
         if (this.state.event){
                     this.setState({
@@ -114,10 +115,18 @@ var EventList = React.createClass({
             default:
                 sortFunction = sortByDate;
         }
-        this.setState({
-            filtered_data: filtered_data.sort(sortFunction),
-            sortType:sortType
-        });
+        if (filtered_data){
+            this.setState({
+                filtered_data: filtered_data.sort(sortFunction),
+                sortType:sortType
+            });    
+        }
+        else{
+            this.setState({
+                filtered_data: this.state.filtered_data.sort(sortFunction),
+                sortType:sortType
+            });    
+        }
     },
     renderDetail: function(id, e) {
         this.setState({
