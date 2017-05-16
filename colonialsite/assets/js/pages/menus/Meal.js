@@ -5,7 +5,6 @@ import Divider from 'material-ui/Divider';
 import Rating from './Rating';
 import DishInput from './DishInput';
 import FlatButton from 'material-ui/FlatButton';
-import CategoryInput from './CategoryInput';
 import Cookies from 'js-cookie';
 var axios = require('axios');
 
@@ -25,18 +24,6 @@ function categorySort(a, b){
     return 1
 }
 
-function getPossibleCategories(categories){
-  var possibleNewCategories = [];
-  if (categories){
-      const x = categories_array.map(function(categoryName){
-        if (categories.find(function(x){return x.category===categoryName})==undefined){
-          possibleNewCategories.push(categoryName);
-        } 
-      }.bind(this))
-  }
-  return possibleNewCategories;
-}
-
 class Meal extends Component {
   constructor(props){
     super(props);
@@ -44,99 +31,62 @@ class Meal extends Component {
     this.renderMenu=this.renderMenu.bind(this);
   }
 
-  deleteDish(id, menu_id){
-    console.log("deleting dish");
-    var type = ('delete')
-    var url = ("/api/dishes/"+id+"/remove_dish_from_menu/")
-    var csrftoken = Cookies.get('csrftoken');
-    var delete_data = {menu: menu_id}
-    axios({
-      method:type,
-      url:url,
-      responseType:'json',
-      headers: { "X-CSRFToken": csrftoken},
-      data:delete_data
-    })
-    .then(function(){ 
-      this.props.fetchData();
-    }.bind(this))
-    .catch(function(jqXHR, textStatus, errorThrown){
-      console.log(textStatus);
-      console.log(jqXHR);
-      console.log("You have already reviewed this and we messed up")
-    })
-  }
-
   // Render all the dishes in this category
-  renderDishes(category, data) {
-    var dishInput = this.props.edit ? <DishInput url='/api/dishes/'
-                                                 renderMenu={this.props.fetchData}
-                                                 menu_id={category.id}
-                                                 /> : <div />
-    return (<div> {data.map((entry) => {
-      if (entry.category === category.category) {
-        return entry.dishes.map((dish) => {
-          const deleteButton = this.props.edit ?  <FlatButton
-                                                  key={dish.id}
-                                                  label="Delete Dish"
-                                                  primary={true}
-                                                  onTouchTap={function(){this.deleteDish(dish.id, category.id);}.bind(this)}/>
-                                                  :<div />;
-
-          return (<ListItem key={dish.id} primaryText={dish.name} secondaryText={"Rating: "+ dish.avg_rating} onClick={(e) => this.props.showModal(
-                                                (<Rating your_rating={dish.rating}   
-                                                         avg_rating={dish.avg_rating}
-                                                         url="/api/ratings/"
-                                                         editable={false}
-                                                         finishSubmit={this.props.finishSubmit}
-                                                         id={dish.id}
-                                                         rating_id={dish.rating_id} />), 
-                                                  'Rate '+ dish.name,
-                                                  deleteButton)
-        } 
-                  />)
-        })
-      }
-    })}{dishInput}</div>)
+  renderDishes(category) {
+    return (
+      category.dishes.map((dish) => {
+              return (<ListItem key={dish.id} primaryText={dish.name} secondaryText={"Rating: "+ dish.avg_rating} 
+                onClick={
+                  (e) => this.props.showModal((<Rating  your_rating={dish.rating}   
+                                                        avg_rating={dish.avg_rating}
+                                                        url="/api/ratings/"
+                                                        editable={false}
+                                                        finishSubmit={this.props.closeModal}
+                                                        id={dish.id}
+                                                        rating_id={dish.rating_id} />), 
+                                                        ('Rate '+ dish.name)
+                                              )
+                } />)
+      }))
   }
 
-  renderMenu(categories, data) {
+  renderMenu(categories) {
     if (categories.length === 0) return (<div></div>);
-    if (!data) return (<div></div>);
     return categories.map((category) => {
-      return(
-        <div key={category.category}>
-          <Subheader key={category.category}>
-            {category.category}
-          </Subheader>
-          {this.renderDishes(category, data)}
-          <Divider />
-        </div>
-      )
+      if (category.dishes.length > 0){
+        return(
+          <div key={category.category}>
+            <Subheader key={category.category}>
+              {category.category}
+            </Subheader>
+            {this.renderDishes(category)}
+            <Divider />
+          </div>
+        )
+      }
+      else{
+        return <div key={category.category}/>
+      }
     })
   }
 
   render() {
     
     let categories = new Array();
+    let dish_count = 0;
     if (this.props.meal) this.props.meal.map((entry) => {
-      const category = entry.category;
-      const id = entry.id;
+      const {category, id, dishes}  = entry;
+      dish_count += dishes.length
       if (!
           (categories.find(function(x){
               return (x.category=== category)
             })
           )
-          ) categories.push({category:category, id:id});
+
+          ) categories.push({category, id, dishes});
     })
 
-    if (this.props.edit && categories.length < 4) {var categoryInput=<CategoryInput name={this.props.name}
-                                                                                    date={this.props.date}
-                                                                                    renderMenu={this.props.fetchData}
-                                                                                    newCategories={getPossibleCategories(categories)}/>;}
-    else var categoryInput=(<div/>);
-
-    if (this.props.meal && this.props.meal.length !== 0) {
+    if (this.props.meal && this.props.meal.length !== 0 && dish_count > 0) {
       categories.sort(categorySort);
       return(
         <div>
@@ -144,9 +94,8 @@ class Meal extends Component {
             {this.props.name}
           </h3>
           <div style={{borderStyle: 'solid', borderWidth: '1px', borderColor: '#9ea5af'}}>
-            <List className='text-left'>
-              {categoryInput}
-              {this.renderMenu(categories, this.props.meal)}
+            <List className='text-left' style={{padding:'0px 0px'}}>
+              {this.renderMenu(categories)}
             </List>
           </div>
         </div>
@@ -159,9 +108,8 @@ class Meal extends Component {
           {this.props.name}
         </h3>
         <div style={{borderStyle: 'solid', borderWidth: '1px', borderColor: '#9ea5af'}}>
-          <List className='text-left'>
-            <ListItem secondaryText="This meal has not yet been posted!" />            
-            {categoryInput}
+          <List className='text-left' style={{padding:'0px 0px'}}>
+            <ListItem secondaryText="This meal has not yet been posted!" />
           </List>
         </div>
       </div>
