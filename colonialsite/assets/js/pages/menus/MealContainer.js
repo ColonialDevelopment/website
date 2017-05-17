@@ -126,6 +126,9 @@ class MealContainer extends Component {
   showModal(rating, title, deleteButton){
     this.setState({modalBody:rating, modalTitle:title, deleteButton:deleteButton, open:true});
   }
+  showEditModal(modalBody, deleteButton, open){
+    this.setState({modalBody, deleteButton, open})
+  }
   closeModal(){
     this.setState({open:false, modalBody:null, modalTitle:null});
     this.fetchData();
@@ -211,7 +214,7 @@ class MealContainer extends Component {
                         meal={this.state.brunch} 
                         name="Brunch" 
                         fetchData={this.fetchData.bind(this)} 
-                        showModal={this.showModal.bind(this)} 
+                        showModal={this.showEditModal.bind(this)} 
                         closeModal={this.closeModal.bind(this)}/>
               </div>
               <div className="col-lg-6 text-center">
@@ -219,7 +222,7 @@ class MealContainer extends Component {
                         meal={this.state.dinner} 
                         name="Dinner" 
                         fetchData={this.fetchData.bind(this)} 
-                        showModal={this.showModal.bind(this)} 
+                        showModal={this.showEditModal.bind(this)} 
                         closeModal={this.closeModal.bind(this)}/>
               </div>
             </div>)
@@ -250,7 +253,7 @@ class MealContainer extends Component {
                         meal={this.state.lunch} 
                         name="Lunch" 
                         fetchData={this.fetchData.bind(this)} 
-                        showModal={this.showModal.bind(this)} 
+                        showModal={this.showEditModal.bind(this)} 
                         closeModal={this.closeModal.bind(this)}/>
               </div>
               <div className="col-lg-6 text-center">
@@ -258,7 +261,7 @@ class MealContainer extends Component {
                         meal={this.state.dinner} 
                         name="Dinner" 
                         fetchData={this.fetchData.bind(this)} 
-                        showModal={this.showModal.bind(this)} 
+                        showModal={this.showEditModal.bind(this)} 
                         closeModal={this.closeModal.bind(this)}/>
               </div>
             </div>)

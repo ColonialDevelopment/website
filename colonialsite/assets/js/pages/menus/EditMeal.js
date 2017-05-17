@@ -4,6 +4,7 @@ import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 import Rating from './Rating';
 import DishInput from './DishInput';
+import DishEdit from './DishEdit';
 import FlatButton from 'material-ui/FlatButton';
 import Cookies from 'js-cookie';
 import {categories_array, BRUNCH_CATEGORIES, LUNCH_CATEGORIES, DINNER_CATEGORIES} from '../../statics/categories.js';
@@ -108,21 +109,13 @@ class EditMeal extends Component {
                                             label="Delete Dish"
                                             primary={true}
                                             onTouchTap={function(){this.deleteDish(dish.id, category.id);}.bind(this)}/>
-
+          const dishEdit = <DishEdit  dish={dish}
+                                      closeModal={this.props.fetchData}
+                                      menu_id={category.id} />
           return (<ListItem key={dish.id} 
                             primaryText={dish.name} 
                             secondaryText={"Rating: "+ dish.avg_rating} 
-                            onClick={(e) => this.props.showModal(
-                                                (<Rating your_rating={dish.rating}   
-                                                         avg_rating={dish.avg_rating}
-                                                         url={RATING_POST}
-                                                         editable={false}
-                                                         finishSubmit={this.props.finishSubmit}
-                                                         id={dish.id}
-                                                         rating_id={dish.rating_id} />), 
-                                                  'Rate '+ dish.name,
-                                                  deleteButton
-                                    )} />
+                            onClick={(e) => this.props.showModal(dishEdit, deleteButton, true)} />
                   )
     })}{dishInput}</div>)
   }

@@ -28,14 +28,6 @@ class DishViewSet(viewsets.ModelViewSet):
     queryset = Dish.objects.all().order_by('name')
     serializer_class = DishSerializer
 
-    @detail_route(methods=['put'])
-    def add_dish_to_menu(self, request, pk=None):
-        dish = self.get_object()
-        added_menu = request.data['menu']
-        dish.menus.add(MenuCategory.objects.get(id=added_menu))
-        dish.save()
-        return Response({'status':'added to menu'})
-
     @detail_route(methods=['delete'])
     def remove_dish_from_menu(self, request, pk=None):
         dish = self.get_object()
