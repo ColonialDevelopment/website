@@ -56,12 +56,12 @@ class AnnouncementPost(LoginRequiredMixin, views.APIView):
 			for chunk in file_obj.chunks():
 				destination.write(chunk)
 
-		announcement.title = request.data['file']
+		announcement.title = request.data['title']
 		announcement.start_date = request.data['start_date']
 		announcement.end_date = request.data['end_date']
 		announcement.description = request.data['description']
-		announcement.attachment = file_path
-		announcements.attachment = open(file_path)
+		announcement.file_title = file_path
+		announcement.attachment = open(file_path)
 		announcement.save()
 		return HttpResponse(status=204)
 

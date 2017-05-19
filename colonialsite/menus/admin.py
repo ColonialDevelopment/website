@@ -9,6 +9,7 @@ class DishAdmin(admin.ModelAdmin):
 
 class RatingAdmin(admin.ModelAdmin):
 	fields = ['dish', 'reviewingUser', 'value']
+	readonly_fields = '__all__'
 	list_display = ['dish', 'reviewingUser', 'value']
 	list_filter = ['dish', 'reviewingUser', 'value']
 	search_fields = ['dish', 'reviewingUser']

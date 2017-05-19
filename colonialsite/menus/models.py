@@ -19,11 +19,13 @@ PERMISSION_CHOICES = (
     ('ALL', 'Guests and Meal Exchanges Allowed')
 )
 CATEGORY_CHOICES = (
-    ('Soups', 'Soups'),
-    ('Hot Line', 'Hot Line'),
     ('On the Grill', 'On the Grill'),
     ('On the Chafer', 'On the Chafer'),
+    ('Hot Line', 'Hot Line'),
+    ('Soups', 'Soups'),
     ('Dessert', 'Dessert'),
+    ('Drinks', 'Drinks'),
+    ('Other', 'Other'),
 )
 
 @python_2_unicode_compatible

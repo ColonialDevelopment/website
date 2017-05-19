@@ -97,7 +97,6 @@ class MealContainer extends Component {
     if (dayOfWeek === 0) dayOfWeek = 7;
 
     this.setState({ date: returnString, day: dayOfWeek });
-    console.log(returnString);
     this.findTodayMeals(returnString);
   }
 

@@ -1,13 +1,14 @@
-from django.shortcuts import render
-import coloauth as accounts
-from menus.models import MenuCategory, Dish, Rating
-from menus.serializers import MenuCategorySerializer, DishSerializer, RatingSerializer
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render
+
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 from rest_framework import viewsets
 
-import datetime
+from menus.models import MenuCategory, Dish, Rating
+from menus.serializers import MenuCategorySerializer, DishSerializer, RatingSerializer
+
 # Create your views here.
 
 @login_required
@@ -20,11 +21,8 @@ def index(request):
 
     return render(request, template, context)
 
-class DishViewSet(viewsets.ModelViewSet):
-    """
-
-    API endpoint that allows dishes to be viewed or edited
-    """
+class DishViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
+    """ API endpoint that allows dishes to be viewed or edited """
     queryset = Dish.objects.all().order_by('name')
     serializer_class = DishSerializer
 
@@ -45,13 +43,13 @@ class DishViewSet(viewsets.ModelViewSet):
             dish.menus.remove(d)
         return Response({'status':'removed from menu'})
 
-class RatingViewSet(viewsets.ModelViewSet):
+class RatingViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
     queryset = Rating.objects.all().order_by('value')
     serializer_class = RatingSerializer
 
     def perform_create(self, serializer):
         new_rating = serializer.save(reviewingUser=self.request.user)
 
-class MenuCategoryViewSet(viewsets.ModelViewSet):
+class MenuCategoryViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
     queryset = MenuCategory.objects.all().order_by('category')
     serializer_class = MenuCategorySerializer

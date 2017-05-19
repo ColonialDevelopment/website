@@ -28,6 +28,7 @@ class Event(models.Model):
 		('Library', 'Library'),
 		('Movie Room', 'Movie Room'),
 		('Taproom', 'Taproom'),
+		('Lawn', 'Lawn'),
 		('Colonial', 'Colonial'),
 		('Other', 'Other (See Description)'),
 	)
