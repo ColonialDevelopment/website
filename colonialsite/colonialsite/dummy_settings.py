@@ -30,6 +30,16 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SOPHOMORE_YEAR = '2019'
+JUNIOR_YEAR = '2018'
+SENIOR_YEAR = '2017'
+
+# Used in coloauth.middleware
+# Default Login is automatically added 
+# in RE format
+LOGIN_EXEMPT_URLS = [r'^accounts/logout($|.*)', r'^staff/login($|.*)', r'^staff/logout($|.*)',]
+
+STAFF_LOGIN_URL = '/staff/login/'
 
 # Application definition
 
@@ -62,6 +72,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'cas.middleware.CASMiddleware',
+    'coloauth.middleware.LoginRequiredMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = (

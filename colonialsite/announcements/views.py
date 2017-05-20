@@ -12,6 +12,8 @@ from rest_framework import generics, views, parsers
 from .serializers import AnnouncementSerializer
 from .models import Announcement, get_file_path
 
+from coloauth.middleware import staff_login
+
 
 class AnnouncementListAll(LoginRequiredMixin, generics.ListAPIView):
 	"""Class-based view to return all announcements. Supports GET only."""
@@ -66,7 +68,7 @@ class AnnouncementPost(LoginRequiredMixin, views.APIView):
 		return HttpResponse(status=204)
 
 
-@login_required(login_url = '/staff/login/')
+@staff_login
 def index(request):
 	"""User-facing announcements index view."""
 
