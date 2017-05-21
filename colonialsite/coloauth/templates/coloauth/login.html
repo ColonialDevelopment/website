@@ -34,7 +34,7 @@
 </div>
 <div class="container-fluid">
     <div class="col-sm-2 col-sm-offset-5 panel panel-default text-center">
-        <form class='form-signin' action="{% url 'coloauth:login_page' %}" method="post">
+        <form class='form-signin' method="post"> <!-- POSTS to current URL -->
             {% csrf_token %}    
             <h1 class="form-signin-heading">Login</h1>
 

@@ -30,6 +30,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# --- NEW SETTINGS ---
+
 SOPHOMORE_YEAR = '2019'
 JUNIOR_YEAR = '2018'
 SENIOR_YEAR = '2017'
@@ -40,6 +42,9 @@ SENIOR_YEAR = '2017'
 LOGIN_EXEMPT_URLS = [r'^accounts/logout($|.*)', r'^staff/login($|.*)', r'^staff/logout($|.*)',]
 
 STAFF_LOGIN_URL = '/staff/login/'
+STAFF_LOGIN_REDIRECT = '/announcements'
+
+# --- END NEW SETTINGS ---
 
 # Application definition
 
