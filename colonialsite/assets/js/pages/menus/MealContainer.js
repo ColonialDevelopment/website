@@ -311,20 +311,20 @@ class MealContainer extends Component {
     return(
       <div className="container-fluid">
           <div className="panel panel-default">
-          <div className="panel-body text-center">
+          <div className="panel-body text-center" style={{paddingBottom:0}}>
             <div style={{float: 'left', position: 'relative', left: '50%'}}>
               <div style={{float: 'left', position: 'relative', left: '-50%'}}>
-                <FlatButton onTouchTap={this.goYesterday.bind(this)} style={{marginTop: '18px', textAlign: 'center', float: 'left'}} icon={<PrevButton />} />
-                <h2 style={{ float: 'left' }}>{this.renderDate()}</h2>
-                <FlatButton onTouchTap={this.goTomorrow.bind(this)} style={{marginTop: '18px', textAlign: 'center'}} icon={<NextButton />} />
+                <div style={{ textAlign: 'center', fontSize:16}}>{this.renderDate()}</div>
+                <FlatButton onTouchTap={this.goYesterday.bind(this)} style={{marginTop: '10px', textAlign: 'center', float: 'left'}} icon={<PrevButton />} />
+                <FlatButton onTouchTap={this.goTomorrow.bind(this)} style={{marginTop: '10px', textAlign: 'center', float: 'right'}} icon={<NextButton />} />
               </div>
               <div style={{ clear: 'both' }}/>
             </div>
             <div style={{ clear: 'both' }} />
             <DatePicker style={{display: 'none'}} ref='dp' hintText="click to change the date" onChange={(x, y) => this.changeDate(y)} />
-            <FlatButton onTouchTap={this.openDatePicker.bind(this)} labelPosition='before' label='Choose Date' icon={<CreateIcon color='#073f99' />}/>
+            <FlatButton style={{textAlign: 'center' }} onTouchTap={this.openDatePicker.bind(this)} labelPosition='before' label='Choose Date' icon={<CreateIcon color='#073f99' />}/>
           </div>
-          <div className="panel-body">
+          <div className="panel-body" style={{paddingTop:0}}>
             {meals}
           </div>
           </div>
