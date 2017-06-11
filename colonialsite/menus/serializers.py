@@ -51,6 +51,12 @@ class MenuCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = MenuCategory
         fields = ('id','dishes', 'date', 'category', 'meal', 'meal_permissions')
+        validators = [
+            UniqueTogetherValidator(
+                queryset=MenuCategory.objects.all(),
+                fields=('date', 'category', 'meal')
+            )
+        ]
 
     def get_dishes(self, obj):
         return (map(lambda x: DishSerializer(x).data, obj.dish_set.all().values()))

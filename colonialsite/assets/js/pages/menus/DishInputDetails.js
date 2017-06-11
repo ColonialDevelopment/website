@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { Checkbox } from 'react-bootstrap';
 import { RaisedButton, TextField } from 'material-ui';
 import Cookies from 'js-cookie';
+import {DISH_POST, DISH_PUT} from '../../statics/urls.js';
 var axios = require('axios');
 
 class DishInputDetails extends Component {
@@ -44,14 +45,18 @@ class DishInputDetails extends Component {
 
 	handleSubmit(e) {
 		// does some submission stuff
-		var type = (this.props.dish.customOption ? 'post' : 'put')
-		var url = (this.props.dish.customOption ? '/api/dishes/' : '/api/dishes/'+this.props.dish.id+'/add_dish_to_menu/')
-		// ajax call be here
-		var csrftoken = Cookies.get('csrftoken');
-		var post_dish_data =
+		const type = (this.props.dish.customOption ? 'post' : 'put')
+		const url = (this.props.dish.customOption ? DISH_POST : DISH_PUT(this.props.dish.id))
+		const dishes = (this.props.dish.customOption ? new Array() : this.props.dish.menus)
+		const newMenu = this.props.menu_id;
+
+		const csrftoken = Cookies.get('csrftoken');
+		const post_or_put_dish_menus = dishes.includes(newMenu) ? dishes : dishes.concat(newMenu) 
+
+		var post_or_put_dish_data =
 		{
 			name:this.props.dish.name,
-			menus:[this.props.menu_id],
+			menus:post_or_put_dish_menus,
 			allergens:this.state.allergens,
 			dairy_free:this.state.dairy_free,
 			kosher_halal:this.state.kosher_halal,
@@ -60,11 +65,7 @@ class DishInputDetails extends Component {
 			vegan:this.state.vegan,
 			vegetarian:this.state.vegetarian
 		}
-		var put_dish_data =
-		{
-			menu:this.props.menu_id
-		}
-		var post_or_put_dish_data = (this.props.dish.customOption ? post_dish_data : put_dish_data)
+
 		axios({
 			method:type,
 			url:url,
@@ -85,7 +86,7 @@ class DishInputDetails extends Component {
 
 	render() {
 		return (
-			<form style={{margin:10}}>
+				<div>
 				<div className='form-group' >
 					<label className="checkbox-inline">
 						<input type='checkbox'
@@ -145,11 +146,11 @@ class DishInputDetails extends Component {
 				</div>
 				<br/>
 				<div>
-					<RaisedButton 	onClick={this.handleSubmit}>
+					<RaisedButton 	onClick={this.handleSubmit} autoFocus>
 						Submit
 					</RaisedButton>
 				</div>
-			</form>
+				</div>
 		)
 	}
 }

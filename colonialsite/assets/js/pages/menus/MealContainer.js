@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Meal from './Meal';
+import EditMeal from './EditMeal';
+import {MENU_CATEGORY_LIST} from '../../statics/urls.js';
 
 import DatePicker from 'material-ui/DatePicker';
 import Dialog from 'material-ui/Dialog';
@@ -15,6 +17,7 @@ class MealContainer extends Component {
     var d = props.today.day === 0 ? 7 : props.today.day;
     this.state = {date: props.today.date, day: d, data: null, open:false};
     this.findTodayMeals = this.findTodayMeals.bind(this);
+    this.getMeals = this.getMeals.bind(this);
   }
 
   componentWillMount() {
@@ -23,7 +26,7 @@ class MealContainer extends Component {
 
   fetchData() {
     $.ajax({
-        url: '/api/menu_categories',
+        url: MENU_CATEGORY_LIST,
         datatype: 'json',
         cache: false,
         success: function(data) {
@@ -34,20 +37,18 @@ class MealContainer extends Component {
   }
 
   findTodayMeals(date) {
-    let breakfast = [];
     let lunch = [];
     let dinner = [];
     let brunch = [];
 
     this.state.data.map((mealCategory) => {
       if (mealCategory.date === date) {
-        if (mealCategory.meal === "Breakfast") breakfast.push(mealCategory);
-        else if (mealCategory.meal === "Lunch") lunch.push(mealCategory);
+        if (mealCategory.meal === "Lunch") lunch.push(mealCategory);
         else if (mealCategory.meal === "Dinner") dinner.push(mealCategory);
         else if (mealCategory.meal === "Brunch") brunch.push(mealCategory);
       }
     })
-    this.setState({ breakfast, lunch, dinner, brunch });
+    this.setState({ lunch, dinner, brunch });
   }
 
   //  Format a date object into our string
@@ -125,7 +126,10 @@ class MealContainer extends Component {
   showModal(rating, title, deleteButton){
     this.setState({modalBody:rating, modalTitle:title, deleteButton:deleteButton, open:true});
   }
-  finishSubmit(){
+  showEditModal(modalBody, deleteButton, open){
+    this.setState({modalBody, deleteButton, open})
+  }
+  closeModal(){
     this.setState({open:false, modalBody:null, modalTitle:null});
     this.fetchData();
   }
@@ -200,7 +204,86 @@ class MealContainer extends Component {
     }
     return (day + ', ' + month + ' ' + today.getDate());
   }
-
+  getMeals(){
+    if (this.state.day > 5){ 
+       if(this.props.edit){
+          return(
+            <div className="row">
+              <div className="col-lg-6 text-center">
+              <EditMeal date={this.state.date} 
+                        meal={this.state.brunch} 
+                        name="Brunch" 
+                        fetchData={this.fetchData.bind(this)} 
+                        showModal={this.showEditModal.bind(this)} 
+                        closeModal={this.closeModal.bind(this)}/>
+              </div>
+              <div className="col-lg-6 text-center">
+              <EditMeal date={this.state.date} 
+                        meal={this.state.dinner} 
+                        name="Dinner" 
+                        fetchData={this.fetchData.bind(this)} 
+                        showModal={this.showEditModal.bind(this)} 
+                        closeModal={this.closeModal.bind(this)}/>
+              </div>
+            </div>)
+      }
+      else {
+        return (<div className="row">
+                  <div className="col-lg-6 text-center">
+                    <Meal meal={this.state.brunch} 
+                          name="Brunch" 
+                          showModal={this.showModal.bind(this)} 
+                          closeModal={this.closeModal.bind(this)}/>
+                  </div>
+                  <div className="col-lg-6 text-center">
+                    <Meal meal={this.state.dinner} 
+                          name="Dinner" 
+                          showModal={this.showModal.bind(this)} 
+                          closeModal={this.closeModal.bind(this)}/>
+                  </div>
+                </div>)
+     }
+    }
+    else {
+      if(this.props.edit){
+          return(
+            <div className="row">
+              <div className="col-lg-6 text-center">
+              <EditMeal date={this.state.date} 
+                        meal={this.state.lunch} 
+                        name="Lunch" 
+                        fetchData={this.fetchData.bind(this)} 
+                        showModal={this.showEditModal.bind(this)} 
+                        closeModal={this.closeModal.bind(this)}/>
+              </div>
+              <div className="col-lg-6 text-center">
+              <EditMeal date={this.state.date} 
+                        meal={this.state.dinner} 
+                        name="Dinner" 
+                        fetchData={this.fetchData.bind(this)} 
+                        showModal={this.showEditModal.bind(this)} 
+                        closeModal={this.closeModal.bind(this)}/>
+              </div>
+            </div>)
+      }
+     else{
+        return (<div className="row">
+                  <div className="col-lg-6 text-center">
+                    <Meal meal={this.state.lunch} 
+                          name="Lunch" 
+                          showModal={this.showModal.bind(this)} 
+                          closeModal={this.closeModal.bind(this)}/>
+                  </div>
+                  <div className="col-lg-6 text-center">
+                    <Meal meal={this.state.dinner} 
+                          name="Dinner" 
+                          showModal={this.showModal.bind(this)} 
+                          closeModal={this.closeModal.bind(this)}/>
+                  </div>
+                </div>)
+       }
+    } 
+  }   
   render() {
     const close = (
         <FlatButton
@@ -221,38 +304,10 @@ class MealContainer extends Component {
                                  }
                   onTouchTap={function(){this.setState({open:false})}.bind(this)}>
                   {this.state.modalBody}
+                  </Dialog>)
 
-          </Dialog>)
+    const meals = this.getMeals();
 
-    // Menu display for weekends
-    if (this.state.day == 6 || this.state.day == 7)
-      return(
-        <div className="container-fluid">
-            <div className="panel panel-default">
-              <div className="panel-body text-center">
-                <div style={{float: 'left', position: 'relative', left: '50%'}}>
-                  <div style={{float: 'left', position: 'relative', left: '-50%'}}>
-                    <FlatButton onTouchTap={this.goYesterday.bind(this)} style={{marginTop: '18px', textAlign: 'center', float: 'left'}} icon={<PrevButton />} />
-                    <h2 style={{ float: 'left' }}>{this.renderDate()}</h2>
-                    <FlatButton onTouchTap={this.goTomorrow.bind(this)} style={{marginTop: '18px', textAlign: 'center'}} icon={<NextButton />} />
-                  </div>
-                  <div style={{ clear: 'both' }}/>
-                </div>
-                <div style={{ clear: 'both' }} />
-                <DatePicker style={{display: 'none'}} ref='dp' hintText="click to change the date" onChange={(x, y) => this.changeDate(y)} />
-                <FlatButton onTouchTap={this.openDatePicker.bind(this)} labelPosition='before' label='Choose Date' icon={<CreateIcon color='#073f99' />}/>
-              </div>
-              <div className="panel-body">
-                <div className="row">
-                  <div className="col-lg-6 text-center"><Meal date={this.state.date} meal={this.state.brunch} name="Brunch" fetchData={this.fetchData.bind(this)} edit={this.props.edit} showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
-                  <div className="col-lg-6 text-center"><Meal date={this.state.date} meal={this.state.dinner} name="Dinner" fetchData={this.fetchData.bind(this)} edit={this.props.edit} showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
-                </div>
-              </div>
-            </div>
-            {dialog}
-        </div>
-      )
-    // Menu display for weekdays
     return(
       <div className="container-fluid">
           <div className="panel panel-default">
@@ -270,11 +325,7 @@ class MealContainer extends Component {
             <FlatButton onTouchTap={this.openDatePicker.bind(this)} labelPosition='before' label='Choose Date' icon={<CreateIcon color='#073f99' />}/>
           </div>
           <div className="panel-body">
-            <div className="row">
-              <div className="col-lg-4 text-center"><Meal date={this.state.date} meal={this.state.breakfast} name="Breakfast" fetchData={this.fetchData.bind(this)} edit={this.props.edit} showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)} /></div>
-              <div className="col-lg-4 text-center"><Meal date={this.state.date} meal={this.state.lunch} name="Lunch" fetchData={this.fetchData.bind(this)} edit={this.props.edit} showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
-              <div className="col-lg-4 text-center"><Meal date={this.state.date} meal={this.state.dinner} name="Dinner" fetchData={this.fetchData.bind(this)} edit={this.props.edit} showModal={this.showModal.bind(this)} finishSubmit={this.finishSubmit.bind(this)}/></div>
-            </div>
+            {meals}
           </div>
           </div>
           {dialog}
