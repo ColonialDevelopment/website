@@ -47,7 +47,7 @@ class EventSortSelect extends React.Component{
 		}.bind(this));
 
 		return (
-			<DropdownButton open={this.state.open} onToggle={this.onToggle.bind(this)} id="Sort Selection" title={<Glyphicon glyph="sort"/>}>
+			<DropdownButton open={this.state.open} pullRight onToggle={this.onToggle.bind(this)} id="Sort Selection" title={<Glyphicon glyph="sort"/>}>
         		{sorts}
     		</DropdownButton>
     	);

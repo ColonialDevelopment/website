@@ -14,8 +14,9 @@ def get_file_path(instance, filename):
 @python_2_unicode_compatible
 class Event(models.Model):
 	STATUS_CHOICES = (
-		('Closed', 'Closed'),   # Viewable, closed to RSVPs
+		('No RSVP', 'No RSVP'), # Viewable, no RSVP required
 		('Open', 'Open'),       # Viewable, open to RSVPs
+		('Closed', 'Closed'),   # Viewable, closed to RSVPs
 		('Hidden', 'Hidden'),   # Not viewable to members
 	)
 
