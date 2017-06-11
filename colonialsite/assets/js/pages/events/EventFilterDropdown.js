@@ -75,7 +75,7 @@ class EventFilterDropdown extends React.Component{
 
 		var excludePastNode = checkExcludePast();
 		return(
-			<DropdownButton open={this.state.open} onToggle={this.onToggle.bind(this)} id="Filter Selection" title={<Glyphicon glyph="filter"/>} >
+			<DropdownButton open={this.state.open} pullRight onToggle={this.onToggle.bind(this)} id="Filter Selection" title={<Glyphicon glyph="filter"/>} >
 			{checks}
 			{excludePastNode}
 			</DropdownButton>	
