@@ -13,6 +13,7 @@ class RSVPButton extends Component {
 			contentType:'application/json'
 		})
 		.done(function(){
+			this.props.refreshData();
 			this.props.renderDetail(this.props.eventId);
 		})
 		.fail(function(jqXHR, textStatus, errorThrown){

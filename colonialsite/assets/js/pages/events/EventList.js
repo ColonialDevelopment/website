@@ -93,7 +93,6 @@ var EventList = React.createClass({
                 }
                 return events_selected;
             }.bind(this), []);
-        console.log(filtered_data);
         this.updateSort(this.state.sortType, filtered_data);
         if (this.state.event){
                     this.setState({
@@ -133,7 +132,6 @@ var EventList = React.createClass({
                 event: this.state.filtered_data.find(event => event.pk == id), 
                 showModal:true
         })
-        this.loadContentFromServer();
     },
     hideDetail:function(){
         this.setState({showModal:false});
@@ -175,13 +173,15 @@ var EventList = React.createClass({
                     <div className="container col-lg-6 hidden-md hidden-sm hidden-xs">
                         <EventDetail key={"Large screen"}
                                      activeEvent={this.state.event}
-                                     renderDetail={this.renderDetail} />
+                                     renderDetail={this.renderDetail}
+                                     refreshData={this.loadContentFromServer} />
                     </div>
                     <div className="container">
                         <EventDetailModal key={"smallScreen"}
                                           activeEvent={this.state.event}
                                           showModal={this.state.showModal && window.innerWidth < 1200}
                                           onHide={this.hideDetail}
+                                          refreshData={this.loadContentFromServer}
                                           renderDetail={this.renderDetail} />
                     </div>
                 </div>

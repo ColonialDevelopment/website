@@ -24,6 +24,7 @@ class EventDetail extends Component {
       const   { title, description, location, pk, rsvp_status, status } = this.props.activeEvent
       const rsvp_button = (<RSVPButton eventId={pk}
                             url={"/api/events/"}
+                            refreshData={this.props.refreshData}
                             rsvp_status={rsvp_status}
                             status={status}
                             renderDetail={this.props.renderDetail}

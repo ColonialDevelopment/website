@@ -13,7 +13,8 @@ class EventDetailModal extends Component{
           <Modal onHide={this.props.onHide} show={this.props.showModal} bsSize="large" >
             <Modal.Body>
               <EventDetail activeEvent={this.props.activeEvent}
-                           renderDetail={this.props.renderDetail} /> 
+                           renderDetail={this.props.renderDetail}
+                           refreshData={this.props.refreshData} /> 
             </Modal.Body>
           </Modal>
     )
