@@ -44,6 +44,10 @@ class AnnouncementForm extends Component {
       clean_data = false;
       this.setState({title_error:"This field is required"})
     }
+    if (this.state.title.length > 50){
+      clean_data = false;
+      this.setState({title_error:"This field is too long"})
+    }
     if (!this.state.start_date){
       clean_data = false;
       this.setState({start_error:"This field is required"})
