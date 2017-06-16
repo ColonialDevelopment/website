@@ -129,7 +129,6 @@ class EventFilterTable extends React.Component {
 					/>
 					<span className="input-group-btn">
 					<EventFilterDropdown types={this.props.types}
-
 										 updateFilteredList={this.props.updateFilteredList} />
 					</span>
 					<span className="input-group-btn">

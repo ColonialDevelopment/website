@@ -70,7 +70,7 @@ var EventList = React.createClass({
                 {id:"Weekly Events", selected:true},
                 {id:"Other", selected:true}
             ],
-            excludePast:true,
+            excludePast:false,
             sortType:"Date",
         }
     },
@@ -137,24 +137,6 @@ var EventList = React.createClass({
         this.setState({showModal:false});
     },
     render: function() {
-
-        if (this.props.small){
-            return (
-                <div>
-                        <EventFilterTable   events={this.state.filtered_data}
-                                            types={this.state.types}
-                                            sortTypes={EventList.sortTypes}
-                                            selected_event={this.state.event}
-                                            defaultSort={this.state.sortType}
-
-                                            renderDetail={(id) => console.log()}
-                                            updateFilteredList={this.updateFilters}
-                                            updateSort={this.updateSort} />
-                </div>
-               )            
-        }
-
-
 
         return (
                 <div>
