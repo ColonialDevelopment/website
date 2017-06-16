@@ -28,6 +28,9 @@ class RSVPButton extends Component {
 				<div> RSVP for this event is closed </div>
 			)
 		}
+		else if (this.props.status === "No RSVP"){
+			return (<div/>);
+		}
 		if (!this.props.rsvp_status){
 			return (
 			<Button bsStyle="success"
