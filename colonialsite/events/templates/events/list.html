@@ -1,6 +1,25 @@
-{{ title }}
-{{ date }}
+{% extends "dashboard/index.html" %}
 
+{% block title %}
+RSVP for {{title}}
+{% endblock %}
+
+{% block 'body' %}
+<div class='container'>
+	<h1 class='text-center'>
+		{{ title }}
+	</h1>
+	<h3 class='text-center'>
+		{{ date }}
+	</h3>
+	<h3 class='text-center'>
+		{{attendees}} have RSVP'd
+	</h3>		
+
+<ul class="list-group">
 {% for member in members %}
-{{ member.name }}
+<li class="list-group-item">{{ member.name }}</li>
 {% endfor %}
+</ul>
+
+{% endblock %}

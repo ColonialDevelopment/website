@@ -85,6 +85,7 @@ def list_all(request, event_id):
         'title': event.title,
         'date': event.start_date.date(),
         'members': members,
+        'attendees': len(members),
     }
 
     return render(request, template, context)
@@ -116,6 +117,7 @@ def list_sophs(request, event_id):
         'title': event.title,
         'date': event.start_date.date(),
         'members': members,
+        'attendees': len(members),
     }
 
     return render(request, template, context)

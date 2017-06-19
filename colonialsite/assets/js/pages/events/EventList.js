@@ -137,9 +137,29 @@ var EventList = React.createClass({
         this.setState({showModal:false});
     },
     render: function() {
+        const detail = this.props.small ? 
+                    (
+                            <div >
+                                <div className='scroll-container-header border-bottom-1'> Events: </div>
+                                    <EventFilterTable   events={this.state.filtered_data}
+                                                        types={this.state.types}
+                                                        sortTypes={EventList.sortTypes}
+                                                        selected_event={this.state.event}
+                                                        defaultSort={this.state.sortType}
 
-        return (
-                <div>
+                                                        renderDetail={this.renderDetail}
+                                                        updateFilteredList={this.updateFilters}
+                                                        updateSort={this.updateSort} />
+
+                        <EventDetailModal key={"smallScreen"}
+                                          activeEvent={this.state.event}
+                                          showModal={this.state.showModal}
+                                          onHide={this.hideDetail}
+                                          refreshData={this.loadContentFromServer}
+                                          renderDetail={this.renderDetail} />
+                        </div>
+                    ) :  (
+                    <div>
                     <div className="container col-md-12 col-sm-12 col-xs-12 col-lg-6">
                      <div className='scroll-container-header border-bottom-1'> Events: </div>
                         <EventFilterTable   events={this.state.filtered_data}
@@ -152,21 +172,19 @@ var EventList = React.createClass({
                                             updateFilteredList={this.updateFilters}
                                             updateSort={this.updateSort} />
                     </div>
-                    <div className="container col-lg-6 hidden-md hidden-sm hidden-xs">
-                        <EventDetail key={"Large screen"}
-                                     activeEvent={this.state.event}
-                                     renderDetail={this.renderDetail}
-                                     refreshData={this.loadContentFromServer} />
+                        <div className="container col-lg-6 hidden-md hidden-sm hidden-xs">
+                            <EventDetail key={"Large screen"}
+                                         activeEvent={this.state.event}
+                                         renderDetail={this.renderDetail}
+                                         refreshData={this.loadContentFromServer} />
+                        </div>
                     </div>
-                    <div className="container">
-                        <EventDetailModal key={"smallScreen"}
-                                          activeEvent={this.state.event}
-                                          showModal={this.state.showModal && window.innerWidth < 1200}
-                                          onHide={this.hideDetail}
-                                          refreshData={this.loadContentFromServer}
-                                          renderDetail={this.renderDetail} />
-                    </div>
-                </div>
+                    )
+
+        return (
+            <div>
+                {detail}
+            </div>
                )
     }
 });
