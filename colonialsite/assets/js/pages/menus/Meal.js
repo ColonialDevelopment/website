@@ -37,13 +37,13 @@ class Meal extends Component {
       category.dishes.map((dish) => {
               return (<ListItem key={dish.id} primaryText={dish.name} secondaryText={"Rating: "+ dish.avg_rating} 
                 onClick={
-                  (e) => this.props.showModal((<Rating  your_rating={dish.rating}   
+                  (e) => this.props.showModal((<Rating  your_rating={dish.your_rating_and_id[0]}   
                                                         avg_rating={dish.avg_rating}
                                                         url="/api/ratings/"
                                                         editable={false}
                                                         finishSubmit={this.props.closeModal}
                                                         id={dish.id}
-                                                        rating_id={dish.rating_id} />), 
+                                                        rating_id={dish.your_rating_and_id[1]} />), 
                                                         ('Rate '+ dish.name)
                                               )
                 } />)

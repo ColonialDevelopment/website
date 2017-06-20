@@ -48,7 +48,10 @@ class Dish(models.Model):
 
     menus = models.ManyToManyField(MenuCategory, blank=False, related_name='dishes')
     name = models.CharField(max_length=200)
-
+    avg_rating = models.FloatField(default=0.0,
+                              validators=[MinValueValidator(1.0), MaxValueValidator(5.0)])
+    num_ratings = models.IntegerField(default=0)
+    
     allergens = models.CharField(max_length=20, blank=True)
     vegetarian = models.BooleanField(default=False)
     kosher_halal = models.BooleanField(default=False)

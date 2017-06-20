@@ -6,44 +6,20 @@ from rest_framework.validators import UniqueTogetherValidator
 from rest_framework.fields import CurrentUserDefault
 
 class DishSerializer(serializers.ModelSerializer):
-    rating = serializers.SerializerMethodField()
-    num_ratings = serializers.SerializerMethodField()
-    avg_rating = serializers.SerializerMethodField()
-    rating_id = serializers.SerializerMethodField()
+    your_rating_and_id = serializers.SerializerMethodField()
 
     class Meta:
         model = Dish
-        fields = ('id', 'name', 'rating', 'rating_id', 'num_ratings', 'menus', 'avg_rating', 'allergens',
+        fields = ('id', 'name', 'your_rating_and_id', 'num_ratings', 'menus', 'avg_rating', 'allergens',
                     'vegetarian', 'vegan', 'kosher_halal', 'dairy_free', 'soy_free', 'nut_free')
 
-    def get_avg_rating(self, obj):
-        ratings = []
-        for x in obj.rating_set.all().values():
-            ratings.append(x.get('value'))
-        if ratings:
-            f = reduce(lambda x, y: x + y, ratings) / len(ratings)
-            return str("%.1f" % round(f, 2))
-        else:
-            return 0.0
-
-    def get_rating(self, obj):
+    def get_your_rating_and_id(self, obj):
         user = self.context['request'].user.id
         rating = obj.rating_set.all().filter(reviewingUser=user, dish=obj.id)
         if len(rating.all().values()) is 0:
-            return 0.0
+            return [0.0, 0]
         else:
-            return rating[0].value
-
-    def get_rating_id(self, obj):
-        user = self.context['request'].user.id
-        rating = obj.rating_set.all().filter(reviewingUser=user, dish=obj.id)
-        if len(rating.all().values()) is 0:
-            return 0
-        else:
-            return rating[0].id
-
-    def get_num_ratings(self, obj):
-        return len(obj.rating_set.all().values())
+            return [rating[0].value, rating[0].id]
 
 class MenuCategorySerializer(serializers.ModelSerializer):
     dishes = DishSerializer(many=True, read_only=True)

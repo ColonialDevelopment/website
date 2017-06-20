@@ -12,6 +12,7 @@ class Rating extends Component{
 			rating_id:this.props.rating_id,
 			starColor: ""
 		}
+		console.log(this.state);
 	}
 
 	onStarClick(nextValue, prevValue, name){
