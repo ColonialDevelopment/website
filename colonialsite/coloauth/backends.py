@@ -14,7 +14,7 @@ class RestrictedCASBackend(CASBackend):
 	def authenticate(self, ticket, service):
 		User = get_user_model()
 		username = _verify(ticket, service)
-		
+
 		if not username:
 			return None
 

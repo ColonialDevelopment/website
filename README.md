@@ -2,7 +2,7 @@
 This is a new website for Colonial which contains a members only section of the page.
 
 
-#ATTN:regarding environment and python modules
+## Backend Setup (Django)
 You need to use virutalenv to use the virtual environment for this project
 
 1. First you need to use pip to install virtualenv
@@ -18,7 +18,34 @@ You need to use virutalenv to use the virtual environment for this project
 
 This way we will all have consistent dependencies and modules and we will also have a consistent environment with what we end up using in deployment.
 
+To start the server, first make sure you have settings.py:
+>	(env) $ cd colonialsite/colonialsite
 
+>	(env) $ cp dummy_settings.py settings.py
+
+Then perform migrations and start the server.
+>	(env) $ python manage.py migrate
+
+>	(env) $ python manage.py runserver
+
+## Frontend Setup
+
+First, in order to pass authentication, your NetID needs to be in the members.csv file.
+Copy the example_members.csv file, rename it, and put your NetID in it.
+>	$ cd colonialsite/coloauth
+
+>	$ cp example_members.csv members.csv
+
+Next, you'll need Node.js and NPM installed to run the webpack server.
+Once you install Node.js and NPM, install dependencies:
+>	$ cd colonialsite
+
+>	$ npm install
+
+Finally, run the webpack server.
+>	$ node server.js
+
+## Other
 
 These are the developers:
 
