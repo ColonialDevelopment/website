@@ -9,14 +9,16 @@ class DishInput extends Component{
 		};
 	}
 
-    loadContentFromServer() {
+    loadContentFromServer(renderMenu) {
         $.ajax({
             url: this.props.url,
             datatype: 'json',
             cache: false,
             success: function(data) {
                 this.setState({data:data.results});
-                this.props.renderMenu()
+                if (renderMenu) {
+                    this.props.renderMenu();
+                }
             }.bind(this)
         })
     }
@@ -24,10 +26,12 @@ class DishInput extends Component{
 	componentDidMount() {
         this.loadContentFromServer();
     }
-	render(){
-		return (<MenuInput updateDishes={this.loadContentFromServer.bind(this)}
-						   dishes={this.state.data}
-						   menu_id={this.props.menu_id}/>)
+	render() {
+		return (
+            <MenuInput updateDishes={this.loadContentFromServer.bind(this, true)}
+    			dishes={this.state.data}
+    			menu_id={this.props.menu_id}/>
+        );
 	}
 }
 export default DishInput;

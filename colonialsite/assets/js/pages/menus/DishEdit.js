@@ -12,12 +12,9 @@ class DishEdit extends Component{
 	}
 	render(){
 		const detail = <DishInputDetails dish={this.props.dish}
-										 
 										 finishSubmit={this.props.closeModal}
 										 menu_id={this.props.menu_id} />
-	 	return (<div>
-	 				{detail}
- 				</div>)
+	 	return <div>{detail}</div>;
 	}
 }
 

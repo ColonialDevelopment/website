@@ -4,7 +4,7 @@ export const MEMBERS_LIST = "/api/members";
 export const MENU_CATEGORY_LIST = "/api/menus_by_date";
 
 export const ANNOUNCEMENTS_POST = "/api/announcements/post";
-export const MENU_CATEGORY_POST = MENU_CATEGORY_LIST + "/";
+export const MENU_CATEGORY_POST = "/api/menu_categories/";
 export const RATING_POST = "/api/ratings/";
 export const DISH_POST = "/api/dishes/";
 
