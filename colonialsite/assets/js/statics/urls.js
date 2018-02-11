@@ -1,7 +1,7 @@
 export const DISHES_LIST = "/api/dishes";
 export const EVENTS_LIST = "/api/events";
 export const MEMBERS_LIST = "/api/members";
-export const MENU_CATEGORY_LIST = "/api/menu_categories";
+export const MENU_CATEGORY_LIST = "/api/menus_by_date";
 
 export const ANNOUNCEMENTS_POST = "/api/announcements/post";
 export const MENU_CATEGORY_POST = MENU_CATEGORY_LIST + "/";
