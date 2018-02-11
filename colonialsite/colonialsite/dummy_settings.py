@@ -37,7 +37,7 @@ JUNIOR_YEAR = '2018'
 SENIOR_YEAR = '2017'
 
 # Used in coloauth.middleware
-# Default Login is automatically added 
+# Default Login is automatically added
 # in RE format
 LOGIN_EXEMPT_URLS = [r'^accounts/logout($|.*)', r'^staff/login($|.*)', r'^staff/logout($|.*)',]
 
@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cas',
+    'django_filters',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -89,8 +90,9 @@ AUTHENTICATION_BACKENDS = (
 CAS_SERVER_URL = 'https://fed.princeton.edu/cas/'
 
 REST_FRAMEWORK = {
-        'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
-        'PAGE_SIZE': 10
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
+    'PAGE_SIZE': 10,
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
 }
 
 ROOT_URLCONF = 'colonialsite.urls'

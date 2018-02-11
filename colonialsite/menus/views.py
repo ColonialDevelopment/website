@@ -4,7 +4,9 @@ from django.shortcuts import render
 
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
+
+from django_filters.rest_framework import DjangoFilterBackend
 
 from menus.models import MenuCategory, Dish, Rating
 from menus.serializers import MenuCategorySerializer, DishSerializer, RatingSerializer
@@ -45,3 +47,10 @@ class RatingViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
 class MenuCategoryViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
     queryset = MenuCategory.objects.all().order_by('category')
     serializer_class = MenuCategorySerializer
+
+class MenuCategoryByDate(LoginRequiredMixin, generics.ListAPIView):
+    model = MenuCategory
+    serializer_class = MenuCategorySerializer
+    queryset = MenuCategory.objects.all().order_by('category')
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('date',)
