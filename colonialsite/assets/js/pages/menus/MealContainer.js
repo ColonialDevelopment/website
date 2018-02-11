@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Meal from './Meal';
 import EditMeal from './EditMeal';
-import {MENU_CATEGORY_LIST} from '../../statics/urls.js';
+import { MENU_CATEGORY_LIST } from '../../statics/urls.js';
 
 import DatePicker from 'material-ui/DatePicker';
 import Dialog from 'material-ui/Dialog';
@@ -11,113 +11,105 @@ import CreateIcon from 'material-ui/svg-icons/content/create';
 import PrevButton from 'material-ui/svg-icons/navigation/chevron-left';
 import NextButton from 'material-ui/svg-icons/navigation/chevron-right';
 
+//  Format a date object into our string
+function formatDate(date) {
+  let returnString = "";
+
+  returnString = date.getFullYear();
+
+  let month = date.getMonth() + 1 + "";
+  if (month.length === 1) month = "0" + month;
+  returnString += "-" + month;
+
+  let day = date.getDate() + "";
+  if (day.length === 1) day = "0" + day;
+  returnString += "-" + day;
+
+  return returnString
+}
+
 class MealContainer extends Component {
   constructor(props) {
     super(props);
     var d = props.today.day === 0 ? 7 : props.today.day;
-    this.state = {date: props.today.date, day: d, data: null, open:false};
-    this.findTodayMeals = this.findTodayMeals.bind(this);
-    this.getMeals = this.getMeals.bind(this);
+    this.state = {
+      date: props.today.date,
+      day: d,
+      data: [],
+      open: false,
+      fetchedDates: {}, // stores the timestamp that date was fetched from server
+    };
   }
 
   componentWillMount() {
-    this.fetchData();
+    // Load today's menu.
+    this.fetchData(this.props.today.date);
+
+    // Preload tomorrow's/yesterday's menus.
+    const yesterday = formatDate(this.todayAfterOffset(-1));
+    const tomorrow = formatDate(this.todayAfterOffset(1));
+    this.fetchData(yesterday);
+    this.fetchData(tomorrow);
   }
 
-  fetchData() {
+  fetchData(date) {
+    if (this.state.fetchedDates[date]) {
+      // This date has already been fetched, no need to fetch it again.
+      return;
+    }
+
     $.ajax({
-        url: MENU_CATEGORY_LIST,
-        datatype: 'json',
-        cache: false,
-        success: function(data) {
-            this.setState({data: data.results, open:false});
-            this.findTodayMeals(this.state.date);
-        }.bind(this)
-    })
+      url: MENU_CATEGORY_LIST + '/?date=' + date,
+      datatype: 'json',
+      cache: false,
+      success: data => {
+        this.setState({
+          data: this.state.data.concat(data.results),
+          fetchedDates: Object.assign({ [date]: Date.now() }, this.state.fetchedDates),
+        });
+      },
+    });
   }
 
-  findTodayMeals(date) {
-    let lunch = [];
-    let dinner = [];
-    let brunch = [];
+  // Returns a date object representing today after an offset is applied.
+  // delta is an integer offset in days.
+  todayAfterOffset(delta) {
+    const components = this.state.date.split('-');
+    const todayMonth = parseInt(components[1]) - 1;
+    const todayDay = parseInt(components[2]);
 
-    this.state.data.map((mealCategory) => {
-      if (mealCategory.date === date) {
-        if (mealCategory.meal === "Lunch") lunch.push(mealCategory);
-        else if (mealCategory.meal === "Dinner") dinner.push(mealCategory);
-        else if (mealCategory.meal === "Brunch") brunch.push(mealCategory);
-      }
-    })
-    this.setState({ lunch, dinner, brunch });
+    const newDate = new Date();
+    newDate.setMonth(todayMonth);
+    newDate.setDate(todayDay + delta);
+
+    return newDate;
   }
 
-  //  Format a date object into our string
-  formatDate(date) {
-    let returnString = "";
-
-    returnString = date.getFullYear();
-
-    let month = date.getMonth() + 1 + "";
-    if (month.length === 1) month = "0" + month;
-    returnString += "-" + month;
-
-    let day = date.getDate() + "";
-    if (day.length === 1) day = "0" + day;
-    returnString += "-" + day;
-
-    return returnString
+  onDatePickerChange(newDate) {
+    this.goToDate(new Date(newDate));
   }
 
-  // Change date for the datepicker component
-  changeDate(newDate) {
-    const date = new Date(newDate);
-    const returnString = this.formatDate(date);
-    let dayOfWeek = date.getDay();
+  // delta is an integer offset in days
+  changeDateByOffset(delta) {
+    const newDateObj = this.todayAfterOffset(delta);
+    this.goToDate(newDateObj)
+  }
+
+  goToDate(dateObj) {
+    const formatted = formatDate(dateObj);
+
+    let dayOfWeek = dateObj.getDay();
     if (dayOfWeek === 0) dayOfWeek = 7;
 
-    this.setState({ date: returnString, day: dayOfWeek });
-    this.findTodayMeals(returnString);
-
+    this.setState({ date: formatted, day: dayOfWeek });
+    this.fetchData(formatted);
   }
 
-  // Go to previous/next day, from the buttons
   goTomorrow() {
-    let todayString = this.state.date.split('-');
-
-    let today = new Date();
-    today.setMonth(parseInt(todayString[1]) - 1);
-    today.setDate(todayString[2]);
-    today.setYear(todayString[0]);
-
-    let tomorrow = new Date();
-    tomorrow.setMonth(today.getMonth());
-    tomorrow.setDate(today.getDate() + 1);
-    const returnString = this.formatDate(tomorrow);
-
-    let dayOfWeek = tomorrow.getDay();
-    if (dayOfWeek === 0) dayOfWeek = 7;
-
-    this.setState({ date: returnString, day: dayOfWeek });
-    this.findTodayMeals(returnString);
+    this.changeDateByOffset(1);
   }
-
   goYesterday() {
-    let todayString = this.state.date.split('-');
-    let today = new Date();
-    today.setMonth(parseInt(todayString[1]) - 1);
-    today.setDate(todayString[2]);
-    today.setYear(todayString[0]);
-
-    let yesterday = new Date();
-    yesterday.setMonth(today.getMonth());
-    yesterday.setDate(today.getDate() - 1);
-    const returnString = this.formatDate(yesterday);
-
-    let dayOfWeek = yesterday.getDay();
-    if (dayOfWeek === 0) dayOfWeek = 7;
-
-    this.setState({ date: returnString, day: dayOfWeek });
-    this.findTodayMeals(returnString);
+    this.changeDateByOffset(-1);
   }
 
   openDatePicker() {
@@ -131,137 +123,87 @@ class MealContainer extends Component {
   }
   closeModal(){
     this.setState({open:false, modalBody:null, modalTitle:null});
-    this.fetchData();
   }
 
   renderDate() {
     const date = this.state.date.split('-');
     const today = new Date(date[0], date[1] - 1, date[2]);
-
-    let day = '';
-    switch (today.getDay()) {
-      case 0:
-        day = 'Sunday';
-        break;
-      case 1:
-        day = 'Monday';
-        break;
-      case 2:
-        day = 'Tuesday';
-        break;
-      case 3:
-        day = 'Wednesday';
-        break;
-      case 4:
-        day = 'Thursday';
-        break;
-      case 5:
-        day = 'Friday';
-        break;
-      case 6:
-        day = 'Saturday';
-        break;
-    }
-
-    let month = '';
-    switch (today.getMonth()) {
-      case 0:
-        month = 'January';
-        break;
-      case 1:
-        month = 'February';
-        break;
-      case 2:
-        month = 'March';
-        break;
-      case 3:
-        month = 'April';
-        break;
-      case 4:
-        month = 'May';
-        break;
-      case 5:
-        month = 'June';
-        break;
-      case 6:
-        month = 'July';
-        break;
-      case 7:
-        month = 'August';
-        break;
-      case 8:
-        month = 'September';
-        break;
-      case 9:
-        month = 'October';
-        break;
-      case 10:
-        month = 'November';
-        break;
-      case 11:
-        month = 'December';
-        break;
-    }
-    return (day + ', ' + month + ' ' + today.getDate());
+    return today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
   }
-  getMeals(){
-    if (this.state.day > 5){ 
-       if(this.props.edit){
-          return(
-            <div className="row">
-              <div className="col-lg-6 text-center">
-              <EditMeal date={this.state.date} 
-                        meal={this.state.brunch} 
-                        name="Brunch" 
-                        fetchData={this.fetchData.bind(this)} 
-                        showModal={this.showEditModal.bind(this)} 
-                        closeModal={this.closeModal.bind(this)}/>
-              </div>
-              <div className="col-lg-6 text-center">
-              <EditMeal date={this.state.date} 
-                        meal={this.state.dinner} 
-                        name="Dinner" 
-                        fetchData={this.fetchData.bind(this)} 
-                        showModal={this.showEditModal.bind(this)} 
-                        closeModal={this.closeModal.bind(this)}/>
-              </div>
-            </div>)
+
+  getMeals() {
+    const lunch = [];
+    const dinner = [];
+    const brunch = [];
+    const date = this.state.date;
+
+    this.state.data.map(mealCategory => {
+      if (mealCategory.date === date) {
+        if (mealCategory.meal === "Lunch") lunch.push(mealCategory);
+        else if (mealCategory.meal === "Dinner") dinner.push(mealCategory);
+        else if (mealCategory.meal === "Brunch") brunch.push(mealCategory);
       }
-      else {
-        return (<div className="row">
-                  <div className="col-lg-6 text-center">
-                    <Meal meal={this.state.brunch} 
-                          name="Brunch" 
-                          showModal={this.showModal.bind(this)} 
-                          closeModal={this.closeModal.bind(this)}/>
-                  </div>
-                  <div className="col-lg-6 text-center">
-                    <Meal meal={this.state.dinner} 
-                          name="Dinner" 
-                          showModal={this.showModal.bind(this)} 
-                          closeModal={this.closeModal.bind(this)}/>
-                  </div>
-                </div>)
-     }
+    });
+
+    if (this.state.day > 5) {
+      if (this.props.edit) {
+        return(
+          <div className="row">
+            <div className="col-lg-6 text-center">
+            <EditMeal date={date}
+                      meal={brunch}
+                      name="Brunch"
+                      fetchData={this.fetchData.bind(this)}
+                      showModal={this.showEditModal.bind(this)}
+                      closeModal={this.closeModal.bind(this)}/>
+            </div>
+            <div className="col-lg-6 text-center">
+            <EditMeal date={date}
+                      meal={dinner}
+                      name="Dinner"
+                      fetchData={this.fetchData.bind(this)}
+                      showModal={this.showEditModal.bind(this)}
+                      closeModal={this.closeModal.bind(this)}/>
+            </div>
+          </div>
+        );
+      } else {
+        return (
+          <div className="row">
+            <div className="col-lg-6 text-center">
+              <Meal meal={brunch}
+                    name="Brunch"
+                    showModal={this.showModal.bind(this)}
+                    closeModal={this.closeModal.bind(this)}/>
+            </div>
+            <div className="col-lg-6 text-center">
+              <Meal meal={dinner}
+                    name="Dinner"
+                    showModal={this.showModal.bind(this)}
+                    closeModal={this.closeModal.bind(this)}/>
+            </div>
+          </div>
+        );
+      }
     }
     else {
       if(this.props.edit){
           return(
             <div className="row">
               <div className="col-lg-6 text-center">
-              <EditMeal date={this.state.date} 
-                        meal={this.state.lunch} 
-                        name="Lunch" 
-                        fetchData={this.fetchData.bind(this)} 
-                        showModal={this.showEditModal.bind(this)} 
+              <EditMeal date={date}
+                        meal={lunch}
+                        name="Lunch"
+                        fetchData={this.fetchData.bind(this)}
+                        showModal={this.showEditModal.bind(this)}
                         closeModal={this.closeModal.bind(this)}/>
               </div>
               <div className="col-lg-6 text-center">
-              <EditMeal date={this.state.date} 
-                        meal={this.state.dinner} 
-                        name="Dinner" 
-                        fetchData={this.fetchData.bind(this)} 
-                        showModal={this.showEditModal.bind(this)} 
+              <EditMeal date={date}
+                        meal={dinner}
+                        name="Dinner"
+                        fetchData={this.fetchData.bind(this)}
+                        showModal={this.showEditModal.bind(this)}
                         closeModal={this.closeModal.bind(this)}/>
               </div>
             </div>)
@@ -269,68 +211,68 @@ class MealContainer extends Component {
      else{
         return (<div className="row">
                   <div className="col-lg-6 text-center">
-                    <Meal meal={this.state.lunch} 
-                          name="Lunch" 
-                          showModal={this.showModal.bind(this)} 
+                    <Meal meal={lunch}
+                          name="Lunch"
+                          showModal={this.showModal.bind(this)}
                           closeModal={this.closeModal.bind(this)}/>
                   </div>
                   <div className="col-lg-6 text-center">
-                    <Meal meal={this.state.dinner} 
-                          name="Dinner" 
-                          showModal={this.showModal.bind(this)} 
+                    <Meal meal={dinner}
+                          name="Dinner"
+                          showModal={this.showModal.bind(this)}
                           closeModal={this.closeModal.bind(this)}/>
                   </div>
                 </div>)
        }
-    } 
-  }   
+    }
+  }
   render() {
     const close = (
-        <FlatButton
-          label="Close"
-          primary={true}
-          onTouchTap={function(){
-                              this.setState({open:false})
-                            }.bind(this)}
-        />
-      );
-    const dialog = (<Dialog title={this.state.modalTitle}
-                  actions={close, this.state.deleteButton}
-                  modal={false}
-                  open={this.state.open}
-                  onRequestClose={function(){
-                                      this.setState({open:false})
-                                  }.bind(this)
-                                 }
-                  onTouchTap={function(){this.setState({open:false})}.bind(this)}>
-                  {this.state.modalBody}
-                  </Dialog>)
+      <FlatButton
+        label="Close"
+        primary
+        onTouchTap={() => this.setState({open:false})}
+      />
+    );
+    const dialog = (
+      <Dialog title={this.state.modalTitle}
+        actions={close, this.state.deleteButton}
+        modal={false}
+        open={this.state.open}
+        onRequestClose={() => this.setState({open:false})}
+        onTouchTap={() => this.setState({open:false})}
+      >
+        {this.state.modalBody}
+      </Dialog>
+    );
 
     const meals = this.getMeals();
 
-    return(
+    return (
       <div className="container-fluid">
-          <div className="panel panel-default">
+        <div className="panel panel-default">
           <div className="panel-body text-center" style={{paddingBottom:0}}>
             <div style={{float: 'left', position: 'relative', left: '50%'}}>
               <div style={{float: 'left', position: 'relative', left: '-50%'}}>
-                <div style={{ textAlign: 'center', fontSize:16}}>{this.renderDate()}</div>
+                <div style={{ textAlign: 'center', fontSize:16}}>
+                  {this.renderDate()}
+                </div>
                 <FlatButton onTouchTap={this.goYesterday.bind(this)} style={{marginTop: '10px', textAlign: 'center', float: 'left'}} icon={<PrevButton />} />
                 <FlatButton onTouchTap={this.goTomorrow.bind(this)} style={{marginTop: '10px', textAlign: 'center', float: 'right'}} icon={<NextButton />} />
               </div>
               <div style={{ clear: 'both' }}/>
             </div>
             <div style={{ clear: 'both' }} />
-            <DatePicker style={{display: 'none'}} ref='dp' hintText="click to change the date" onChange={(x, y) => this.changeDate(y)} />
+            <DatePicker style={{display: 'none'}} ref='dp' hintText="click to change the date" onChange={(x, y) => this.onDatePickerChange(y)} />
             <FlatButton style={{textAlign: 'center' }} onTouchTap={this.openDatePicker.bind(this)} labelPosition='before' label='Choose Date' icon={<CreateIcon color='#073f99' />}/>
           </div>
           <div className="panel-body" style={{paddingTop:0}}>
             {meals}
           </div>
-          </div>
-          {dialog}
+        </div>
+        {dialog}
       </div>
-    )
+    );
   }
 }
 
