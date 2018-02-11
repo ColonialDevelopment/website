@@ -33,7 +33,7 @@ router.register(r'api/menu_categories', MenuCategoryViewSet)
 urlpatterns = [
     url(r'^', include('dashboard.urls', namespace='dashboard')),
     url(r'^admin/', admin.site.urls),
-    
+
     #url(r'^reservations/', include('reservations.urls')),
     url(r'^menus/', include('menus.urls')),
     url(r'^events/', include('events.urls', namespace='events')),
@@ -43,6 +43,7 @@ urlpatterns = [
     #url(r'^api/members/', include('members.api_urls', namespace='members_api')),
     url(r'^api/events/', include('events.api_urls', namespace='events_api')),
     url(r'^api/announcements/', include('announcements.api_urls', namespace='announcements_api')),
+    url(r'^api/menus_by_date/', include('menus.api_urls', namespace='menus_by_date_api')),
 
     url(r'^accounts/login/$', cas.views.login, name='login'),
     url(r'^accounts/logout/$', cas.views.logout, name='logout'),
