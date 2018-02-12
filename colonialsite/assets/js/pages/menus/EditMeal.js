@@ -16,7 +16,7 @@ function categorySort(a, b){
 
   // Change the order of these to change the order of menu categories
   // List of menu categories can be found in menus/models.py
-  
+
   var first = categories_array.indexOf(a.category);
   var second = categories_array.indexOf(b.category);
 
@@ -32,7 +32,7 @@ function getPossibleCategories(categories){
       const x = categories_array.map(function(categoryName){
         if (categories.find(function(x){return x.category===categoryName})==undefined){
           possibleNewCategories.push(categoryName);
-        } 
+        }
       }.bind(this))
   }
   return possibleNewCategories;
@@ -41,39 +41,66 @@ function getPossibleCategories(categories){
 class EditMeal extends Component {
   constructor(props){
     super(props);
-    this.renderDishes=this.renderDishes.bind(this);
-    this.renderMenu=this.renderMenu.bind(this);
+    this.state = { addedCategoryDates: {} };
+    this.addCategoriesIfNeeded = this.addCategoriesIfNeeded.bind(this);
+    this.addCategory = this.addCategory.bind(this);
+    this.renderDishes = this.renderDishes.bind(this);
+    this.renderMenu = this.renderMenu.bind(this);
+
+    this.addCategoriesIfNeeded(this.props);
   }
 
-  addCategory(categoryName){
-    var type = ('post')
-    console.log(categoryName);
-    var url = (MENU_CATEGORY_POST)
+  componentWillReceiveProps(nextProps) {
+    this.addCategoriesIfNeeded(nextProps);
+  }
+
+  addCategoriesIfNeeded(props) {
+    // If the meal data has come down to the component and there are menuCategories that have not been initialized for this day
+    if (!this.state.addedCategoryDates[props.date] && props.meal && props.meal.length === 0) {
+      console.log('Adding categories for', props.name, props.date,);
+
+      let categories = [];
+      switch(props.name) {
+        case "Lunch":
+          categories = LUNCH_CATEGORIES;
+          break;
+        case "Dinner":
+          categories = DINNER_CATEGORIES;
+          break;
+        case "Brunch":
+          categories = BRUNCH_CATEGORIES;
+          break;
+      }
+
+      const promises = categories.map(this.addCategory.bind(this, props.name, props.date));
+      Promise.all(promises).then(props.fetchData.bind(this, props.date, true));
+      this.setState({
+        addedCategoryDates: Object.assign({ [props.date]: true }, this.state.addedCategoryDates),
+      });
+    }
+  }
+
+  addCategory(name, date, categoryName){
     var csrftoken = Cookies.get('csrftoken');
-    var post_category_data =
-    {
-      meal:this.props.name,
-      date:this.props.date,
+    var post_category_data = {
+      meal: name,
+      date: date,
       category:categoryName,
       dishes:[],
-      meal_permissions:"ALL"
-    }
-    axios({
-      method:type,
-      url:url,
-      cache:false,
-      responseType:'json',
+      meal_permissions:"ALL",
+    };
+    return axios({
+      method: 'post',
+      url: MENU_CATEGORY_POST,
+      cache: false,
+      responseType: 'json',
       headers: { "X-CSRFToken": csrftoken},
-      data:post_category_data
-    })
-    .then(function(){
-      this.props.fetchData();
-    }.bind(this))
-    .catch(function(jqXHR, textStatus, errorThrown){
+      data: post_category_data
+    }).catch(function(jqXHR, textStatus, errorThrown){
       console.log(textStatus);
       console.log(jqXHR);
       console.log("Something broke trying to post a new menu category")
-    })
+    });
   }
 
   deleteDish(id, menu_id){
@@ -88,9 +115,7 @@ class EditMeal extends Component {
       headers: { "X-CSRFToken": csrftoken},
       data:delete_data
     })
-    .then(function(){ 
-      this.props.fetchData();
-    }.bind(this))
+    .then(this.props.fetchData.bind(this, this.props.date))
     .catch(function(jqXHR, textStatus, errorThrown){
       console.log(textStatus);
       console.log(jqXHR);
@@ -101,69 +126,51 @@ class EditMeal extends Component {
   // Render all the dishes in this category
   renderDishes(category, data) {
     var dishInput = <DishInput url={DISHES_LIST}
-                               renderMenu={this.props.fetchData}
+                               renderMenu={this.props.fetchData.bind(this, this.props.date, true)}
                                menu_id={category.id}/>
 
-    return (<div> {category.dishes.map((dish) => {
-          const deleteButton = <FlatButton  key={dish.id}
-                                            label="Delete Dish"
-                                            primary={true}
-                                            onTouchTap={function(){this.deleteDish(dish.id, category.id);}.bind(this)}/>
-          const dishEdit = <DishEdit  dish={dish}
-                                      closeModal={this.props.fetchData}
-                                      menu_id={category.id} />
-          return (<ListItem key={dish.id} 
-                            primaryText={dish.name} 
-                            secondaryText={"Rating: "+ dish.avg_rating} 
-                            onClick={(e) => this.props.showModal(dishEdit, deleteButton, true)} />
-                  )
-    })}{dishInput}</div>)
+    return (
+      <div>
+        {
+          category.dishes.map((dish) => {
+            const deleteButton = <FlatButton  key={dish.id}
+                                              label="Delete Dish"
+                                              primary={true}
+                                              onTouchTap={function(){this.deleteDish(dish.id, category.id);}.bind(this)}/>
+            const dishEdit = <DishEdit  dish={dish}
+                                        closeModal={this.props.fetchData.bind(this, this.props.date, true)}
+                                        menu_id={category.id} />
+            return (
+              <ListItem key={dish.id}
+                primaryText={dish.name}
+                secondaryText={"Rating: "+ dish.avg_rating}
+                onClick={(e) => this.props.showModal(dishEdit, deleteButton, true)} />
+            );
+          })
+        }
+        {dishInput}
+      </div>
+    );
   }
 
   renderMenu(categories) {
     if (categories.length === 0) return (<div></div>);
-    return categories.map((category) => {
-      return(
-        <div key={category.category}>
-          <Subheader key={category.category}>
-            {category.category}
-          </Subheader>
-          {this.renderDishes(category)}
-          <Divider />
-        </div>
-      )
-    })
+    return categories.map(category => (
+      <div key={category.category}>
+        <Subheader>
+          {category.category}
+        </Subheader>
+        {this.renderDishes(category)}
+        <Divider />
+      </div>
+    ));
   }
 
   render() {
-    
-    let categories = new Array();
+    const meal = this.props.meal;
 
-    // If the meal data has come down to the component and there are menuCategories that have not been initialized for this day
-    if (this.props.meal){
-      this.props.meal.map((entry) => {
-        const {category, id, dishes}  = entry;
-        categories.push({category, id, dishes}); 
-      })
-
-      // If there are no menu categories yet, we have not initialized them
-      if (categories.length === 0){
-        switch(this.props.name){
-          case "Lunch":
-            LUNCH_CATEGORIES.map((category) => this.addCategory(category))
-            break;
-          case "Dinner":
-            DINNER_CATEGORIES.map((category) => this.addCategory(category))
-            break;
-          case "Brunch":
-            BRUNCH_CATEGORIES.map((category) => this.addCategory(category))
-            break;
-        }
-      }
-    } 
-
-    if (this.props.meal) {
-      categories.sort(categorySort);
+    if (meal) {
+      meal.sort(categorySort);
       return(
         <div>
           <h3>
@@ -171,7 +178,7 @@ class EditMeal extends Component {
           </h3>
           <div style={{borderStyle: 'solid', borderWidth: '1px', borderColor: '#9ea5af'}}>
             <List className='text-left'>
-              {this.renderMenu(categories)}
+              {this.renderMenu(meal)}
             </List>
           </div>
         </div>

@@ -35,7 +35,7 @@ class MealContainer extends Component {
     this.state = {
       date: props.today.date,
       day: d,
-      data: [],
+      data: {},
       open: false,
       fetchedDates: {}, // stores the timestamp that date was fetched from server
     };
@@ -52,8 +52,8 @@ class MealContainer extends Component {
     this.fetchData(tomorrow);
   }
 
-  fetchData(date) {
-    if (this.state.fetchedDates[date]) {
+  fetchData(date, force) {
+    if (!force && this.state.fetchedDates[date]) {
       // This date has already been fetched, no need to fetch it again.
       return;
     }
@@ -64,7 +64,7 @@ class MealContainer extends Component {
       cache: false,
       success: data => {
         this.setState({
-          data: this.state.data.concat(data.results),
+          data: Object.assign({}, this.state.data, { [date]: data.results }),
           fetchedDates: Object.assign({ [date]: Date.now() }, this.state.fetchedDates),
         });
       },
@@ -132,18 +132,20 @@ class MealContainer extends Component {
   }
 
   getMeals() {
-    const lunch = [];
-    const dinner = [];
-    const brunch = [];
+    let lunch, dinner, brunch;
     const date = this.state.date;
+    const isFetched = this.state.fetchedDates[date];
 
-    this.state.data.map(mealCategory => {
-      if (mealCategory.date === date) {
+    if (isFetched) {
+      lunch = [];
+      dinner = [];
+      brunch = [];
+      this.state.data[date].forEach(mealCategory => {
         if (mealCategory.meal === "Lunch") lunch.push(mealCategory);
         else if (mealCategory.meal === "Dinner") dinner.push(mealCategory);
         else if (mealCategory.meal === "Brunch") brunch.push(mealCategory);
-      }
-    });
+      });
+    }
 
     if (this.state.day > 5) {
       if (this.props.edit) {
