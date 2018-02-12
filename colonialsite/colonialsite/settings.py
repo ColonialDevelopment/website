@@ -28,12 +28,12 @@ DEBUG = True
 # TIGERBOOK_PW
 
 # Used in coloauth.middleware
-# Default Login is automatically added 
+# Default Login is automatically added
 # in RE format
 LOGIN_EXEMPT_URLS = [r'^accounts/logout($|.*)', r'^staff/login($|.*)', r'^staff/logout($|.*)',]
 
 STAFF_LOGIN_URL = '/staff/login/'
-STAFF_LOGIN_REDIRECT = '/announcements'
+STAFF_LOGIN_REDIRECT = '/announcements/'
 
 
 # --- APPLICATIONS AND MIGRATIONS ---
@@ -64,17 +64,6 @@ INSTALLED_APPS = [
 LOGIN_URL = '/accounts/login/'
 CAS_SERVER_URL = 'https://fed.princeton.edu/cas/'
 ROOT_URLCONF = 'colonialsite.urls'
-
-
-# --- EMAIL AND LOGGING ---
-
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_SUBJECT_PREFIX = '[Colosite] '
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
-# LOGGING
 
 
 # --- MISCELLANEOUS BACKEND ---
