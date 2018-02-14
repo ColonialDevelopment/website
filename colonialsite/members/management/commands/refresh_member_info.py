@@ -1,4 +1,4 @@
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 from members.models import Member
 from django.conf import settings
 
@@ -14,8 +14,11 @@ import requests
 class Command(BaseCommand):
 	def handle(self, *args, **options):
 
-		username = settings.TIGERBOOK_LOGIN
-		password = settings.TIGERBOOK_PW
+		try:
+			username = settings.TIGERBOOK_LOGIN
+			password = settings.TIGERBOOK_PW
+		except AttributeError:
+			raise CommandError('Login and password for Tigerbook not set in settings.')
 
 		all_members = Member.objects.all()
 
