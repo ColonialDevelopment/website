@@ -40,7 +40,8 @@ _testmain.go
 
 media
 webpack-stats.json
-settings.py
+local_settings.py
+production_settings.py
 
 # server stuff
 *.log
