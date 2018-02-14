@@ -18,14 +18,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # --- IMPORTANT SETTINGS ---
 
-# SECRET_KEY
+# Secret key for local use (different from production)
+SECRET_KEY = 'colosite-9$eem26+-^t$7bej@o)q^@yoyd$a&0chl1^$t7dxk_^d**-u0f-local'
 DEBUG = True
-
-# EMAIL_HOST_USER
-# EMAIL_HOST_PASSWORD
-
-# TIGERBOOK_LOGIN
-# TIGERBOOK_PW
 
 # Used in coloauth.middleware
 # Default Login is automatically added
@@ -86,7 +81,6 @@ REST_FRAMEWORK = {
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    #'cas.backends.CASBackend',
     'coloauth.backends.RestrictedCASBackend',
 ]
 

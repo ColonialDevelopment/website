@@ -18,10 +18,12 @@ You need to use virutalenv to use the virtual environment for this project
 
 This way we will all have consistent dependencies and modules and we will also have a consistent environment with what we end up using in deployment.
 
-Before starting the server, make sure you have local_settings.py, which contains additional sensitive settings. Ask a senior developer for access to this files, and copy it to colonialsite/colonialsite. Then, perform migrations and start the server.
+Finally, perform migrations and start the server.
 >	(env) $ python manage.py migrate
 
 >	(env) $ python manage.py runserver
+
+If you wish to temporarily edit local settings, one method is to create a file colonialsite/colonialsite/local_settings.py; settings in this file will override any settings in settings.py.
 
 ## Frontend Setup
 
@@ -30,6 +32,8 @@ Copy the example_members.csv file, rename it, and put your NetID in it.
 >	$ cd colonialsite/coloauth
 
 >	$ cp example_members.csv members.csv
+
+Alternatively, you can create a local superuser and login through /staff/login/. 
 
 Next, you'll need Node.js and NPM installed to run the webpack server.
 Once you install Node.js and NPM, install dependencies:
@@ -52,7 +56,7 @@ Mel Shu '19
 Jay Lee '19
 
 Backend:
-Victor Zhou '18
+Victor Zhou '19
 Bryan Zhu '19
 Julie Zhu '19
 
