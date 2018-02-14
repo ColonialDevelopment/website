@@ -70,7 +70,7 @@ var EventList = React.createClass({
                 {id:"Weekly Events", selected:true},
                 {id:"Other", selected:true}
             ],
-            excludePast:false,
+            excludePast:true,
             sortType:"Date",
         }
     },
