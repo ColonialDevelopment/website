@@ -51,7 +51,7 @@ class DishInputDetails extends Component {
 		const newMenu = this.props.menu_id;
 
 		const csrftoken = Cookies.get('csrftoken');
-		const post_or_put_dish_menus = dishes.includes(newMenu) ? dishes : dishes.concat(newMenu) 
+		const post_or_put_dish_menus = dishes.includes(newMenu) ? dishes : dishes.concat(newMenu)
 
 		var post_or_put_dish_data =
 		{
@@ -73,9 +73,7 @@ class DishInputDetails extends Component {
 			headers: { "X-CSRFToken": csrftoken},
 			data:post_or_put_dish_data
 		})
-		.then(function(){ 
-			this.props.finishSubmit();
-		}.bind(this))
+		.then(this.props.finishSubmit)
 		.catch(function(jqXHR, textStatus, errorThrown){
 			console.log(textStatus);
 			console.log(jqXHR);
@@ -132,7 +130,7 @@ class DishInputDetails extends Component {
 					</label>
 				</div>
 				<div style={{width:'90%'}}>
-				Allergens: 
+				Allergens:
 					<TextField
 						   value={this.state.allergens}
 						   name={'allergens'}
