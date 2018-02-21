@@ -23,7 +23,8 @@ class RestrictedCASBackend(CASBackend):
 
 		try:
 			user = User.objects.get(username__iexact=username)
-		except User.DoesNotExist:	
-			user = None
+		except User.DoesNotExist:
+			user = User.objects.create_user(username, '')
+			user.save()
 		return user
 
